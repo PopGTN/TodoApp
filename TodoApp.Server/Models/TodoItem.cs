@@ -3,16 +3,16 @@
 public class TodoItem
 {
   public int Id { get; set; }
-  public string TitleP { get; set; }
-  public string DescriptionP { get; set; }
+  public string Title { get; set; }
+  public string Description { get; set; }
   public bool IsComplete { get; set; }
-  public DateTime DateTimeP { get; set; }
+  public DateTime DateTime { get; set; }
 
   public TodoItem(string titleP, string descriptionP, DateTime dateTimeP)
   {
-    TitleP = titleP;
-    DescriptionP = descriptionP;
-    DateTimeP = dateTimeP;
+    Title = titleP;
+    Description = descriptionP;
+    DateTime = dateTimeP;
   }
 
 }
