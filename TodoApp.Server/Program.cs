@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase") ?? "Data Source=TodoDB.db";
+var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
 
 builder.Services.AddSqlite<TodoContext>(connectionString);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
