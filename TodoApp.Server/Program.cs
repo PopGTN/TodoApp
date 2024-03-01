@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using TodoApp.Server.Models;
+using TodoApp.Server.DTOs;
+using TodoApp.Server.Modules;
+
 namespace TodoApp.Server;
 
 public class Program
@@ -16,6 +18,8 @@ public class Program
     // Add services to the container.
     //Todo: Remove this line below and remove anything weather related once I get to making the TodoItemP app
     builder.Services.AddControllers();
+    //Registers TodoItems Module
+    builder.Services.RegisterTodoItemsModule();
     var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
     var connectionStringDebug = builder.Configuration.GetConnectionString("WebApiDatabase-Debug");
 
@@ -35,8 +39,8 @@ public class Program
 
     var app = builder.Build();
 
-    /*Register TodoList APIs*/
-    TodoAPI.RegisterTodoAPI(app);
+    //Maps TodoItems Module Endpoints
+    app.MapTodoItemsEndpoints();
 
 
     // Configure the HTTP request pipeline.

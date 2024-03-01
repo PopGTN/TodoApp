@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using NuGet.Protocol;
 using TodoApp.Server;
 using TodoApp.Server.Controllers;
-using TodoApp.Server.Models;
+using TodoApp.Server.DTOs;
 using static NUnit.Framework.Assert;
 
 

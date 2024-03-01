@@ -1,4 +1,4 @@
-﻿namespace TodoApp.Server.Models;
+﻿namespace TodoApp.Server.DTOs;
 
 /*This is model allows secrets attributes to be added in the future to TodoItem.cs for example UserID, TodoListID*/
 public class TodoItemDTO

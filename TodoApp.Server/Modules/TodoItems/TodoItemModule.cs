@@ -1,21 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoApp.Server.Models;
+using TodoApp.Server.DTOs;
 
-namespace TodoApp.Server;
+namespace TodoApp.Server.Modules;
 
-public class TodoAPI
+public static class TodoItemModule
 {
+  public static bool TestingMode { set; get; } = false; //Moved from Program.cs
 
-  public static void RegisterTodoAPI(WebApplication app)
+  public static IServiceCollection RegisterTodoItemsModule(this IServiceCollection services)
   {
-    RouteGroupBuilder todoItems = app.MapGroup("/todoitems");
+    return services;
+  }
+  public static IEndpointRouteBuilder MapTodoItemsEndpoints(this IEndpointRouteBuilder endpoints)
+  {
+    var mapGroup =  endpoints.MapGroup("TodoApp");
+    mapGroup.MapGet("/", GetAllTodos);
+    mapGroup.MapGet("/complete", GetCompleteTodos);
+    mapGroup.MapGet("/{idP}", GetTodo);
+    mapGroup.MapPost("/", CreateTodo);
+    mapGroup.MapPut("/{idP}", UpdateTodo);
+    mapGroup.MapDelete("/{idP}", DeleteTodo);
 
-    todoItems.MapGet("/", GetAllTodos);
-    todoItems.MapGet("/complete", GetCompleteTodos);
-    todoItems.MapGet("/{idP}", GetTodo);
-    todoItems.MapPost("/", CreateTodo);
-    todoItems.MapPut("/{idP}", UpdateTodo);
-    todoItems.MapDelete("/{idP}", DeleteTodo);
+    return mapGroup;
   }
 
 
@@ -84,5 +90,4 @@ public class TodoAPI
 
     return TypedResults.NotFound();
   }
-
 }

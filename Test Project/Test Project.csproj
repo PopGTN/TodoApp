@@ -39,8 +39,4 @@
       <ProjectReference Include="..\TodoApp.Server\TodoApp.Server.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Util\" />
-    </ItemGroup>
-
 </Project>
