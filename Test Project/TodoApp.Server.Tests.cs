@@ -141,8 +141,6 @@ public class TodoAPI_Unit_testing
     response.EnsureSuccessStatusCode();
     var result = await response.Content.ReadAsStringAsync();
 
-    Warn(content.ToString());
-
 
     TodoItemDTO? todoItemResult = JsonConvert.DeserializeObject<TodoItemDTO>(result);
 
@@ -189,7 +187,9 @@ public class TodoAPI_Unit_testing
     result = await response.Content.ReadAsStringAsync();
     if (response.StatusCode != HttpStatusCode.OK)
     {
-      Fail("API Failed to Delete this object \n\n" + result);
+      Fail("API Failed to Delete this object \n\n" + result +
+           "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
+           "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n");
     }
 
     Pass();

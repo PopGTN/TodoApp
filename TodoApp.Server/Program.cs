@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TodoApp.Server.DTOs;
+using TodoApp.Server.Interfaces;
 using TodoApp.Server.Modules;
 
 namespace TodoApp.Server;
@@ -19,19 +20,15 @@ public class Program
     //Todo: Remove this line below and remove anything weather related once I get to making the TodoItemP app
     builder.Services.AddControllers();
     //Registers TodoItems Module
-    builder.Services.RegisterTodoItemsModule();
-    var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
-    var connectionStringDebug = builder.Configuration.GetConnectionString("WebApiDatabase-Debug");
-
+    builder.Services.RegisterModules();
     builder.Services.AddDbContext<TodoContext>(TestingMode
-      ? (Action<DbContextOptionsBuilder>)(opt => opt.UseSqlite(connectionStringDebug))
-      : (Action<DbContextOptionsBuilder>)(opt => opt.UseSqlite(connectionString)));
-
+      ? (Action<DbContextOptionsBuilder>)(opt =>
+        opt.UseSqlite(builder.Configuration.GetConnectionString("WebApiDatabase-Debug")))
+      : (Action<DbContextOptionsBuilder>)(opt =>
+        opt.UseSqlite(builder.Configuration.GetConnectionString("WebApiDatabase"))));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     //Todo: Remove this line below
     builder.Services.AddEndpointsApiExplorer();
-
     builder.Services.AddSwaggerGen(c =>
     {
       c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoList Api", Version = "v1" });
@@ -40,9 +37,7 @@ public class Program
     var app = builder.Build();
 
     //Maps TodoItems Module Endpoints
-    app.MapTodoItemsEndpoints();
-
-
+    app.MapEndpoints();
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -51,11 +46,9 @@ public class Program
     }
 
     app.UseHttpsRedirection();
-
     app.UseAuthorization();
-
+    //TODO: Remove
     app.MapControllers();
-
     app.Run();
   }
 }
