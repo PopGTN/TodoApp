@@ -16,4 +16,9 @@ public class TodoItemDTO
   public TodoItemDTO(TodoItem todoItemP) =>
     (Id, Title, Description, DateTime, IsComplete) =
     (todoItemP.Id, todoItemP.Title, todoItemP.Description, todoItemP.DateTime, todoItemP.IsComplete);
+
+  public override string ToString()
+  {
+    return $"Id: {Id}, Title: {Title}, Description: {Description}, IsComplete: {IsComplete}, DateTime: {DateTime}";
+  }
 }

@@ -6,10 +6,15 @@ public class TodoItem
   public string? Title { get; set; }
   public string? Description { get; set; }
   public bool IsComplete { get; set; }
-
-
-  //TODO: Rename this to something more understandable
   public DateTime DateTime { get; set; }
+
+  public TodoItem(string? titleP, string? descriptionP, DateTime dateTimeP, bool isCompleteP = false)
+  {
+    Title = titleP;
+    Description = descriptionP;
+    DateTime = dateTimeP;
+    IsComplete = isCompleteP;
+  }
 
   public TodoItem(string? titleP, string? descriptionP, DateTime dateTimeP)
   {
@@ -19,4 +24,9 @@ public class TodoItem
   }
 
   public TodoItem() { }
+
+  public override string ToString()
+  {
+    return $"Id: {Id}, Title: {Title}, Description: {Description}, IsComplete: {IsComplete}, DateTime: {DateTime}";
+  }
 }
