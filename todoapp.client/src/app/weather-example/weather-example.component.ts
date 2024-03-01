@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Title} from "@angular/platform-browser";
+import {NgIf} from "@angular/common";
 interface WeatherForecast {
   date: string;
   temperatureC: number;
@@ -11,12 +13,16 @@ interface WeatherForecast {
   selector: 'app-weather-example',
   templateUrl: './weather-example.component.html',
   standalone: true,
+  imports: [
+    NgIf
+  ],
   styleUrl: './weather-example.component.css'
 })
 export class WeatherExampleComponent {
   public forecasts: WeatherForecast[] = [];
-
+  Title = "Weather App"
   constructor(private http: HttpClient) {
+
   }
 
   ngOnInit() {
