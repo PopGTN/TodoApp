@@ -5,7 +5,9 @@ public class TodoItemDTO
 {
   public int Id { get; set; }
   public string? Title { get; set; }
+
   public string? Description { get; set; }
+
   //TODO: Rename this to something more understandable
   public DateTime DateTime { get; set; }
 
@@ -13,9 +15,11 @@ public class TodoItemDTO
 
   public TodoItemDTO() { }
 
-  public TodoItemDTO(TodoItem todoItemP) =>
+  public TodoItemDTO(TodoItem todoItemP)
+  {
     (Id, Title, Description, DateTime, IsComplete) =
-    (todoItemP.Id, todoItemP.Title, todoItemP.Description, todoItemP.DateTime, todoItemP.IsComplete);
+      (todoItemP.Id, todoItemP.Title, todoItemP.Description, todoItemP.DateTime, todoItemP.IsComplete);
+  }
 
   public override string ToString()
   {
