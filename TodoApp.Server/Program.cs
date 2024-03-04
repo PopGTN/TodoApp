@@ -11,8 +11,6 @@ namespace TodoApp.Server;
 
 public class Program
 {
-  public static bool TestingMode { set; get; } = false;
-
   public static void Main(string[] args)
   {
     var builder = WebApplication.CreateBuilder(args);
@@ -21,11 +19,8 @@ public class Program
     builder.Services.AddControllers();
     //Registers TodoItems Module
     builder.Services.RegisterModules();
-    builder.Services.AddDbContext<TodoContext>(TestingMode
-      ? (Action<DbContextOptionsBuilder>)(opt =>
-        opt.UseSqlite(builder.Configuration.GetConnectionString("WebApiDatabase-Debug")))
-      : (Action<DbContextOptionsBuilder>)(opt =>
-        opt.UseSqlite(builder.Configuration.GetConnectionString("WebApiDatabase"))));
+    builder.Services.AddDbContext<TodoContext>(opt =>
+      opt.UseSqlite(builder.Configuration.GetConnectionString("WebApiDatabase")));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     //Todo: Remove this line below
     builder.Services.AddEndpointsApiExplorer();

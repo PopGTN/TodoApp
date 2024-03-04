@@ -26,7 +26,6 @@ namespace TodoApp.Test_Project
     [OneTimeSetUp]
     public void Setup()
     {
-      Program.TestingMode = true;
       _webAppFactory = new WebApplicationFactory<Program>();
       _httpClient = _webAppFactory.CreateDefaultClient();
     }
@@ -79,9 +78,8 @@ namespace TodoApp.Test_Project
       var description = "This todo is create from the testing Project which is debugging project";
       var isComplete = false;
       var dateTime = DateTime.Today.AddDays(5);
-      var todoItem = new TodoItem(title, description, dateTime, isComplete);
+      var todoItem = new TodoItem { Title = title, Description = description,DateTime = dateTime, IsComplete = isComplete};
       var todoItemDto = new TodoItemDTO(todoItem);
-
       var settings = new JsonSerializerSettings
       {
         DateParseHandling = DateParseHandling.None // Do not convert dates
