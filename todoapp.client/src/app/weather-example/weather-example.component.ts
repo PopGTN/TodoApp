@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 interface WeatherForecast {
   date: string;
   temperatureC: number;
@@ -11,10 +11,11 @@ interface WeatherForecast {
 
 @Component({
   selector: 'app-weather-example',
-  templateUrl: './weather-example.component.html',
+  templateUrl: 'weather-example.component.html',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    NgForOf
   ],
   styleUrl: './weather-example.component.css'
 })
