@@ -1,210 +1,119 @@
-global using NUnit.Framework;
-global using FluentAssertions;
-global using RestSharp;
+using NUnit.Framework;
+using FluentAssertions;
+using RestSharp;
 using System.Net;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using NuGet.Protocol;
 using TodoApp.Server;
 using TodoApp.Server.Controllers;
 using TodoApp.Server.DTOs;
-using static NUnit.Framework.Assert;
+using System;
+using System.Collections.Generic;
 
-
-namespace TodoApp.Test_Project;
-
-[TestFixture]
-public class TodoAPI_Unit_testing
+namespace TodoApp.Test_Project
 {
-  private int TodoItemToDelete = 0;
-
-  [SetUp]
-  public void Setup()
+  [TestFixture]
+  public class TodoApiUnitTesting
   {
-    Program.TestingMode = true;
-  }
+    private WebApplicationFactory<Program>? _webAppFactory;
+    private HttpClient? _httpClient;
 
-  [Test]
-  public async Task getTodoItemList()
-  {
-    var webAppFactory = new WebApplicationFactory<Program>();
-    var httpClient = webAppFactory.CreateDefaultClient();
-    var response = await httpClient.GetAsync("todoitems");
-    var result = await response.Content.ReadAsStringAsync();
-    /*Converts Json the list of object returned from of the api*/
-    if (result.Equals("[]"))
+    [OneTimeSetUp]
+    public void Setup()
     {
-      Warn("The return was empty");
+      Program.TestingMode = true;
+      _webAppFactory = new WebApplicationFactory<Program>();
+      _httpClient = _webAppFactory.CreateDefaultClient();
     }
-    else
+
+    [OneTimeTearDown]
+    public void TearDown()
     {
-      try
-      {
-        List<TodoItemDTO>? todoListResults = JsonConvert.DeserializeObject<List<TodoItemDTO>>(result);
-        if (todoListResults.Count != 0)
-        {
-          foreach (var todoItemDTO in todoListResults)
-          {
-            TodoItemDTO todoItemDTOEmpty = new TodoItemDTO();
-            if (todoItemDTO.Equals(todoItemDTOEmpty))
-            {
-              Fail("There's Empty Entity");
-            }
-          }
-        }
-        else
-        {
-          Fail("Something Went wrong");
-        }
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine(e.ToString());
-        Fail("Failed to convert Json to objects");
-      }
+      _httpClient?.Dispose();
+      _webAppFactory?.Dispose();
     }
-    Pass();
-  }
-  [Test]
-  public async Task get_Completed_TodoList()
-  {
-    var webAppFactory = new WebApplicationFactory<Program>();
-    var httpClient = webAppFactory.CreateDefaultClient();
-    var response = await httpClient.GetAsync("todoitems/complete");
-    var result = await response.Content.ReadAsStringAsync();
-    /*Converts Json the list of object returned from of the api*/
 
-    if (result.Equals("[]"))
+    [Test]
+    public async Task get_Todo_List()
     {
-      Warn("The return was empty");
-    }
-    else
-    {
-      try
+      var response = await _httpClient.GetAsync("todoitems");
+      response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+      var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+      todoListResults.Should().NotBeNull();
+      todoListResults.Should().NotBeEmpty();
+
+      foreach (var todoItemDTO in todoListResults)
       {
-        List<TodoItemDTO>? todoListResults = JsonConvert.DeserializeObject<List<TodoItemDTO>>(result);
-        if (todoListResults.Count != 0)
-        {
-          foreach (var todoItemDTO in todoListResults)
-          {
-            TodoItemDTO todoItemDTOEmpty = new TodoItemDTO();
-            if (todoItemDTO.Equals(todoItemDTOEmpty))
-            {
-              Fail("There's Empty Entity");
-            }
-            if (todoItemDTO.IsComplete == false)
-            {
-              Fail("There was a todoitem that was not complete \n" + todoItemDTO.ToJson());
-            }
-          }
-        }
-        else
-        {
-          Fail("Something Went wrong");
-        }
-      }
-      catch (Exception e)
-      {
-        Fail("Failed to convert Json to objects");
-      }
-    }
-    Pass();
-  }
-
-
-
-  [Test]
-  public async Task create_and_delete_Todo_Item()
-  {
-    //ARRANGE
-    var webAppFactory = new WebApplicationFactory<Program>();
-    var httpClient = webAppFactory.CreateDefaultClient();
-    var title = "Debugging Todo";
-    var description = "This todo is create from the testing Project which is debugging project";
-    var isComplete = false;
-    DateTime dateTime = DateTime.Today.AddDays(5);
-    TodoItem todoItem = new TodoItem(title, description, dateTime, isComplete);
-    TodoItemDTO todoItemDto = new TodoItemDTO(todoItem);
-
-
-    // Act
-    JsonSerializerSettings settings = new JsonSerializerSettings
-    {
-      DateParseHandling = DateParseHandling.None, // Do not convert dates
-    };
-    var content = new StringContent(JsonConvert.SerializeObject(todoItemDto, settings ), Encoding.UTF8, "application/json");
-    var response = await httpClient.PostAsync("todoitems", content);
-    response.EnsureSuccessStatusCode();
-    var result = await response.Content.ReadAsStringAsync();
-
-
-    TodoItemDTO? todoItemResult = JsonConvert.DeserializeObject<TodoItemDTO>(result);
-
-
-    if (todoItemResult != null) {
-      if (!todoItemResult.Title.Equals(title))
-      {
-        Fail("Title Doesn't Match"+
-             "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
-             "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n"
-        );
-      }
-
-      if (!todoItemResult.Description.Equals(description))
-      {
-        Fail("Description doesn't match"+
-             "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
-             "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n"
-        );
-      }
-
-      if (!todoItemResult.DateTime.Equals(dateTime))
-      {
-        Console.WriteLine(todoItemResult.ToJson());
-        Console.WriteLine(todoItemDto.ToJson());
-        Fail("DateTime doesn't match! " + $"Correct Time: {dateTime}, and theirs {todoItemResult.DateTime}"+
-             "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
-             "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n"
-             );
-      }
-
-      if (!todoItemResult.IsComplete.Equals(isComplete))
-      {
-        Fail("IsComplete doesn't match"+
-             "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
-             "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n"
-        );
+        todoItemDTO.Should().NotBeEquivalentTo(new TodoItemDTO(), options => options.ExcludingMissingMembers());
       }
     }
 
-    webAppFactory = new WebApplicationFactory<Program>();
-    httpClient = webAppFactory.CreateDefaultClient();
-    response = await httpClient.DeleteAsync($"todoitems/{todoItemResult.Id}");
-    result = await response.Content.ReadAsStringAsync();
-    if (response.StatusCode != HttpStatusCode.OK)
+    [Test]
+    public async Task get_Completed_TodoList()
     {
-      Fail("API Failed to Delete this object \n\n" + result +
-           "\n\nOutput Json:\n\n" + todoItemResult.ToJson() +
-           "\n\nInput Json:\n\n" + todoItemDto.ToJson() + "\n\n");
+      var response = await _httpClient.GetAsync("todoitems/complete");
+      response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+      var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+      todoListResults.Should().NotBeNull();
+      todoListResults.Should().NotBeEmpty();
+
+      foreach (var todoItemDTO in todoListResults)
+      {
+        todoItemDTO.Should().NotBeEquivalentTo(new TodoItemDTO(), options => options.ExcludingMissingMembers());
+        todoItemDTO.IsComplete.Should().BeTrue();
+      }
     }
 
-    Pass();
-  }
-
-  [Test]
-  public async Task Get_Todo_Item()
-  {
-    var webAppFactory = new WebApplicationFactory<Program>();
-    var httpClient = webAppFactory.CreateDefaultClient();
-    var response = await httpClient.GetAsync("todoitems/1");
-    var result = await response.Content.ReadAsStringAsync();
-    if (response.StatusCode != HttpStatusCode.OK)
+    [Test]
+    public async Task create_and_delete_Todo_Item()
     {
-      Fail($"API Failed to Grab this object \n Status Code {response.StatusCode} \n\n" + result);
+      // Arrange
+      var title = "Debugging Todo";
+      var description = "This todo is create from the testing Project which is debugging project";
+      var isComplete = false;
+      var dateTime = DateTime.Today.AddDays(5);
+      var todoItem = new TodoItem(title, description, dateTime, isComplete);
+      var todoItemDto = new TodoItemDTO(todoItem);
+
+      var settings = new JsonSerializerSettings
+      {
+        DateParseHandling = DateParseHandling.None // Do not convert dates
+      };
+
+      // Act
+      var content = new StringContent(JsonConvert.SerializeObject(todoItemDto, settings), Encoding.UTF8,
+        "application/json");
+      var response = await _httpClient.PostAsync("todoitems", content);
+      response.EnsureSuccessStatusCode();
+      var todoItemResult = response.Content.ReadFromJsonAsync<TodoItemDTO>().Result;
+
+      todoItemResult.Should().NotBeNull();
+      todoItemResult.Title.Should().Be(title);
+      todoItemResult.Description.Should().Be(description);
+      todoItemResult.DateTime.Should().Be(dateTime);
+      todoItemResult.IsComplete.Should().Be(isComplete);
+
+      // Cleanup
+      response = await _httpClient.DeleteAsync($"todoitems/{todoItemResult.Id}");
+      response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task Get_Todo_Item()
+    {
+      var response = await _httpClient.GetAsync("todoitems/1");
+      response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+      var todoItemResult = await response.Content.ReadFromJsonAsync<TodoItemDTO>();
+      todoItemResult.Should().NotBeNull();
+      todoItemResult.Id.Should().Be(1);
     }
   }
 }
