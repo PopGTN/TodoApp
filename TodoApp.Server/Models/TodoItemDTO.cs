@@ -7,8 +7,6 @@ public class TodoItemDTO
   public string Title { get; set; }
 
   public string? Description { get; set; }
-
-  //TODO: Rename this to something more understandable
   public DateTime DateTime { get; set; }
 
   public bool IsComplete { get; set; }
