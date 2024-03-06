@@ -3,17 +3,11 @@ using FluentAssertions;
 using RestSharp;
 using System.Net;
 using System.Net.Http.Json;
-using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using TodoApp.Server;
-using TodoApp.Server.Controllers;
 using TodoApp.Server.DTOs;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace TodoApp.Test_Project
 {
@@ -26,7 +20,14 @@ namespace TodoApp.Test_Project
     [OneTimeSetUp]
     public void Setup()
     {
-      _webAppFactory = new WebApplicationFactory<Program>();
+      _webAppFactory = new WebApplicationFactory<Program>()
+        .WithWebHostBuilder(builder =>
+        {
+          builder.ConfigureAppConfiguration((context, conf) =>
+          {
+            conf.AddJsonFile("appsettings.Testing.json");
+          });
+        });
       _httpClient = _webAppFactory.CreateDefaultClient();
     }
 
@@ -38,15 +39,15 @@ namespace TodoApp.Test_Project
     }
 
     [Test]
-    public async Task get_Todo_List()
+    public async Task getTodoItemList_ReturnTodoItemList()
     {
+      //Act
       var response = await _httpClient.GetAsync("todoitems");
-      response.StatusCode.Should().Be(HttpStatusCode.OK);
-
+      response.EnsureSuccessStatusCode();
       var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+      //Assert
       todoListResults.Should().NotBeNull();
       todoListResults.Should().NotBeEmpty();
-
       foreach (var todoItemDTO in todoListResults)
       {
         todoItemDTO.Should().NotBeEquivalentTo(new TodoItemDTO(), options => options.ExcludingMissingMembers());
@@ -54,64 +55,67 @@ namespace TodoApp.Test_Project
     }
 
     [Test]
-    public async Task get_Completed_TodoList()
+    public async Task GetTodoList_ReturnsCompletedTodoList()
     {
+      //Act
       var response = await _httpClient.GetAsync("todoitems/complete");
       response.StatusCode.Should().Be(HttpStatusCode.OK);
-
       var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+      //Assert
       todoListResults.Should().NotBeNull();
       todoListResults.Should().NotBeEmpty();
-
-      foreach (var todoItemDTO in todoListResults)
-      {
-        todoItemDTO.Should().NotBeEquivalentTo(new TodoItemDTO(), options => options.ExcludingMissingMembers());
-        todoItemDTO.IsComplete.Should().BeTrue();
-      }
+      todoListResults.Should().OnlyContain(todoItem => todoItem.IsComplete);
     }
 
     [Test]
-    public async Task create_and_delete_Todo_Item()
+    public async Task PostTodo_WhenCalledWithValidTodoItem_ReturnsValidTodoItem()
     {
       // Arrange
-      var title = "Debugging Todo";
-      var description = "This todo is create from the testing Project which is debugging project";
-      var isComplete = false;
-      var dateTime = DateTime.Today.AddDays(5);
-      var todoItem = new TodoItem { Title = title, Description = description,DateTime = dateTime, IsComplete = isComplete};
-      var todoItemDto = new TodoItemDTO(todoItem);
+      var newIncompleteTodoItemDto = new TodoItemDTO
+      {
+        Title = "Debugging Todo",
+        Description = "This todo is create from the testing Project which is debugging project",
+        DateTime = DateTime.Today.AddDays(5),
+        IsComplete = false
+      };
       var settings = new JsonSerializerSettings
       {
         DateParseHandling = DateParseHandling.None // Do not convert dates
       };
+      var content = new StringContent(JsonConvert.SerializeObject(newIncompleteTodoItemDto, settings), Encoding.UTF8,
+        "application/json");
 
       // Act
-      var content = new StringContent(JsonConvert.SerializeObject(todoItemDto, settings), Encoding.UTF8,
-        "application/json");
       var response = await _httpClient.PostAsync("todoitems", content);
       response.EnsureSuccessStatusCode();
-      var todoItemResult = response.Content.ReadFromJsonAsync<TodoItemDTO>().Result;
-
-      todoItemResult.Should().NotBeNull();
-      todoItemResult.Title.Should().Be(title);
-      todoItemResult.Description.Should().Be(description);
-      todoItemResult.DateTime.Should().Be(dateTime);
-      todoItemResult.IsComplete.Should().Be(isComplete);
-
+      var validTodoItem = response.Content.ReadFromJsonAsync<TodoItemDTO>().Result;
+      //Assert
+      validTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
+        .Excluding(dto => dto.Id));
       // Cleanup
-      response = await _httpClient.DeleteAsync($"todoitems/{todoItemResult.Id}");
-      response.StatusCode.Should().Be(HttpStatusCode.OK);
+      var deleteResponse = await _httpClient.DeleteAsync($"todoitems/{validTodoItem.Id}");
+      deleteResponse.EnsureSuccessStatusCode();
     }
 
     [Test]
-    public async Task Get_Todo_Item()
+    public async Task GetTodoItem_ReturnsSelectedTodoItem()
     {
-      var response = await _httpClient.GetAsync("todoitems/1");
-      response.StatusCode.Should().Be(HttpStatusCode.OK);
+      int ListPostion = 0;
+      //Arrange
+      var TodoListResponse = await _httpClient.GetAsync("todoitems");
+      TodoListResponse.EnsureSuccessStatusCode();
 
-      var todoItemResult = await response.Content.ReadFromJsonAsync<TodoItemDTO>();
+      var todoListResults = await TodoListResponse.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+
+
+      //Act
+      var TodoItemResponse = await _httpClient.GetAsync($"todoitems/{todoListResults[ListPostion].Id}");
+      TodoItemResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+      //Assert
+      var todoItemResult = await TodoItemResponse.Content.ReadFromJsonAsync<TodoItemDTO>();
       todoItemResult.Should().NotBeNull();
-      todoItemResult.Id.Should().Be(1);
+      todoItemResult.Id.Should().Be(todoListResults[ListPostion].Id);
     }
   }
 }
