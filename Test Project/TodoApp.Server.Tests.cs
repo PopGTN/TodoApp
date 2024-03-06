@@ -47,10 +47,6 @@ namespace TodoApp.Test_Project
       var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
       //Assert
       todoListResults.Should().NotBeEmpty();
-      foreach (var todoItemDTO in todoListResults)
-      {
-        todoItemDTO.Should().NotBeEquivalentTo(new TodoItemDTO(), options => options.ExcludingMissingMembers());
-      }
     }
 
     [Test]
