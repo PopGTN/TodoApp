@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <None Include="appsettings.Testing.json" />
   </ItemGroup>
 
 </Project>
