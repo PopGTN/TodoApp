@@ -39,7 +39,7 @@ namespace TodoApp.Test_Project
     }
 
     [Test]
-    public async Task getTodoItemList_ReturnTodoItemList()
+    public async Task GetTodoItemList_WhenCalled_ReturnsTodoItemList()
     {
       //Act
       var response = await _httpClient.GetAsync("todoitems");
@@ -50,7 +50,7 @@ namespace TodoApp.Test_Project
     }
 
     [Test]
-    public async Task GetTodoList_ReturnsCompletedTodoList()
+    public async Task GetCompletedTodoItems_WhenCalled_ReturnsOnlyCompletedItems()
     {
       //Act
       var response = await _httpClient.GetAsync("todoitems/complete");
@@ -92,7 +92,7 @@ namespace TodoApp.Test_Project
     }
 
     [Test]
-    public async Task GetTodoItem_ReturnsSelectedTodoItem()
+    public async Task GetTodoItem_WhenCalledWithValidId_ReturnsSpecificTodoItem()
     {
       int ListPostion = 0;
       //Arrange
