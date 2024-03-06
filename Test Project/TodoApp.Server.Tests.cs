@@ -46,7 +46,6 @@ namespace TodoApp.Test_Project
       response.EnsureSuccessStatusCode();
       var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
       //Assert
-      todoListResults.Should().NotBeNull();
       todoListResults.Should().NotBeEmpty();
       foreach (var todoItemDTO in todoListResults)
       {
@@ -62,7 +61,6 @@ namespace TodoApp.Test_Project
       response.StatusCode.Should().Be(HttpStatusCode.OK);
       var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
       //Assert
-      todoListResults.Should().NotBeNull();
       todoListResults.Should().NotBeEmpty();
       todoListResults.Should().OnlyContain(todoItem => todoItem.IsComplete);
     }
