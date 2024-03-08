@@ -1,18 +1,15 @@
-﻿namespace TodoApp.Server.Models;
+﻿namespace TodoApp.Server.DTOs;
 
 public class TodoItem
 {
   public int Id { get; set; }
   public string Title { get; set; }
-  public string Description { get; set; }
+  public string? Description { get; set; }
   public bool IsComplete { get; set; }
   public DateTime DateTime { get; set; }
 
-  public TodoItem(string titleP, string descriptionP, DateTime dateTimeP)
+  public override string ToString()
   {
-    Title = titleP;
-    Description = descriptionP;
-    DateTime = dateTimeP;
+    return $"Id: {Id}, Title: {Title}, Description: {Description}, IsComplete: {IsComplete}, DateTime: {DateTime}";
   }
-
 }
