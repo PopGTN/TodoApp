@@ -35,6 +35,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
@@ -98,10 +99,17 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/scss/bootstrap.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/popper.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+
+            ],
             "karmaConfig": "karma.conf.js"
           }
         }
@@ -112,3 +120,5 @@
     "analytics": false
   }
 }
+
+

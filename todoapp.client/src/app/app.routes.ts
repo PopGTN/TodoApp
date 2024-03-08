@@ -1,11 +1,17 @@
-import {Routes} from '@angular/router';
-import {FirstComponent} from './first/first.component';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {WeatherExampleComponent} from "./weather-example/weather-example.component";
+import {HomeComponent} from "./ViewModels/home/home.component";
+import {Routes} from "@angular/router";
+import {PageNotFoundComponent} from "./ViewModels/page-not-found/page-not-found.component";
+import {MainComponent} from "./ViewModels/main/main.component";
+import {WeatherExampleComponent} from "./ViewModels/weather-example/weather-example.component";
+
 
 export const routes: Routes = [
-  {path: 'first', component: FirstComponent, title: "Weather App"},
-  {path: 'weather', component: WeatherExampleComponent, title: "Weather App"},
-  {path: '', redirectTo: '/weatherforecast', pathMatch: 'full'}, // redirect to `first-component`
+  // {path: '', component: HomeComponent, title: "First"},
+  {path: '', component: MainComponent, title: "Main",
+    children: [
+      {path: '', title: "Home", component: HomeComponent},
+    ],
+  },
+  {path: 'weather', title: "Weather", component: WeatherExampleComponent},
   {path: '**', component: PageNotFoundComponent},  // Wildcard route for a 404 page
 ];
