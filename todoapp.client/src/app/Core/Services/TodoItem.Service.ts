@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TodoItem as Tutorial } from '../Models/TodoItems';
+import { TodoItem as TodoItem } from '../Models/TodoItems';
 
 const baseUrl = '/TodoItems';
 
@@ -12,12 +12,12 @@ export class TodoItemService  {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Tutorial[]> {
-    return this.http.get<Tutorial[]>(baseUrl);
+  getAll(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(baseUrl);
   }
 
-  get(id: any): Observable<Tutorial> {
-    return this.http.get<Tutorial>(`${baseUrl}/${id}`);
+  get(id: any): Observable<TodoItem> {
+    return this.http.get<TodoItem>(`${baseUrl}/${id}`);
   }
 
   create(data: any): Observable<any> {
@@ -36,7 +36,7 @@ export class TodoItemService  {
     return this.http.delete(baseUrl);
   }
 
-  findByTitle(title: any): Observable<Tutorial[]> {
-    return this.http.get<Tutorial[]>(`${baseUrl}?title=${title}`);
+  findByTitle(title: any): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(`${baseUrl}?title=${title}`);
   }
 }
