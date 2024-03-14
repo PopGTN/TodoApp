@@ -1,3 +1,38 @@
-﻿.navbar-spacer {
-  flex: 1 1 auto;
+﻿:host {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.navbar {
+  --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
+  background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
+}
+
+
+@media (max-width: 991.98px) {
+  .offcanvas {
+    max-width: 70% !important;
+  }
+  SidebarActive {
+
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebarLinks {
+    --bs-navbar-color: rgba(255, 255, 255, 0.55);
+    --bs-navbar-hover-color: rgba(255, 255, 255, 0.75);
+    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
+    --bs-navbar-active-color: #fff;
+    --bs-navbar-brand-color: #fff;
+    --bs-navbar-brand-hover-color: #fff;
+    --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+
+.offcanvas-header {
+  background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
 }
