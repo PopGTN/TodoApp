@@ -1,7 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {RouterOutlet, TitleStrategy} from "@angular/router";
-import {TitleStrategyService} from "../../Core/Services/TitleStrategy.Service";
+
 import {NavbarComponent} from "../fragaments/navbar/navbar.component";
+import {FooterComponent} from "../fragaments/footer/footer.component";
+
 
 /**
  * @author Joshua Mckenna
@@ -18,7 +20,8 @@ import {NavbarComponent} from "../fragaments/navbar/navbar.component";
   standalone: true,
   imports: [
     RouterOutlet,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent,
   ],
 
 })

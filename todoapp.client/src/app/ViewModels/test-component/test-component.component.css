@@ -1,0 +1,7 @@
+﻿/* Additional styles */
+.todo-list {
+  list-style-type: none;
+}
+.todo-item {
+  margin-bottom: 10px;
+}
