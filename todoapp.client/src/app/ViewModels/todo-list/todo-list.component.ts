@@ -17,7 +17,6 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './todo-list.component.css',
   standalone: true,
   imports: [
-    JsonPipe,
     NgbAlert,
     NgIf,
     RouterLink,
