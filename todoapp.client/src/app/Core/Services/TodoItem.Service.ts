@@ -1,9 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TodoItem as TodoItem } from '../Models/TodoItems';
+import { TodoItem } from '../Models/TodoItems';
 
-const baseUrl = '/TodoItems';
+const baseUrl = '/todoitems';
 
 @Injectable({
   providedIn: 'root'

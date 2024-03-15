@@ -3,3 +3,24 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/*Default Settings as wells as Light Mode css*/
+:root,
+[data-bs-theme=light] {
+  --header: #d3d3d3;
+  --body-bg: rgb(230, 230, 230);
+  --bs-primary: #6610f2;
+  --bs-primary-rgb: 102, 16, 242;
+  --bs-primary-bg-subtle: #c29ffa;
+  --bs-primary-border-subtle: #8540f5;
+  /*--bs-nav-link-color: var(--bs-white);*/
+  --bs-dropdown-link-active-bg: #8540f5 !important;
+}
+/*Dark Mode css*/
+[data-bs-theme=dark] {
+  --header: #2c2c2c;
+  --body-bg: rgb(20, 20, 20);
+  --bs-body-bg: #222222;
+  --bs-body-bg-rgb: 34,34,34;
+}
+
+

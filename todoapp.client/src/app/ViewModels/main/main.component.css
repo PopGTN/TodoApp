@@ -6,13 +6,14 @@ This is to help force down footer down to the bottom of the page
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 /*
 Makes Component Pages to take the whole space up.
 This is to help force down footer down to the bottom of the page
 */
-main {
+div {
   flex: 1 0 auto;
 }
 
