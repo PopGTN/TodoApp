@@ -22,8 +22,6 @@ import {MatDialog} from "@angular/material/dialog";
     RouterLink,
     MatProgressBar,
     NgbTooltip,
-    CreateTodoItemComponent,
-    EditDialogComponent,
   ]
 })
 export class TodoListComponent implements OnInit  {
