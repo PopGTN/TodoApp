@@ -1,7 +1,11 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import { TodoItem } from '../Models/TodoItems';
+import {TAB} from "@angular/cdk/keycodes";
+import {createStore, select, withProps} from "@ngneat/elf";
+import {withEntities, withUIEntities} from "@ngneat/elf-entities";
+import {TodoRepo, todoStore} from "../state/todo-store";
 
 const baseUrl = '/todoitems';
 
@@ -10,16 +14,23 @@ const baseUrl = '/todoitems';
 })
 export class TodoItemService  {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private todoStore: TodoRepo) { }
+
 
   getAll(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(baseUrl);
+    return this.http.get<TodoItem[]>(baseUrl, {responseType: 'json'}).pipe(
+      tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
+    );
   }
 
   get(id: any): Observable<TodoItem> {
-    return this.http.get<TodoItem>(`${baseUrl}/${id}`);
-  }
+    // @ts-ignore
+    return this.http.get<TodoItem>(`${baseUrl}/${id}`).pipe(tap(todoItem => {
+      // this.repoStore.getTodoByID(id);
+    }));
 
+  }
+//update add
   create(data: any): Observable<any> {
     return this.http.post(baseUrl, data);
   }
@@ -40,3 +51,4 @@ export class TodoItemService  {
     return this.http.get<TodoItem[]>(`${baseUrl}?title=${title}`);
   }
 }
+

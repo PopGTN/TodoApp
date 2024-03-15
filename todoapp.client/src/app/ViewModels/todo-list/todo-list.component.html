@@ -8,8 +8,8 @@
 
   @if (!isLoading && !error && todoItems) {
     <ol class="list-group list-group-flush">
-      @for (todoItem of todoItems; track todoItem.id) {
-        <li class="list-group-item d-flex justify-content-between align-items-start p-2">
+      @for (todoItem of todoItems; track todoItem.id; let index = $index) {
+        <li class="list-group-item d-flex justify-content-between align-items-start p-2 ">
           <div class="ms-2 me-auto">
             <div class="fw-bold">{{ todoItem.title }}</div>
             {{ todoItem.description }}
@@ -18,7 +18,7 @@
               class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small></div>
           </div>
           <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Edit Todo"
-                  (click)="openEditDialog(todoItem)">
+                  (click)="openEditDialog(index, todoItem)">
             <i class="bi bi-pencil-fill"></i>
           </button>
           <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Delete Todo">
