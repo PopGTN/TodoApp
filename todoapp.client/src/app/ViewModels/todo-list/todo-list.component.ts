@@ -55,15 +55,4 @@ export class TodoListComponent implements OnInit  {
       console.log('Error:', error);
     });
   }
-
-  openEditDialog(todoItem: TodoItem) {
-    const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {todoItem: TodoItem},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-    });
-  }
 }
