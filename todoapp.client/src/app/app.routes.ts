@@ -9,11 +9,11 @@ import {AboutComponent} from "./ViewModels/about/about.component";
 
 
 export const routes: Routes = [
-  {path: 'test', title: "Test Page", component: TestComponentComponent},
-  { path: '', component: MainComponent, title: "Home",
+
+  {path: '', component: MainComponent, title: "Home",
     children: [
-      {path: '', title: "", component: TodoListComponent},
-      {path: 'about', title: "About", component: AboutComponent},
+      {path: '', title: "", component: TodoListComponent, },
+      {path: 'about', title: "About", component: AboutComponent, }
     ],
   },
   {path: '**', component: PageNotFoundComponent},  // Wildcard route for a 404 page
