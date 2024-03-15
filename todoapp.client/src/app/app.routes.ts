@@ -4,7 +4,6 @@ import {MainComponent} from "./ViewModels/main/main.component";
 import {TodoListComponent} from "./ViewModels/todo-list/todo-list.component";
 import {Component} from "@angular/core";
 import {AppComponent} from "./app.component";
-import {TestComponentComponent} from "./ViewModels/test-component/test-component.component";
 import {AboutComponent} from "./ViewModels/about/about.component";
 
 
