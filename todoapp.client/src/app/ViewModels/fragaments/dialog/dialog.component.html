@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <p>{{ data.description }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  @if (data.dialogType === DialogType.OkCancel) {
+    <button mat-button (click)="onSubmit(DialogBtnType.Neutral)" cdkFocusInitial>
+      @if (data.neturalBtn) {
+        {{ data.neturalBtn }}
+      } @else {
+        Ok Cancel
+      }
+    </button>
+  } @else if (data.dialogType === DialogType.YesOrNoOrCancel || DialogType.NegativeOrPositiveOrNetural) {
+    <button mat-button (click)="onSubmit(DialogBtnType.Neutral)">
+      @if (data.neturalBtn) {
+        {{ data.neturalBtn }}
+      } @else {
+        Cancel
+      }
+    </button>
+    <button mat-button (click)="onSubmit(DialogBtnType.Positive)" cdkFocusInitial>
+      @if (data.negativeBtn) {
+        {{ data.negativeBtn }}
+      } @else {
+        Yes
+      }
+    </button>
+    <button mat-button (click)="onSubmit(DialogBtnType.Positive)">
+      @if (data.negativeBtn) {
+        {{ data.postiveBtn }}
+      } @else {
+        No
+      }
+    </button>
+  } @else if (data.dialogType === (DialogType.YesOrNo || DialogType.NegativeOrPositive )) {
+    <button mat-button (click)="onSubmit(DialogBtnType.Negative)" cdkFocusInitial>
+      @if (data.negativeBtn) {
+        {{ data.negativeBtn }}
+      } @else {
+        No
+      }
+    </button>
+    <button mat-button (click)="onSubmit(DialogBtnType.Positive)">
+      @if (data.negativeBtn) {
+        {{ data.postiveBtn }}
+      } @else {
+        Yes
+      }
+    </button>
+  }
+</mat-dialog-actions>
+
