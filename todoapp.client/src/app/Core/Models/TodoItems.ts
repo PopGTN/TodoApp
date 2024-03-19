@@ -1,12 +1,14 @@
 ﻿import {getCurrentDate} from "../util/UtilTools";
-interface  TodoItemDTO {
-   id: number;
-   title: string;
-   description: string;
-   isComplete: boolean;
-   dateTime: string;
+
+interface TodoItemDTO {
+  id: number;
+  title: string;
+  description: string;
+  isComplete: boolean;
+  dateTime: string;
 }
-export class TodoItem  {
+
+export class TodoItem {
 
   id: number;
   title: string;
@@ -14,12 +16,13 @@ export class TodoItem  {
   isComplete: boolean;
   dateTime: string;
 
-  constructor(id: number, title: string, description: string, dateTime?: string, isComplete?: boolean) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.isComplete = isComplete == undefined ? false: isComplete;
-    this.dateTime = dateTime == undefined ? getCurrentDate() : dateTime;
+
+  constructor(id?: number, title?: string, description?: string, dateTime?: string, isComplete?: boolean) {
+    this.id = id === undefined ? -1 : id;
+    this.title = title === undefined ? "" : title;
+    this.description = description === undefined ? "" : description;
+    this.isComplete = isComplete === undefined ? false : isComplete;
+    this.dateTime = dateTime === undefined ? getCurrentDate() : dateTime;
   }
 
   toString() {
