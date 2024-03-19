@@ -3,3 +3,17 @@
   height: 100vh !important;
 }
 
+.dialogFooter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+}
+
+.dialogFootBtn, .dialogForceBtnRight{
+  padding: 0.5rem !important;
+}
+
+.dialogForceBtnRight{
+  margin-left: auto !important;
+}
