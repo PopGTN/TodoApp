@@ -1,32 +1,35 @@
-<h2 mat-dialog-title [innerHTML]="data.title"></h2>
-<mat-dialog-content>
-  <p [innerHTML]="data.description"></p>
-</mat-dialog-content>
-<mat-dialog-actions class="DialogFooter">
-  <ng-container *ngIf="data.dialogType === DialogType.Ok">
-    <button class="dialogFootBtn dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">
-      {{ data.neutralBtn ? data.neutralBtn : 'Ok' }}
-    </button>
-  </ng-container>
+<div class="dialog">
+  <h2 mat-dialog-title class="dialog-text" [innerHTML]="data.title"></h2>
+  <mat-dialog-content>
+    <p class="dialog-text" [innerHTML]="data.description"></p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="DialogFooter">
+    <ng-container *ngIf="data.dialogType === DialogType.Ok">
+      <button class="dialogFootBtn dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">
+        {{ data.neutralBtn ? data.neutralBtn : 'Ok' }}
+      </button>
+    </ng-container>
 
-  <ng-container *ngIf="data.dialogType === DialogType.YesOrNoOrCancel || data.dialogType === DialogType.NegativeOrPositiveOrNeutral">
-    <button class="dialogForceBtnRight" color="primary"  mat-button (click)="onNoClick()">
-      {{ data.neutralBtn ? data.neutralBtn : 'Cancel' }}
-    </button>
-    <button class="dialogForceBtnRight" color="primary" mat-button (click)="onSubmit(DialogBtnType.Negative)">
-      {{ data.negativeBtn ? data.negativeBtn : 'No' }}
-    </button>
-    <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit(DialogBtnType.Positive)" >
-      {{ data.positiveBtn ? data.positiveBtn : 'Yes' }}
-    </button>
-  </ng-container>
+    <ng-container
+      *ngIf="data.dialogType === DialogType.YesOrNoOrCancel || data.dialogType === DialogType.NegativeOrPositiveOrNeutral">
+      <button class="dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">
+        {{ data.neutralBtn ? data.neutralBtn : 'Cancel' }}
+      </button>
+      <button class="dialogForceBtnRight" color="primary" mat-button (click)="onSubmit(DialogBtnType.Negative)">
+        {{ data.negativeBtn ? data.negativeBtn : 'No' }}
+      </button>
+      <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit(DialogBtnType.Positive)">
+        {{ data.positiveBtn ? data.positiveBtn : 'Yes' }}
+      </button>
+    </ng-container>
 
-  <ng-container *ngIf="data.dialogType === DialogType.YesOrNo || data.dialogType === DialogType.NegativeOrPositive">
-    <button class="dialogForceBtnRight" color="primary" mat-button (click)="onSubmit(DialogBtnType.Negative)" >
-      {{ data.negativeBtn ? data.negativeBtn : 'No' }}
-    </button>
-    <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit(DialogBtnType.Positive)">
-      {{ data.positiveBtn ? data.positiveBtn : 'Yes' }}
-    </button>
-  </ng-container>
-</mat-dialog-actions>
+    <ng-container *ngIf="data.dialogType === DialogType.YesOrNo || data.dialogType === DialogType.NegativeOrPositive">
+      <button class="dialogForceBtnRight" color="primary" mat-button (click)="onSubmit(DialogBtnType.Negative)">
+        {{ data.negativeBtn ? data.negativeBtn : 'No' }}
+      </button>
+      <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit(DialogBtnType.Positive)">
+        {{ data.positiveBtn ? data.positiveBtn : 'Yes' }}
+      </button>
+    </ng-container>
+  </mat-dialog-actions>
+</div>

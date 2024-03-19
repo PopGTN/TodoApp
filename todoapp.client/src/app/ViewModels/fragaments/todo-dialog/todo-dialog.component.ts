@@ -53,8 +53,10 @@ export class TodoDialogComponent {
     this.errorMessage = "Please sure your following imputs are valid! <br>";
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(){
+    this.dialogRef.close()
+  }
+  onSubmit(): void {
 
     if (!this.isValid()) {
       let ErrorDialogRef = this.dialog.open(DialogComponent, {
@@ -66,20 +68,23 @@ export class TodoDialogComponent {
       },
         height: 'fit-content',
         width: 'fit-content',
+        disableClose: true,
       });
       let dialogResult = ErrorDialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
       });
       dialogResult.unsubscribe();
       return;
+    } else {
+
+      let todoItem = new TodoItem(this.data.id, this.data.title, this.data.description, this.data.dateTime, this.data.isComplete)
+
+      this.dialogRef.close(todoItem);
     }
-
-    let todoItem = new TodoItem(this.data.id, this.data.title, this.data.description, this.data.dateTime, this.data.isComplete)
-
-    this.dialogRef.close(todoItem);
   }
 
   isValid(){
+    this.errorMessage = ""
     let isValid = true;
     if (!this.data.title){
       isValid = false;

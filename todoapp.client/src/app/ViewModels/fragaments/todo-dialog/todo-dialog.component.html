@@ -1,16 +1,18 @@
-﻿<h2 mat-dialog-title>{{ data.dialogTitle }}</h2>
-<mat-dialog-content>
-<!--  <p>{{ data.title }}</p>-->
-  <mat-form-field class="d-block">
-    <mat-label>Title</mat-label>
-    <input matInput [(ngModel)]="data.title">
-  </mat-form-field>
-  <mat-form-field class="d-block">
-    <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="data.description">
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions class="dialogFooter">
-  <button class="dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">Cancel</button>
-  <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit()" cdkFocusInitial>Submit</button>
-</mat-dialog-actions>
+﻿<div class="dialog">
+  <h2 mat-dialog-title>{{ data.dialogTitle }}</h2>
+  <mat-dialog-content>
+    <!--  <p>{{ data.title }}</p>-->
+    <mat-form-field class="d-block">
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="data.title">
+    </mat-form-field>
+    <mat-form-field class="d-block">
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="data.description">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialogFooter">
+    <button class="dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">Cancel</button>
+    <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit()" cdkFocusInitial>Submit</button>
+  </mat-dialog-actions>
+</div>
