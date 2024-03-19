@@ -7,11 +7,17 @@ import {NgIf} from "@angular/common";
 import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
 import {MatProgressBar} from "@angular/material/progress-bar";
-import {EditDialogComponent} from "./subcomponents/edit-dialog/edit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {F} from "@angular/cdk/keycodes";
-import {update} from "@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker";
+import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {TodoDialogComponent} from "../fragaments/todo-dialog/todo-dialog.component";
+import {DialogComponent} from "../fragaments/dialog/dialog.component";
+import {DialogType} from "../fragaments/dialog/Models/DialogType";
+import {DialogBtnType} from "../fragaments/dialog/Models/DialogBtnType";
+import {checkPopoverMargin} from "ngx-bootstrap/positioning/utils/checkMargin";
+import {bgLocale} from "ngx-bootstrap/chronos";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-todo-list',
@@ -19,17 +25,23 @@ import {update} from "@angular-devkit/build-angular/src/tools/esbuild/angular/co
   styleUrl: './todo-list.component.css',
   standalone: true,
   imports: [
-
     NgbAlert,
     NgIf,
     RouterLink,
     MatProgressBar,
     NgbTooltip,
-    EditDialogComponent,
+    TodoDialogComponent,
     MatFormFieldModule,
-  ]
+    MatFabButton,
+    MatFormFieldModule,
+    MatIconModule,
+    MatMiniFabButton,
+  ],
 })
+
 export class TodoListComponent implements OnInit {
+
+
   isLoading: boolean;
   error: string;
   private todoItemService = inject(TodoItemService);
@@ -38,14 +50,26 @@ export class TodoListComponent implements OnInit {
   public todoItems: TodoItem[] = [];
   Title = "Weather App"
 
+  // @ts-ignore
+  private timerSubscription: Subscription;
   constructor(private http: HttpClient) {
     this.isLoading = false
     this.error = "";
   }
 
   ngOnInit() {
-
     this.loadTodoList();
+    // Check for updates every 5 seconds (adjust the interval as needed)
+    this.timerSubscription = interval(5000).subscribe(() => {
+      this.loadTodoList();
+    });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the timer to avoid memory leaks
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   loadTodoList() {
@@ -64,11 +88,16 @@ export class TodoListComponent implements OnInit {
   }
 
   /*This Method is for editing files*/
+
   openEditDialog(index: number, todoItem: TodoItem) {
-    const dialogRef = this.dialog.open(EditDialogComponent, {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
-        todoItem: todoItem,
-        title: "Modify " + todoItem.id
+        id: todoItem.id,
+        title: todoItem.title,
+        description: todoItem.description,
+        dateTime: todoItem.dateTime,
+        isComplete: todoItem.isComplete,
+        dialogTitle: "Modify " + todoItem.id
       },
       disableClose: true,
       height: 'fit-content',
@@ -92,4 +121,72 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  openCreateDialog() {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      data: {
+        id: undefined,
+        title: undefined,
+        description: undefined,
+        dateTime: undefined,
+        isComplete: undefined,
+        dialogTitle: ""
+      },
+      disableClose: true,
+      height: 'fit-content',
+      width: 'fit-content',
+    });
+
+    let dialogRefSub = dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.todoItemService.create(result).subscribe(
+          (res) => {
+            console.log(res);
+            this.loadTodoList()
+            dialogRefSub.unsubscribe();
+          },
+          (error) => {
+            console.error('Error updating todo item:', error);
+          }
+        );
+      }
+    });
+  }
+
+  openDeleteDialog(index: number, todoItem: TodoItem) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        dialogType: DialogType.YesOrNo,
+        title: "Wait! Hold up!",
+        description: "Are you sure you wanted to delete this todo? Because it will be gone forever!"
+      },
+      disableClose: true,
+      height: 'fit-content',
+      width: 'fit-content',
+    });
+
+    let dialogRefSub = dialogRef.afterClosed().subscribe(btnType => {
+      console.log(btnType)
+      if (btnType) {
+        console.log(btnType === DialogBtnType.Neutral);
+        console.log(btnType === DialogBtnType.Negative);
+        console.log(btnType === DialogBtnType.Positive);
+        if(DialogBtnType.Neutral){
+          let apiCall = this.todoItemService.delete(todoItem.id).subscribe(
+            (result) => {
+              console.log(result)
+              this.loadTodoList()
+              apiCall.unsubscribe();
+              dialogRefSub.unsubscribe();
+            },
+            (error) => {
+              console.error('Error updating todo item:', error);
+              apiCall.unsubscribe();
+              dialogRefSub.unsubscribe();
+            }
+          );
+
+        }
+      }
+    });
+  }
 }

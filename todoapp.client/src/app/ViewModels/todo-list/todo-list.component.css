@@ -1,0 +1,10 @@
+:host {
+  overflow: hidden;
+  height: 50%;
+}
+
+@media (min-width: 768px) {
+  #AddFab, #AddFab > *{
+    position: relative !important;
+  }
+}

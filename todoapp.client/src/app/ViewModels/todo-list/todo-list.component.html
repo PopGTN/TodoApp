@@ -1,32 +1,43 @@
-﻿<main class="container">
-  @if (isLoading) {
-    <mat-progress-bar mode="query"></mat-progress-bar>
-  }
+﻿@if (isLoading) {
+  <mat-progress-bar mode="query"></mat-progress-bar>
+}
+<main class="container overflow-hidden w-100">
   @if (error) {
     {{ error }}
   }
-
   @if (!isLoading && !error && todoItems) {
-    <ol class="list-group list-group-flush">
-      @for (todoItem of todoItems; track todoItem.id; let index = $index) {
-        <li class="list-group-item d-flex justify-content-between align-items-start p-2 ">
-          <div class="ms-2 me-auto">
-            <div class="fw-bold">{{ todoItem.title }}</div>
-            {{ todoItem.description }}
-            <div style="font-size: 85%"><small><span class="text-sm-center" placement="bottom"
-                                                     ngbTooltip="Date for Todo"><i
-              class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small></div>
-          </div>
-          <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Edit Todo"
-                  (click)="openEditDialog(index, todoItem)">
-            <i class="bi bi-pencil-fill"></i>
-          </button>
-          <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Delete Todo">
-            <i class="bi bi-trash"></i>
-          </button>
-        </li>
-      }
-    </ol>
+    <div class=" w-100">
+      <ol class="list-group list-group-flush">
+        @for (todoItem of todoItems; track todoItem.id; let index = $index) {
+          <li class="list-group-item d-flex justify-content-between align-items-start p-2 ">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ todoItem.title  }}</div>
+              {{ todoItem.description }}
+              <div style="font-size: 85%"><small><span class="text-sm-center" placement="bottom"
+                                                       ngbTooltip="Date for Todo"><i
+                class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small></div>
+            </div>
+            <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Edit Todo"
+                    (click)="openEditDialog(index, todoItem)">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Delete Todo"
+                    (click)="openDeleteDialog(index, todoItem)">
+              <i class=" bi bi-trash"></i>
+            </button>
+          </li>
+        }
+      </ol>
+    </div>
   }
-
 </main>
+<div id="fabContainers" class="container">
+  <hr>
+  <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
+          class="bg-primary position-fixed bottom-0 end-0 me-3 mb-3  me-md-0 mb-md-0 bottom-0 end-0">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+    </svg>
+    Add Todo
+  </button>
+</div>
