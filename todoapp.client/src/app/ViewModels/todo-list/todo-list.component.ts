@@ -161,15 +161,15 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  openCreateDialog() {
+  openCreateDialog(todoItem = new TodoItem()) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
-        id: undefined,
-        title: undefined,
-        description: undefined,
-        dateTime: undefined,
-        isComplete: undefined,
-        dialogTitle: ""
+        id: todoItem.id,
+        title: todoItem.title,
+        description: todoItem.description,
+        dateTime: todoItem.dateTime,
+        isComplete: todoItem.isComplete,
+        dialogTitle: "Add a todo"
       },
       disableClose: true,
       height: 'fit-content',
@@ -178,16 +178,21 @@ export class TodoListComponent implements OnInit {
 
     let dialogRefSub = dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.todoItemService.create(result).subscribe(
-          (res) => {
-            console.log(res);
-            this.loadTodoList()
-            dialogRefSub.unsubscribe();
-          },
-          (error) => {
-            console.error('Error updating todo item:', error);
-          }
-        );
+        if (!result.title.isEmpty){
+          this.todoItemService.create(result).subscribe(
+            (res) => {
+              console.log(res);
+              this.loadTodoList()
+              dialogRefSub.unsubscribe();
+            },
+            (error) => {
+              console.error('Error updating todo item:', error);
+            }
+          );
+        } else {
+          dialogRefSub.unsubscribe();
+
+        }
       }
     });
   }
