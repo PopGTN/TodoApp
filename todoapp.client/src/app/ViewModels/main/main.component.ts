@@ -30,5 +30,5 @@ import {MatIconModule} from "@angular/material/icon";
   ],
 
 })
-export class MainComponent {S
+export class MainComponent {
 }
