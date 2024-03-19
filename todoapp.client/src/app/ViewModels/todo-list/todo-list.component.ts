@@ -58,9 +58,10 @@ export class TodoListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadTodoList();
+    this.loadTodoList(true);
     // Check for updates every 5 seconds (adjust the interval as needed)
     this.timerSubscription = interval(5000).subscribe(() => {
+      console.log("loaded")
       this.loadTodoList();
     });
   }
@@ -71,13 +72,29 @@ export class TodoListComponent implements OnInit {
       this.timerSubscription.unsubscribe();
     }
   }
+  /*
+      Only needs to show the load on first load because after that its already loaded and the
+      it get check if changed and it will only update when it gets the data from the api
+      */
 
-  loadTodoList() {
-    this.isLoading = true;
+  loadTodoList(isFirstLoad = false) {
+    if (isFirstLoad) {
+      console.log("first load")
+      this.isLoading = true;
+    }
     this.todoItemService.getAll().subscribe(
       (response) => {
-        this.todoItems = response;
-        this.isLoading = false;
+        let isDataChanged = this.isDataChanged(response);
+        console.log("Data Changed? "+ isDataChanged)
+        if (isDataChanged) { // Check if there are any changes
+          this.todoItems = response;
+          console.log("YES it did")
+        } else {
+          console.log("No it didn't")
+        }
+        if (isFirstLoad) {
+          this.isLoading = false;
+        }
       },
       (error) => {
         this.error = 'An error occurred while fetching data';
@@ -85,6 +102,29 @@ export class TodoListComponent implements OnInit {
         this.isLoading = false;
       }
     );
+  }
+
+  private isDataChanged(newData: TodoItem[]): boolean {
+    if (newData.length !== this.todoItems.length) {
+      return true; // If the lengths are different, there are changes
+    }
+
+    // Check if any item has changed
+    for (let i = 0; i < newData.length; i++) {
+      if (!this.areEqual(newData[i], this.todoItems[i])) {
+        return true; // If any item is different, there are changes
+      }
+    }
+    return false; // No changes
+  }
+
+  private areEqual(item1: TodoItem, item2: TodoItem): boolean {
+    // Compare properties of the items to check for equality
+    return item1.id === item2.id &&
+      item1.title === item2.title &&
+      item1.description === item2.description &&
+      item1.dateTime === item2.dateTime &&
+      item1.isComplete === item2.isComplete;
   }
 
   /*This Method is for editing files*/
