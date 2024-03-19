@@ -1,7 +1,7 @@
 ﻿export enum DialogType {
   NegativeOrPositive,
-  NegativeOrPositiveOrNetural,
+  NegativeOrPositiveOrNeutral,
   YesOrNo,
   YesOrNoOrCancel,
-  OkCancel
+  Ok,
 }
