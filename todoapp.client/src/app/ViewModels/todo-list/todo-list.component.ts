@@ -210,7 +210,7 @@ export class TodoListComponent implements OnInit {
         console.log(btnType === DialogBtnType.Neutral);
         console.log(btnType === DialogBtnType.Negative);
         console.log(btnType === DialogBtnType.Positive);
-        if(DialogBtnType.Neutral){
+        if(btnType === DialogBtnType.Positive){
           let apiCall = this.todoItemService.delete(todoItem.id).subscribe(
             (result) => {
               console.log(result)
