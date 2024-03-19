@@ -9,22 +9,24 @@
     <div class=" w-100">
       <ol class="list-group list-group-flush">
         @for (todoItem of todoItems; track todoItem.id; let index = $index) {
-          <li class="list-group-item d-flex justify-content-between align-items-start p-2 ">
+          <li class="list-group-item d-flex justify-content-between align-items-start p-2" (click)="openEditDialog(todoItem)">
+            <div>
+              <input type="checkbox" class="form-check-input d-flex justify-content-between"
+                     [checked]="todoItem.isComplete"  [(ngModel)]="todoItem.isComplete"  (click)="taskComplete($event, todoItem)">
+            </div>
             <div class="ms-2 me-auto">
-              <div class="fw-bold">{{ todoItem.title  }}</div>
+
+              <div class="fw-bold">{{ todoItem.title }}</div>
               {{ todoItem.description }}
               <div style="font-size: 85%"><small><span class="text-sm-center" placement="bottom"
                                                        ngbTooltip="Date for Todo"><i
                 class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small></div>
             </div>
-            <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Edit Todo"
-                    (click)="openEditDialog(index, todoItem)">
-              <i class="bi bi-pencil-fill"></i>
-            </button>
             <button class="btn text-bg-primary rounded-pill" placement="top" ngbTooltip="Delete Todo"
-                    (click)="openDeleteDialog(index, todoItem)">
+                    (click)="openDeleteDialog($event, index, todoItem)">
               <i class=" bi bi-trash"></i>
             </button>
+
           </li>
         }
       </ol>
