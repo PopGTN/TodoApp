@@ -41,7 +41,6 @@ export class DialogComponent {
 
   onNoClick(): void {
     console.log("Dialog Closed with nothing")
-    alert(DialogBtnType.Neutral)
     this.dialogRef.close(DialogBtnType.Neutral);
   }
 
