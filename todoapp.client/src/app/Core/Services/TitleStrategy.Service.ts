@@ -20,7 +20,6 @@ export class TitleStrategyService extends TitleStrategy {
     } else {
       temptitle = "BigTodos";
     }
-    // this.title.setTitle(temptitle)
     this.title.setTitle(cleanTitle(temptitle));
   }
   public getTitle():string {

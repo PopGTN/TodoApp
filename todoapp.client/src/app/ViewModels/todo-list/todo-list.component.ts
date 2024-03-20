@@ -15,12 +15,12 @@ import {TodoDialogComponent} from "../fragaments/todo-dialog/todo-dialog.compone
 import {DialogComponent} from "../fragaments/dialog/dialog.component";
 import {DialogType} from "../fragaments/dialog/Models/DialogType";
 import {DialogBtnType} from "../fragaments/dialog/Models/DialogBtnType";
-import {checkPopoverMargin} from "ngx-bootstrap/positioning/utils/checkMargin";
-import {bgLocale} from "ngx-bootstrap/chronos";
-import {interval, Subscription} from "rxjs";
+import {from, interval, ObservedValueOf, Subscription, toArray} from "rxjs";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatChipListbox, MatChipOption} from "@angular/material/chips";
+import {FilterOption} from "./subcomponents/FilterOption";
 
 @Component({
   selector: 'app-todo-list',
@@ -41,33 +41,41 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatMiniFabButton,
     MatCheckbox,
     FormsModule,
+    MatChipOption,
+    MatChipListbox,
   ],
 })
 
 export class TodoListComponent implements OnInit {
+  /*Interfaces*/
+  protected readonly FilterOption = FilterOption;
+
   /*Dependency Injections*/
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
 
-  todoItems: TodoItem[] = [];
+  /*Class Variables*/
+  todoItems: TodoItem[] | undefined
   isLoading: boolean;
   error: string;
-
+  filterOption = FilterOption.All
 
   // @ts-ignore
   private timerSubscription: Subscription;
+
 
   constructor(private http: HttpClient) {
     this.isLoading = false
     this.error = "";
   }
 
+
   ngOnInit() {
     this.loadTodoList(true);
     // Check for updates every 5 seconds (adjust the interval as needed)
     this.timerSubscription = interval(5000).subscribe(() => {
-      console.log("loaded")
+      //console.log("loaded")
       this.loadTodoList();
     });
   }
@@ -84,64 +92,46 @@ export class TodoListComponent implements OnInit {
     it get check if changed and it will only update when it gets the data from the api
     */
   loadTodoList(isFirstLoad = false) {
+    let apiCall;
     if (isFirstLoad) {
-      console.log("first load")
       this.isLoading = true;
     }
-    let apiCall = this.todoItemService.getAll().subscribe(
-      (response) => {
-        let isDataChanged = this.isDataChanged(response);
-        console.log("Data Changed? " + isDataChanged)
-        if (isDataChanged) { // Check if there are any changes
-          this.todoItems = response;
-          console.log("YES it did")
-        } else {
-          console.log("No it didn't")
-        }
-        if (isFirstLoad) {
-          this.isLoading = false;
-        }
-        apiCall.unsubscribe();
-      },
-      (error) => {
-        this.error = 'An error occurred while fetching data';
-        console.error('Error:', error);
-        let snackBarRef = this.snackBar.open('An error occurred while fetching data!', "Dismiss", {
-          duration: 1000
-        });
-        this.isLoading = false;
-        apiCall.unsubscribe();
-      }
-    );
 
-
-  }
-
-  private isDataChanged(newData: TodoItem[]): boolean {
-    if (newData.length !== this.todoItems.length) {
-      return true; // If the lengths are different, there are changes
+    switch (this.filterOption) {
+      case FilterOption.All:
+      default:
+         apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              // Handle error if needed
+            }
+          });
+        break;
+      case FilterOption.completed:
+         apiCall = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              // Handle error if needed
+            }
+          });
+        break;
     }
 
-    // Check if any item has changed
-    for (let i = 0; i < newData.length; i++) {
-      if (!this.areEqual(newData[i], this.todoItems[i])) {
-        return true; // If any item is different, there are changes
-      }
-    }
-    return false; // No changes
   }
-
-  private areEqual(item1: TodoItem, item2: TodoItem): boolean {
-    // Compare properties of the items to check for equality
-    return item1.id === item2.id &&
-      item1.title === item2.title &&
-      item1.description === item2.description &&
-      item1.dateTime === item2.dateTime &&
-      item1.isComplete === item2.isComplete;
-  }
-
-  /*This Method is for editing files*/
-
   openEditDialog(todoItem: TodoItem) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -196,7 +186,7 @@ export class TodoListComponent implements OnInit {
         if (!result.title.isEmpty) {
           let apiCall = this.todoItemService.create(result).subscribe(
             (res) => {
-              console.log(res);
+              //console.log(res);
               this.loadTodoList()
               dialogRefSub.unsubscribe();
               apiCall.unsubscribe();
@@ -229,15 +219,10 @@ export class TodoListComponent implements OnInit {
     });
 
     let dialogRefSub = dialogRef.afterClosed().subscribe(btnType => {
-      console.log(btnType)
       if (btnType) {
-        console.log(btnType === DialogBtnType.Neutral);
-        console.log(btnType === DialogBtnType.Negative);
-        console.log(btnType === DialogBtnType.Positive);
         if (btnType === DialogBtnType.Positive) {
           let apiCall = this.todoItemService.delete(todoItem.id).subscribe(
             (result) => {
-              console.log(result)
               this.loadTodoList()
               apiCall.unsubscribe();
               dialogRefSub.unsubscribe();
@@ -256,15 +241,19 @@ export class TodoListComponent implements OnInit {
 
   taskComplete(event: Event, todoItem: TodoItem) {
     event.stopPropagation();
-    let apiCall = this.todoItemService.update(todoItem.id, todoItem).subscribe(
+    let todoItem2 = new TodoItem(todoItem.id, todoItem.title, todoItem.description, todoItem.dateTime, todoItem.isComplete)
+
+
+    let apiCall = this.todoItemService.update(todoItem.id, todoItem2).subscribe(
       (res) => {
         console.log(res);
-        // this.loadTodoList();
+
         if (todoItem.isComplete) {
-          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!', "", {duration: 800});
+          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!' + todoItem.isComplete, "", {duration: 800});
         } else {
           let snackBarRef = this.snackBar.open('Successfully unCompleted! Good Job? I guess?', "", {duration: 800});
         }
+        this.loadTodoList();
         apiCall.unsubscribe();
       },
       (error) => {
@@ -272,9 +261,17 @@ export class TodoListComponent implements OnInit {
         let snackBarRef = this.snackBar.open('Something went wrong!', "Dismiss", {
           duration: 1000
         });
+        apiCall.unsubscribe();
       }
     );
 
 
   }
+
+  /*Applys The filter to the Page*/
+  filterSelected($event: Event) {
+    this.loadTodoList();
+  }
+
+
 }
