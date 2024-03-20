@@ -6,7 +6,7 @@ public class TodoItem
   public string Title { get; set; }
   public string? Description { get; set; }
   public bool IsComplete { get; set; }
-  public DateTime DateTime { get; set; }
+  public string? DateTime { get; set; }
 
   public override string ToString()
   {

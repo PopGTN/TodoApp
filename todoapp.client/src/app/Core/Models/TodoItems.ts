@@ -22,7 +22,7 @@ export class TodoItem {
     this.title = title === undefined ? "" : title;
     this.description = description === undefined ? "" : description;
     this.isComplete = isComplete === undefined ? false : isComplete;
-    this.dateTime = dateTime === undefined ? getCurrentDate() : dateTime;
+    this.dateTime = dateTime === undefined ? "": dateTime;
   }
 
   toString() {

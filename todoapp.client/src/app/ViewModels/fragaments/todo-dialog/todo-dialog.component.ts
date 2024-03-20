@@ -1,5 +1,5 @@
 ﻿import {Component, inject, Inject, Input} from '@angular/core';
-import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {NgbTimepicker, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {
@@ -16,6 +16,8 @@ import {MatButton} from "@angular/material/button";
 import {TodoItem} from "../../../Core/Models/TodoItems";
 import {DialogComponent} from "../dialog/dialog.component";
 import {DialogType} from "../dialog/Models/DialogType";
+import {JsonPipe} from "@angular/common";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-todo-dialog',
@@ -32,12 +34,18 @@ import {DialogType} from "../dialog/Models/DialogType";
     MatButton,
     MatDialogTitle,
     MatDialogActions,
-    MatDialogClose
+    MatDialogClose,
+    NgbTimepicker,
+    JsonPipe,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker
   ],
 })
 export class TodoDialogComponent {
   public dialog = inject(MatDialog);
   public errorMessage: string;
+  meridian = true;
   constructor(
     public dialogRef: MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {

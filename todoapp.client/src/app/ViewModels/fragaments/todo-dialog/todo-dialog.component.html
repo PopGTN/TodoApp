@@ -1,13 +1,24 @@
 ﻿<div class="dialog">
   <h2 mat-dialog-title>{{ data.dialogTitle }}</h2>
   <mat-dialog-content>
-    <div class="form-floating mb-3">
-      <input class="form-control"  id="title" type="text" placeholder="name@example.com" [(ngModel)]="data.title" >
-      <label for="title">Title</label>
+    <div class="form-floating my-2">
+      <input class="form-control"  id="title" type="text" [(ngModel)]="data.title" >
+      <label class="form-label" for="title">Title</label>
     </div>
-    <div class="form-floating">
-      <input class="form-control" id="description" type="text"  placeholder="" [(ngModel)]="data.description">
-      <label for="description">Description</label>
+    <div class="form-floating my-2">
+      <input class="form-control" id="description" type="text"  [(ngModel)]="data.description">
+      <label class="form-label" for="description">Description</label>
+    </div>
+    <div class="form-floating my-2">
+      <input class="form-control" type="datetime-local" id="dateTime" name="dateTime"  [(ngModel)]="data.dateTime" >
+      <label class="form-label" for="dateTime">Date & Time</label>
+
+    </div>
+    <div class="form-check mt-2">
+      <input class="form-check-input rounded-circle" type="checkbox"   id="isComplete" [(ngModel)]="data.isComplete">
+      <label class="form-check-label" for="isComplete">
+        Is Complete
+      </label>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions class="dialogFooter">

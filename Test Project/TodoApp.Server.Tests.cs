@@ -69,7 +69,7 @@ namespace TodoApp.Test_Project
       {
         Title = "Debugging Todo",
         Description = "This todo is create from the testing Project which is debugging project",
-        DateTime = DateTime.Today.AddDays(5),
+        DateTime = "2002/09/21 4:59 AM",
         IsComplete = false
       };
       var settings = new JsonSerializerSettings
@@ -86,6 +86,7 @@ namespace TodoApp.Test_Project
       //Assert
       validTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
         .Excluding(dto => dto.Id));
+
       // Cleanup
       var deleteResponse = await _httpClient.DeleteAsync($"todoitems/{validTodoItem.Id}");
       deleteResponse.EnsureSuccessStatusCode();
