@@ -1,4 +1,4 @@
-﻿<nav class="navbar navbar-expand-lg">
+﻿<nav class="navbar navbar-expand-lg" tool tip>
   <div class="container-md flex-wrap flex-lg-nowrap">
     <button class="navbar-toggler d-flex d-lg-none order-first p-2 border-0 navbar-dark" type="button"
             data-bs-toggle="offcanvas"
@@ -27,23 +27,26 @@
 
       <!--Sidebar Header-->
       <div class="offcanvas-header px-4 pb-2 ">
-        <!--Sidebar Title-->
-        <h5 class="offcanvas-title text-white" id="NavbarOffcanvasLabel">‎</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
                 data-bs-target="#navbarSupportedContent"></button>
+        <!--Sidebar Title-->
+        <h5 class="offcanvas-title text-white" id="NavbarOffcanvasLabel">‎</h5>
+
       </div>
 
       <!--Sidebar's body section-->
       <div class="offcanvas-body pt-0 ">
         <hr class="d-lg-none ">
         <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-          <li class="nav-item col-12 col-sm-6 col-lg-auto SidebarActive">
-            <a id="indexBtn" class="nav-link py-2 px-0 px-lg-2" routerLink="" routerLinkActive="active"
-               ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+          <li class="nav-item col-12 col-md-6 col-lg-auto SidebarActive">
+            <a id="indexBtn" class="nav-link activeLink py-2 px-0 px-lg-2" routerLink="" routerLinkActive="active"
+               data-bs-dismiss="offcanvas" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }"><i
+              class="bi bi-house-fill d-lg-none me-2"></i> Home</a>
           </li>
-          <li class="nav-item col-12 col-sm-6 col-lg-auto">
-            <a class="nav-link py-2 px-0 px-lg-2" routerLink="about" routerLinkActive="active"
-               ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }">About</a>
+          <li class="nav-item col-12 col-md-6 col-lg-auto">
+            <a class="nav-link activeLink py-2 px-0 px-lg-2" routerLink="about" routerLinkActive="active"
+               data-bs-dismiss="offcanvas" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }"> <i
+              class="bi bi-file-person d-lg-none me-2"></i> About</a>
           </li>
         </ul>
         <div class="d-flex ">
@@ -52,13 +55,8 @@
         <hr class="d-lg-none">
         <!--Socials-->
         <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-          <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto d-lg-none">
-            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-            <hr class="d-lg-none my-2 ">
-          </li>
-
           <!--Theme Switcher-->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown w-100">
             <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
               <symbol id="circle-half" viewBox="0 0 16 16">
                 <path fill="currentColor"
