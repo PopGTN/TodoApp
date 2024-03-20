@@ -24,7 +24,14 @@ export class TodoItem {
     this.isComplete = isComplete === undefined ? false : isComplete;
     this.dateTime = dateTime === undefined ? "": dateTime;
   }
-
+   areEqual(item: TodoItem): boolean {
+    // Compare properties of the items to check for equality
+    return this.id === item.id &&
+      this.title === item.title &&
+      this.description === item.description &&
+      this.dateTime === item.dateTime &&
+      this.isComplete === item.isComplete;
+  }
   toString() {
     return `ID: ${this.id}, Title: ${this.title}, Description: ${this.description}, Complete: ${this.isComplete}, DateTime: ${this.dateTime}`;
   }
