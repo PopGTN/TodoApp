@@ -16,7 +16,7 @@ import {DialogComponent} from "../fragaments/dialog/dialog.component";
 import {DialogType} from "../fragaments/dialog/Models/DialogType";
 import {DialogBtnType} from "../fragaments/dialog/Models/DialogBtnType";
 import {interval, Subscription} from "rxjs";
-import {MatCheckbox} from "@angular/material/checkbox";
+import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
@@ -311,15 +311,13 @@ export class TodoListComponent implements OnInit {
 
   taskComplete(event: Event, todoItem: TodoItem) {
     event.stopPropagation();
-    let todoItem2 = new TodoItem(todoItem.id, todoItem.title, todoItem.description, todoItem.dateTime, todoItem.isComplete)
+    /*Has to make it the opposite of the current state because it must */
 
 
-    let apiCall = this.todoItemService.update(todoItem.id, todoItem2).subscribe(
+    let apiCall = this.todoItemService.update(todoItem.id, todoItem).subscribe(
       (res) => {
-        console.log(res);
-
         if (todoItem.isComplete) {
-          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!' + todoItem.isComplete, "", {duration: 800});
+          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!', "", {duration: 800});
         } else {
           let snackBarRef = this.snackBar.open('Successfully unCompleted! Good Job? I guess?', "", {duration: 800});
         }

@@ -60,7 +60,7 @@ export class TodoItemService {
     return this.http.post(baseUrl, data);
   }
 
-  update(id: any, data: any): Observable<any> {
+  update(id: any, data: TodoItem): Observable<any> {
     return this.http.put(`${baseUrl}/${id}`, data);
   }
 
@@ -79,7 +79,7 @@ export class TodoItemService {
   checkGetAll(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAll().pipe(
       tap(newList => {
-        console.log("it got to the method")
+
         if (oldList !== undefined) {
           const isDataChanged = this.isDataChanged(newList, oldList);
           if (isDataChanged || isFirstLoad) {
@@ -94,7 +94,7 @@ export class TodoItemService {
   checkGetAllNotCompleted(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAllNotCompleted().pipe(
       tap(newList => {
-        console.log("it got to the method")
+
         if (oldList !== undefined) {
           const isDataChanged = this.isDataChanged(newList, oldList);
           if (isDataChanged || isFirstLoad) {
@@ -109,7 +109,7 @@ export class TodoItemService {
   checkGetAllTodaysTodo(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAllTodays().pipe(
       tap(newList => {
-        console.log("it got to the method")
+
         if (oldList !== undefined) {
           const isDataChanged = this.isDataChanged(newList, oldList);
           if (isDataChanged || isFirstLoad) {
@@ -124,7 +124,7 @@ export class TodoItemService {
   checkGetAllTommorrowsTodo(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAllTommorrows().pipe(
       tap(newList => {
-        console.log("it got to the method")
+
         if (oldList !== undefined) {
           const isDataChanged = this.isDataChanged(newList, oldList);
           if (isDataChanged || isFirstLoad) {
@@ -140,7 +140,6 @@ export class TodoItemService {
   checkGetAllCompleted(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAllCompleted().pipe(
       tap(newList => {
-        console.log("it got to the method")
         if (oldList !== undefined) {
           const isDataChanged = this.isDataChanged(newList, oldList);
           if (isDataChanged || isFirstLoad) {

@@ -20,7 +20,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-start p-2" (click)="openEditDialog(todoItem)">
             <div class="">
               <input type="checkbox" class="form-check-input d-flex  rounded-circle"
-                     [checked]="todoItem.isComplete"  [(ngModel)]="todoItem.isComplete"  (click)="taskComplete($event, todoItem)">
+                     [(ngModel)]="todoItem.isComplete"  (change)="taskComplete($event, todoItem)" (click)="$event.stopPropagation();">
             </div>
             <div class="ms-2 me-auto">
 
