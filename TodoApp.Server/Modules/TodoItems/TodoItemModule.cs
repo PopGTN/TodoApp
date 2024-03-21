@@ -18,6 +18,9 @@ public class TodoItemModule : IModule
     var mapGroup = endpoints.MapGroup("todoitems");
     mapGroup.MapGet("/", GetAllTodos);
     mapGroup.MapGet("/complete", GetCompleteTodos);
+    mapGroup.MapGet("/notcomplete", GetNotCompleteTodos);
+    mapGroup.MapGet("/todays", GetTodayTodos);
+    mapGroup.MapGet("/tommorrows", GetTomorrowTodos);
     mapGroup.MapGet("/{idP}", GetTodo);
     mapGroup.MapPost("/", CreateTodo);
     mapGroup.MapPut("/{idP}", UpdateTodo);
@@ -31,10 +34,32 @@ public class TodoItemModule : IModule
   {
     return TypedResults.Ok(await dbP.TodoItems.Select(x => new TodoItemDTO(x)).ToArrayAsync());
   }
+  private async Task<IResult> GetTodayTodos(TodoContext dbP)
+  {
+    var todayString = DateTime.Today.ToString("yyyy-MM-dd");
+    return TypedResults.Ok(await dbP.TodoItems
+      .Where(t => t.DateTime.StartsWith(todayString) && !t.IsComplete)
+      .Select(x => new TodoItemDTO(x))
+      .ToListAsync());
+  }
+
+  private async Task<IResult> GetTomorrowTodos(TodoContext dbP)
+  {
+    var tomorrowString = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+    return TypedResults.Ok(await dbP.TodoItems
+      .Where(t => t.DateTime.StartsWith(tomorrowString) && !t.IsComplete)
+      .Select(x => new TodoItemDTO(x))
+      .ToListAsync());
+  }
 
   private async Task<IResult> GetCompleteTodos(TodoContext dbP)
   {
     return TypedResults.Ok(await dbP.TodoItems.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
+  }
+
+  private async Task<IResult> GetNotCompleteTodos(TodoContext dbP)
+  {
+    return TypedResults.Ok(await dbP.TodoItems.Where(t => !t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
   }
 
   private async Task<IResult> GetTodo(int idP, TodoContext dbP)

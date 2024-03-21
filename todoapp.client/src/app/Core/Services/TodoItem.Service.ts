@@ -27,12 +27,27 @@ export class TodoItemService {
     );
   }
 
-/*  getAllCompleted(): Observable<TodoItem[]> {
+  getAllCompleted(): Observable<TodoItem[]> {
     return this.http.get<TodoItem[]>(`${baseUrl}/complete`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
-  }*/
+  }
+  getAllNotCompleted(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(`${baseUrl}/notcomplete`, {responseType: 'json'}).pipe(
+      tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
+    );
+  }
+  getAllTodays(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(`${baseUrl}/todays`, {responseType: 'json'}).pipe(
+      tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
+    );
+  }
 
+  getAllTommorrows(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(`${baseUrl}/tommorrows`, {responseType: 'json'}).pipe(
+      tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
+    );
+  }
   get(id: any): Observable<TodoItem> {
     // @ts-ignore
     return this.http.get<TodoItem>(`${baseUrl}/${id}`).pipe(tap(todoItem => {
@@ -76,6 +91,52 @@ export class TodoItemService {
       })
     );
   }
+  checkGetAllNotCompleted(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
+    return this.getAllNotCompleted().pipe(
+      tap(newList => {
+        console.log("it got to the method")
+        if (oldList !== undefined) {
+          const isDataChanged = this.isDataChanged(newList, oldList);
+          if (isDataChanged || isFirstLoad) {
+            this.todoStore.setTodos(newList); // Update the store with new data
+          }
+        } else {
+          this.todoStore.setTodos(newList); // Update the store with new data
+        }
+      })
+    );
+  }
+  checkGetAllTodaysTodo(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
+    return this.getAllTodays().pipe(
+      tap(newList => {
+        console.log("it got to the method")
+        if (oldList !== undefined) {
+          const isDataChanged = this.isDataChanged(newList, oldList);
+          if (isDataChanged || isFirstLoad) {
+            this.todoStore.setTodos(newList); // Update the store with new data
+          }
+        } else {
+          this.todoStore.setTodos(newList); // Update the store with new data
+        }
+      })
+    );
+  }
+  checkGetAllTommorrowsTodo(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
+    return this.getAllTommorrows().pipe(
+      tap(newList => {
+        console.log("it got to the method")
+        if (oldList !== undefined) {
+          const isDataChanged = this.isDataChanged(newList, oldList);
+          if (isDataChanged || isFirstLoad) {
+            this.todoStore.setTodos(newList); // Update the store with new data
+          }
+        } else {
+          this.todoStore.setTodos(newList); // Updaete the store with new data
+        }
+      })
+    );
+  }
+
   checkGetAllCompleted(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
     return this.getAllCompleted().pipe(
       tap(newList => {
@@ -91,17 +152,6 @@ export class TodoItemService {
       })
     );
   }
-  getAllCompleted(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/complete`, { responseType: 'json' }).pipe(
-      tap(todoItems => this.todoStore.setTodos(todoItems)), // Update the store with fetched data
-      catchError(error => {
-        console.error('Error fetching todo items:', error);
-        // You can handle the error here, for example, by returning an empty array
-        return of([]); // Return an empty array to keep the observable stream alive
-      })
-    );
-  }
-
 
   private isDataChanged(newData: TodoItem[], oldList: TodoItem[]): boolean {
     if (oldList === undefined) {

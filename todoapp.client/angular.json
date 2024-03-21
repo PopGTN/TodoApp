@@ -84,9 +84,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-
-            "proxyConfig": "src/proxy.conf.js",
-            "host": "0.0.0.0"
+            "proxyConfig": "src/proxy.conf.js"
           }
         },
         "extract-i18n": {

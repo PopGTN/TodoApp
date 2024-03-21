@@ -15,7 +15,7 @@ import {TodoDialogComponent} from "../fragaments/todo-dialog/todo-dialog.compone
 import {DialogComponent} from "../fragaments/dialog/dialog.component";
 import {DialogType} from "../fragaments/dialog/Models/DialogType";
 import {DialogBtnType} from "../fragaments/dialog/Models/DialogBtnType";
-import {from, interval, ObservedValueOf, Subscription, toArray} from "rxjs";
+import {interval, Subscription} from "rxjs";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -100,34 +100,104 @@ export class TodoListComponent implements OnInit {
     switch (this.filterOption) {
       case FilterOption.All:
       default:
-         apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
+         let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
               }
+              // @ts-ignore
+              apiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
               // Handle error if needed
+              // @ts-ignore
+              apiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.completed:
-         apiCall = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
+         let apiCall2 = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
               }
+              // @ts-ignore
+              apiCall2.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
               // Handle error if needed
+              // @ts-ignore
+              apiCall2.unsubscribe();
+
             }
           });
+        break;
+      case FilterOption.todays:
+        let apiCall4 = this.todoItemService.checkGetAllTodaysTodo(this.todoItems, isFirstLoad)
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+              // @ts-ignore
+              apiCall4.unsubscribe();
+
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              // Handle error if needed
+              // @ts-ignore
+              apiCall4.unsubscribe();
+
+            }
+          });
+        break;
+      case FilterOption.tomorrows:
+        let apiCall5 = this.todoItemService.checkGetAllTommorrowsTodo(this.todoItems, isFirstLoad)
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+              apiCall5.unsubscribe();
+
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              // Handle error if needed
+              // @ts-ignore
+              apiCall5.unsubscribe();
+
+            }
+          });
+        break;
+      case FilterOption.notCompleted:
+        let apiCall3 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
+        .subscribe({
+          next: (todoItems: TodoItem[]) => {
+            this.todoItems = todoItems;
+            if (isFirstLoad) {
+              this.isLoading = false;
+            }
+            // @ts-ignore
+            apiCall3.unsubscribe();
+          },
+          error: err => {
+            console.error('Error fetching todo list:', err);
+            // Handle error if needed
+            // @ts-ignore
+            apiCall3.unsubscribe();
+
+          }
+        });
         break;
     }
 
