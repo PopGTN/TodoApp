@@ -19,7 +19,7 @@ import {interval, Subscription} from "rxjs";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatChipListbox, MatChipOption} from "@angular/material/chips";
+import {MatChipListbox, MatChipListboxChange, MatChipOption} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 
 @Component({
@@ -337,7 +337,7 @@ export class TodoListComponent implements OnInit {
   }
 
   /*Applys The filter to the Page*/
-  filterSelected($event: Event) {
+    filterSelected($event: MatChipListboxChange) {
     this.loadTodoList();
   }
 
