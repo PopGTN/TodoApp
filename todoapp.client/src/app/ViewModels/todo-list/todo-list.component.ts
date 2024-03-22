@@ -19,8 +19,9 @@ import {interval, Subscription} from "rxjs";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatChipListbox, MatChipOption} from "@angular/material/chips";
+import {MatChipListbox, MatChipListboxChange, MatChipOption} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
+import {TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-todo-list',
@@ -65,7 +66,7 @@ export class TodoListComponent implements OnInit {
   private timerSubscription: Subscription;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private translocoService: TranslocoService) {
     this.isLoading = false
     this.error = "";
   }
@@ -280,8 +281,8 @@ export class TodoListComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         dialogType: DialogType.YesOrNo,
-        title: "Wait! Hold up!",
-        description: "Are you sure you wanted to delete this todo? Because it will be gone forever!"
+        title: this.translocoService.translate('dialogMessages.confirmTitle'),
+        description: this.translocoService.translate('dialogMessages.confirmDescription')
       },
       disableClose: true,
       height: 'fit-content',
@@ -337,7 +338,7 @@ export class TodoListComponent implements OnInit {
   }
 
   /*Applys The filter to the Page*/
-  filterSelected($event: Event) {
+    filterSelected($event: MatChipListboxChange) {
     this.loadTodoList();
   }
 

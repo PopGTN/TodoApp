@@ -1,0 +1,25 @@
+{
+  "404Page": {
+    "Title": "404 Page Not Found",
+    "SubTitle": "Something went wrong",
+    "Button": "Go Back",
+    "ExploreDocs": "Explore the Docs",
+    "LearnTutorials": "Learn with Tutorials",
+    "CLIDocs": "CLI Docs",
+    "AngularLanguageService": "Angular Language Service",
+    "AngularDevTools": "Angular DevTools"
+  },
+  "SocialLinks": {
+    "Twitter": "Twitter",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Instagram": "Instagram",
+    "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "Wait! Hold up!",
+    "confirmDescription": "Are you sure you want to delete this todo? Because it will be gone forever!"
+  }
+}
+
+
