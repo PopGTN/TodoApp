@@ -104,7 +104,7 @@ export class TodoListComponent implements OnInit {
     switch (this.filterOption) {
       case FilterOption.All:
       default:
-         let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
+        let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
@@ -123,7 +123,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.completed:
-         let apiCall2 = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
+        let apiCall2 = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
@@ -185,27 +185,28 @@ export class TodoListComponent implements OnInit {
         break;
       case FilterOption.notCompleted:
         let apiCall3 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
-        .subscribe({
-          next: (todoItems: TodoItem[]) => {
-            this.todoItems = todoItems;
-            if (isFirstLoad) {
-              this.isLoading = false;
-            }
-            // @ts-ignore
-            apiCall3.unsubscribe();
-          },
-          error: err => {
-            console.error('Error fetching todo list:', err);
-            // Handle error if needed
-            // @ts-ignore
-            apiCall3.unsubscribe();
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+              // @ts-ignore
+              apiCall3.unsubscribe();
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              // Handle error if needed
+              // @ts-ignore
+              apiCall3.unsubscribe();
 
-          }
-        });
+            }
+          });
         break;
     }
 
   }
+
   openEditDialog(todoItem: TodoItem) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -248,7 +249,7 @@ export class TodoListComponent implements OnInit {
         description: todoItem.description,
         dateTime: todoItem.dateTime,
         isComplete: todoItem.isComplete,
-        dialogTitle: "Add a todo"
+        dialogTitle: this.translocoService.translate('todoList.addTodo'),
       },
       disableClose: true,
       height: 'fit-content',
@@ -286,7 +287,7 @@ export class TodoListComponent implements OnInit {
         dialogType: DialogType.YesOrNo,
         title: this.translocoService.translate('dialogMessages.confirmTitle'),
         description: this.translocoService.translate('dialogMessages.confirmDescription'),
-        neutralBtn:  this.translocoService.translate('dialogMessages.neutralBtn'),
+        neutralBtn: this.translocoService.translate('dialogMessages.neutralBtn'),
         negativeBtn: this.translocoService.translate('dialogMessages.negativeBtn'),
         positiveBtn: this.translocoService.translate('dialogMessages.positiveBtn'),
       },
@@ -324,18 +325,16 @@ export class TodoListComponent implements OnInit {
     let apiCall = this.todoItemService.update(todoItem.id, todoItem).subscribe(
       (res) => {
         if (todoItem.isComplete) {
-          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!', "", {duration: 800});
+          let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.successCompleteMessage'), "", {duration: 800});
         } else {
-          let snackBarRef = this.snackBar.open('Successfully unCompleted! Good Job? I guess?', "", {duration: 800});
+          let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.successUncompleteMessage'), "", {duration: 800});
         }
         this.loadTodoList();
         apiCall.unsubscribe();
       },
       (error) => {
         console.error('Error updating todo item:', error);
-        let snackBarRef = this.snackBar.open('Something went wrong!', "Dismiss", {
-          duration: 1000
-        });
+        let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.errorMessage'), this.translocoService.translate('dismiss'), {duration: 1000});
         apiCall.unsubscribe();
       }
     );
@@ -344,7 +343,7 @@ export class TodoListComponent implements OnInit {
   }
 
   /*Applys The filter to the Page*/
-    filterSelected($event: MatChipListboxChange) {
+  filterSelected($event: MatChipListboxChange) {
     this.loadTodoList();
   }
 
