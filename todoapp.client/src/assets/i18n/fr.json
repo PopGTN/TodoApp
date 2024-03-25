@@ -17,12 +17,14 @@
     "Medium": "Medium"
   },
   "dialogMessages": {
-    "confirmTitle": "Attendez ! Arrêtez !",
+    "confirmTitle": "🫸🛑 Attendez ! Arrêtez !",
     "confirmDescription": "Êtes-vous sûr de vouloir supprimer cette tâche ? Car elle disparaîtra pour toujours !",
-    "NegativeBtn": "Non",
-    "PositiveBtn": "Oui",
-    "NeturalBtn": "Annuler",
-    "OkCancelBtn": "Ok"
+    "negativeBtn": "Non",
+    "positiveBtn": "Oui",
+    "neutralBtn": "Annuler",
+    "OkCancelBtn": "Ok",
+    "formErrorTitle": "🫸🛑 Attendez ! Arrêtez !",
+    "formTitleErrorDesc": "Les tâches doivent avoir un titre"
   },
   "todoList": {
     "filterSelection": "Sélection de filtre",
@@ -48,5 +50,22 @@
     "LIGHT_THEME": "Clair",
     "DARK_THEME": "Sombre",
     "AUTO_THEME": "Auto"
+  },
+  "todoDIALOG": {
+    "TITLE": "Titre",
+    "DESCRIPTION": "Description",
+    "DATE_TIME": "Date et heure",
+    "CANCEL": "Annuler",
+    "SUBMIT": "Soumettre"
+  },
+  "routeTitles": {
+    "home": "Accueil",
+    "about": "À propos"
+  },
+  "snackbar": {
+    "successCompleteMessage": "Terminé avec succès ! Bien joué !",
+    "successUncompleteMessage": "Non terminé avec succès ! Bien joué ? Je suppose ?",
+    "errorMessage": "Quelque chose s'est mal passé !",
+    "dismiss": "Fermer"
   }
 }

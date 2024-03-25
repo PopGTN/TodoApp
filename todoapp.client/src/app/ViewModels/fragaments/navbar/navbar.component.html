@@ -27,11 +27,10 @@
 
       <!--Sidebar Header-->
       <div class="offcanvas-header px-4 pb-2 ">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
-                data-bs-target="#navbarSupportedContent"></button>
         <!--Sidebar Title-->
-        <h5 class="offcanvas-title text-white" id="NavbarOffcanvasLabel">{{ 'NAV.SIDEBAR_TITLE' | transloco }}</h5>
-
+        <h5 class="offcanvas-title text-white" id="offcanvasLabel">{{ 'NAV.SIDEBAR_TITLE' | transloco }}</h5>
+        <button type="button" class="btn-close d-block d-sm-none" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
       </div>
 
       <!--Sidebar's body section-->
@@ -58,7 +57,7 @@
           <app-language-switcher/>
           <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
             <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-            <hr class="d-lg-none my-2 text-white-50">
+            <hr class="d-lg-none my-2">
           </li>
           <!--Theme Switcher-->
           <li class="nav-item dropdown col-12 col-lg-auto">
