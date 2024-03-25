@@ -1,0 +1,20 @@
+<li class="nav-item dropdown 12 col-lg-auto">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <!--<i class="bi bi-translate"></i>-->
+    <img src="assets/flags/{{ getActiveLanguage() }}.svg" class="flag-icon" alt="">  <span class="d-lg-none ms-2">Select a languages</span>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('en')" [attr.aria-pressed]="getActiveLanguage() ===  'en' ">
+        <img src="assets/flags/en.svg" class="flag-icon" alt="English">
+        English
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('fr')" [attr.aria-pressed]="getActiveLanguage() ===  'fr' ">
+        <img src="assets/flags/fr.svg" class="flag-icon" alt="Français">
+        Français
+      </button>
+    </li>
+  </ul>
+</li>

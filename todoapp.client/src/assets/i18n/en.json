@@ -9,7 +9,7 @@
     "AngularLanguageService": "Angular Language Service",
     "AngularDevTools": "Angular DevTools"
   },
-  "SocialLinks": {
+  "socialLinks": {
     "Twitter": "Twitter",
     "Facebook": "Facebook",
     "LinkedIn": "LinkedIn",
@@ -18,7 +18,36 @@
   },
   "dialogMessages": {
     "confirmTitle": "Wait! Hold up!",
-    "confirmDescription": "Are you sure you want to delete this todo? Because it will be gone forever!"
+    "confirmDescription": "Are you sure you want to delete this todo? Because it will be gone forever!",
+    "negativeBtn": "No",
+    "positiveBtn": "Yes",
+    "neutralBtn": "Cancel",
+    "OkCancelBtn": "Ok"
+  },
+  "todoList": {
+    "filterSelection": "Filter Selection",
+    "completed": "Completed",
+    "notCompleted": "Not Completed",
+    "todays": "Today's",
+    "tomorrows": "Tomorrow's",
+    "dateForTodo": "Date for Todo",
+    "deleteTodo": "Delete Todo",
+    "addTodo": "Add Todo"
+  },
+  "aboutPage": {
+    "about": "About",
+    "description": "This Todo application was built by Joshua Mckenna. This app was built by to learn angular and minimal web apis This app is not for product used as it does't support multiusers."
+  },
+  "NAV": {
+    "BRAND": "BigTodos",
+    "BIG_TODOS": "BigTodos",
+    "SIDEBAR_TITLE": "Sidebar",
+    "HOME": "Home",
+    "ABOUT": "About",
+    "TOGGLE_THEME": "Toggle theme",
+    "LIGHT_THEME": "Light",
+    "DARK_THEME": "Dark",
+    "AUTO_THEME": "Auto"
   }
 }
 

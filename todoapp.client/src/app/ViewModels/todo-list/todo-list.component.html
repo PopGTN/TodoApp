@@ -7,11 +7,11 @@
   }
   @if (!error && todoItems) {
     <div class="mt-2 border-1 border-bottoms">
-      <mat-chip-listbox aria-label="Filter Selection" [(ngModel)]="filterOption" (change)="filterSelected($event)">
-        <mat-chip-option [value]="FilterOption.completed">Completed</mat-chip-option>
-        <mat-chip-option [value]="FilterOption.notCompleted">Not Completed</mat-chip-option>
-        <mat-chip-option [value]="FilterOption.todays">Today's</mat-chip-option>
-        <mat-chip-option [value]="FilterOption.tomorrows">Tomorrow's</mat-chip-option>
+      <mat-chip-listbox attr.aria-label="{{ 'todoList.filterSelection' | transloco }}" [(ngModel)]="filterOption" (change)="filterSelected($event)">
+        <mat-chip-option [value]="FilterOption.completed">{{ 'todoList.completed' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.notCompleted">{{ 'todoList.notCompleted' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.todays">{{ 'todoList.todays' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.tomorrows">{{ 'todoList.tomorrows' | transloco }}</mat-chip-option>
       </mat-chip-listbox>
     </div>
     <div class=" w-100">
@@ -29,11 +29,11 @@
               <div class="fw-bold">{{ todoItem.title }}</div>
               {{ todoItem.description }}
               <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
-                <small><span class="text-sm-center" placement="bottom" ngbTooltip="Date for Todo">
+                <small><span class="text-sm-center" placement="bottom" ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}">
                   <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small>
               </div>
             </div>
-            <button class="btn text-bg-primary rounded-pill " placement="top" ngbTooltip="Delete Todo"
+            <button class="btn text-bg-primary rounded-pill " placement="top" ngbTooltip="{{ 'todoList.deleteTodo' | transloco }}" attr.aria-label="{{ 'todoList.deleteTodo' | transloco }}"
                     (click)="openDeleteDialog($event, index, todoItem)">
               <i class=" bi bi-trash"></i>
             </button>
@@ -51,6 +51,6 @@
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
       <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
     </svg>
-    Add Todo
+    {{ "todoList.addTodo" | transloco}}
   </button>
 </div>

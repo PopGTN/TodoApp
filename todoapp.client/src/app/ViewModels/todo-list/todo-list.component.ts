@@ -19,9 +19,9 @@ import {interval, Subscription} from "rxjs";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatChipListbox, MatChipListboxChange, MatChipOption} from "@angular/material/chips";
+import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
-import {TranslocoService} from "@ngneat/transloco";
+import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-todo-list',
@@ -44,6 +44,9 @@ import {TranslocoService} from "@ngneat/transloco";
     FormsModule,
     MatChipOption,
     MatChipListbox,
+    TranslocoPipe,
+    MatChipsModule,
+
   ],
 })
 
@@ -282,7 +285,10 @@ export class TodoListComponent implements OnInit {
       data: {
         dialogType: DialogType.YesOrNo,
         title: this.translocoService.translate('dialogMessages.confirmTitle'),
-        description: this.translocoService.translate('dialogMessages.confirmDescription')
+        description: this.translocoService.translate('dialogMessages.confirmDescription'),
+        neutralBtn:  this.translocoService.translate('dialogMessages.neutralBtn'),
+        negativeBtn: this.translocoService.translate('dialogMessages.negativeBtn'),
+        positiveBtn: this.translocoService.translate('dialogMessages.positiveBtn'),
       },
       disableClose: true,
       height: 'fit-content',

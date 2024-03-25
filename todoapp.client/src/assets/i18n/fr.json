@@ -1,13 +1,13 @@
 {
   "404Page": {
-    "Title": "404 Page Not Found",
-    "SubTitle": "Something went wrong",
-    "Button": "Go Back",
-    "ExploreDocs": "Explore the Docs",
-    "LearnTutorials": "Learn with Tutorials",
-    "CLIDocs": "CLI Docs",
-    "AngularLanguageService": "Angular Language Service",
-    "AngularDevTools": "Angular DevTools"
+    "Title": "404 Page non trouvée",
+    "SubTitle": "Quelque chose s'est mal passé",
+    "Button": "Retourner",
+    "ExploreDocs": "Explorer la documentation",
+    "LearnTutorials": "Apprendre avec des tutoriels",
+    "CLIDocs": "Documentation de l'interface en ligne de commande (CLI)",
+    "AngularLanguageService": "Service de langage Angular",
+    "AngularDevTools": "Outils de développement Angular"
   },
   "SocialLinks": {
     "Twitter": "Twitter",
@@ -15,5 +15,38 @@
     "LinkedIn": "LinkedIn",
     "Instagram": "Instagram",
     "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "Attendez ! Arrêtez !",
+    "confirmDescription": "Êtes-vous sûr de vouloir supprimer cette tâche ? Car elle disparaîtra pour toujours !",
+    "NegativeBtn": "Non",
+    "PositiveBtn": "Oui",
+    "NeturalBtn": "Annuler",
+    "OkCancelBtn": "Ok"
+  },
+  "todoList": {
+    "filterSelection": "Sélection de filtre",
+    "completed": "Terminé",
+    "notCompleted": "Non terminé",
+    "todays": "Aujourd'hui",
+    "tomorrows": "Demain",
+    "dateForTodo": "Date pour la tâche",
+    "deleteTodo": "Supprimer la tâche",
+    "addTodo": "Ajouter une tâche"
+  },
+  "aboutPage": {
+    "about": "À propos",
+    "description": "Cette application Todo a été construite par Joshua Mckenna. Cette application a été construite pour apprendre angular et les apis web minimales. Cette application n'est pas destinée à être utilisée en production car elle ne prend pas en charge plusieurs utilisateurs."
+  },
+  "NAV": {
+    "BRAND": "BigTodos",
+    "BIG_TODOS": "BigTodos",
+    "SIDEBAR_TITLE": "Barre latérale",
+    "HOME": "Accueil",
+    "ABOUT": "À propos",
+    "TOGGLE_THEME": "Changer de thème",
+    "LIGHT_THEME": "Clair",
+    "DARK_THEME": "Sombre",
+    "AUTO_THEME": "Auto"
   }
 }
