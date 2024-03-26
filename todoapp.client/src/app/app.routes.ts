@@ -18,17 +18,3 @@ export const routes: Routes = [
   {path: '**', component: PageNotFoundComponent},  // Wildcard route for a 404 page
 
 ];
-/*
-export const routes: Routes = [
-  {
-    path: '',
-    component: MainComponent,
-    data: { titleKey: 'routeTitles.home' }, // Translation key for home title
-    children: [
-      { path: '', component: TodoListComponent },
-      { path: 'about', component: AboutComponent, data: { titleKey: 'routeTitles.about' } }
-    ]
-  },
-  { path: '**', component: PageNotFoundComponent } // Wildcard route for a 404 page
-];
-*/

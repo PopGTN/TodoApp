@@ -21,7 +21,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-start p-2"
               (click)="openEditDialog(todoItem)">
             <div class="">
-              <input type="checkbox" class="form-check-input d-flex  rounded-circle"
+              <input type="checkbox" class="form-check-input d-flex  rounded-circle" attr.aria-label="Check {{todoItem.title}} as completed!"
                      [(ngModel)]="todoItem.isComplete" (change)="taskComplete($event, todoItem)"
                      (click)="$event.stopPropagation();">
             </div>
@@ -30,7 +30,7 @@
               <div class="fw-bold">{{ todoItem.title }}</div>
               {{ todoItem.description }}
               <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
-                <small><span class="text-sm-center" placement="bottom"
+                <small><span class="text-sm-center" placement="bottom" aria-label
                              ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}"   container="body"
                 >
                   <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small>
