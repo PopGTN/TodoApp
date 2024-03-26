@@ -1,7 +1,7 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<main class="container overflow-hidden w-100">
+<main class="container overflow-hidden">
   @if (error) {
     {{ error }}
   }
@@ -16,7 +16,7 @@
       </mat-chip-listbox>
     </div>
     @if (!error && todoItems) {
-    <div class=" w-100">
+    <div class="">
       <ol class="list-group list-group-flush">
         @for (todoItem of todoItems; track todoItem.id; let index = $index) {
           <li class="list-group-item d-flex justify-content-between align-items-start p-2"
