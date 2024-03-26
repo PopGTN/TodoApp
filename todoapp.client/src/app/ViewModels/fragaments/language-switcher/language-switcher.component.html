@@ -1,19 +1,43 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <!--<i class="bi bi-translate"></i>-->
-    <img src="assets/flags/{{ getActiveLanguage() }}.svg" class="flag-icon" alt="">  <span class="d-lg-none ms-2">Select a languages</span>
+    <img src="assets/flags/{{ getActiveLanguage() }}.svg" class="flag-icon" alt=""><span class="d-lg-none ms-2">{{ 'selectLanguage' | transloco }}</span>
   </a>
   <ul class="dropdown-menu dropdown-menu-end w-100">
     <li>
-      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('en')" [attr.aria-pressed]="getActiveLanguage() ===  'en' ">
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('en')" [attr.aria-pressed]="getActiveLanguage() === 'en'">
         <img src="assets/flags/en.svg" class="flag-icon" alt="English">
         English
       </button>
     </li>
     <li>
-      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('fr')" [attr.aria-pressed]="getActiveLanguage() ===  'fr' ">
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('fr')" [attr.aria-pressed]="getActiveLanguage() === 'fr'">
         <img src="assets/flags/fr.svg" class="flag-icon" alt="Français">
         Français
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('de')" [attr.aria-pressed]="getActiveLanguage() === 'de'">
+        <img src="assets/flags/de.svg" class="flag-icon" alt="Deutsch">
+        Deutsch
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('es')" [attr.aria-pressed]="getActiveLanguage() === 'es'">
+        <img src="assets/flags/es.svg" class="flag-icon" alt="Español">
+        Español
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('hi')" [attr.aria-pressed]="getActiveLanguage() === 'hi'">
+        <img src="assets/flags/hi.svg" class="flag-icon" alt="हिन्दी">
+        हिन्दी
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('ja')" [attr.aria-pressed]="getActiveLanguage() === 'ja'">
+        <img src="assets/flags/ja.svg" class="flag-icon" alt="日本語">
+        日本語
       </button>
     </li>
   </ul>

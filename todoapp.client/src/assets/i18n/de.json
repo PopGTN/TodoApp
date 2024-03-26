@@ -1,0 +1,72 @@
+﻿{
+  "404Page": {
+    "Title": "404 Seite nicht gefunden",
+    "SubTitle": "Etwas ist schief gelaufen",
+    "Button": "Zurück",
+    "ExploreDocs": "Dokumentation erkunden",
+    "LearnTutorials": "Lernen mit Tutorials",
+    "CLIDocs": "CLI Dokumentation",
+    "AngularLanguageService": "Angular-Sprachdienst",
+    "AngularDevTools": "Angular Entwicklerwerkzeuge"
+  },
+  "socialLinks": {
+    "Twitter": "Twitter",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Instagram": "Instagram",
+    "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "🫸🛑 Warten! Halt!",
+    "confirmDescription": "Sind Sie sicher, dass Sie diese Aufgabe löschen möchten? Denn sie wird für immer verschwinden!",
+    "negativeBtn": "Nein",
+    "positiveBtn": "Ja",
+    "neutralBtn": "Abbrechen",
+    "OkCancelBtn": "Ok",
+    "formErrorTitle": "🫸🛑 HALT!",
+    "formTitleErrorDesc": "Aufgabe muss einen Titel haben"
+  },
+  "todoList": {
+    "filterSelection": "Filterauswahl",
+    "completed": "Abgeschlossen",
+    "notCompleted": "Nicht abgeschlossen",
+    "todays": "Heutige",
+    "tomorrows": "Morgige",
+    "dateForTodo": "Datum für Aufgabe",
+    "deleteTodo": "Aufgabe löschen",
+    "addTodo": "Aufgabe hinzufügen"
+  },
+  "aboutPage": {
+    "about": "Über",
+    "description": "Diese Todo-Anwendung wurde von Joshua Mckenna erstellt. Diese App wurde entwickelt, um Angular und minimale Web-APIs zu lernen. Diese App ist nicht für den Produktgebrauch geeignet, da sie keine Unterstützung für mehrere Benutzer bietet."
+  },
+  "NAV": {
+    "BRAND": "Große Aufgaben",
+    "BIG_TODOS": "Große Aufgaben",
+    "SIDEBAR_TITLE": "Seitenleiste",
+    "HOME": "Startseite",
+    "ABOUT": "Über",
+    "TOGGLE_THEME": "Design umschalten",
+    "LIGHT_THEME": "Hell",
+    "DARK_THEME": "Dunkel",
+    "AUTO_THEME": "Automatisch"
+  },
+  "todoDIALOG": {
+    "TITLE": "Titel",
+    "DESCRIPTION": "Beschreibung",
+    "DATE_TIME": "Datum & Uhrzeit",
+    "CANCEL": "Abbrechen",
+    "SUBMIT": "Absenden"
+  },
+  "routeTitles": {
+    "home": "Startseite",
+    "about": "Über"
+  },
+  "snackbar": {
+    "successCompleteMessage": "Erfolgreich abgeschlossen! Gut gemacht!",
+    "successUncompleteMessage": "Erfolgreich nicht abgeschlossen! Gut gemacht? Ich nehme an?",
+    "errorMessage": "Etwas ist schief gelaufen!",
+    "dismiss": "Schließen"
+  },
+  "selectLanguage": "Wähle eine Sprache"
+}

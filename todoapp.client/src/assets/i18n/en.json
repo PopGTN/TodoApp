@@ -67,7 +67,8 @@
     "successUncompleteMessage": "Successfully unCompleted! Good Job? I guess?",
     "errorMessage": "Something went wrong!",
     "dismiss": "Dismiss"
-  }
+  },
+  "selectLanguage": "Select a language"
 }
 
 

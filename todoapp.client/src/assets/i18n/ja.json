@@ -1,0 +1,72 @@
+﻿{
+  "404Page": {
+    "Title": "404 ページが見つかりません",
+    "SubTitle": "何かがうまくいかなかった",
+    "Button": "戻る",
+    "ExploreDocs": "ドキュメントを探索する",
+    "LearnTutorials": "チュートリアルで学ぶ",
+    "CLIDocs": "CLI ドキュメント",
+    "AngularLanguageService": "Angular 言語サービス",
+    "AngularDevTools": "Angular 開発ツール"
+  },
+  "socialLinks": {
+    "Twitter": "ツイッター",
+    "Facebook": "フェイスブック",
+    "LinkedIn": "LinkedIn",
+    "Instagram": "インスタグラム",
+    "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "🫸🛑 ちょっと待って！",
+    "confirmDescription": "このタスクを削除してもよろしいですか？ なぜなら、それは永遠に消えてしまうからです！",
+    "negativeBtn": "いいえ",
+    "positiveBtn": "はい",
+    "neutralBtn": "キャンセル",
+    "OkCancelBtn": "OK",
+    "formErrorTitle": "🫸🛑 ちょっと待って！",
+    "formTitleErrorDesc": "タスクにはタイトルが必要です"
+  },
+  "todoList": {
+    "filterSelection": "フィルターの選択",
+    "completed": "完了",
+    "notCompleted": "未完了",
+    "todays": "今日の",
+    "tomorrows": "明日の",
+    "dateForTodo": "タスクの日付",
+    "deleteTodo": "タスクを削除",
+    "addTodo": "タスクを追加"
+  },
+  "aboutPage": {
+    "about": "概要",
+    "description": "このTodoアプリケーションは、Joshua Mckennaによって構築されました。このアプリケーションはAngularと最小限のWeb APIを学ぶために構築されました。このアプリケーションは複数のユーザーをサポートしていないため、製品として使用することはできません。"
+  },
+  "NAV": {
+    "BRAND": "ビッグタスク",
+    "BIG_TODOS": "ビッグタスク",
+    "SIDEBAR_TITLE": "サイドバー",
+    "HOME": "ホーム",
+    "ABOUT": "概要",
+    "TOGGLE_THEME": "テーマを切り替える",
+    "LIGHT_THEME": "明るい",
+    "DARK_THEME": "暗い",
+    "AUTO_THEME": "自動"
+  },
+  "todoDIALOG": {
+    "TITLE": "タイトル",
+    "DESCRIPTION": "説明",
+    "DATE_TIME": "日付と時刻",
+    "CANCEL": "キャンセル",
+    "SUBMIT": "送信"
+  },
+  "routeTitles": {
+    "home": "ホーム",
+    "about": "概要"
+  },
+  "snackbar": {
+    "successCompleteMessage": "正常に完了しました！ お疲れ様でした！",
+    "successUncompleteMessage": "正常に未完了！ お疲れ様ですか？ たぶん？",
+    "errorMessage": "何かがうまくいきませんでした！",
+    "dismiss": "閉じる"
+  },
+  "selectLanguage": "言語を選択"
+}

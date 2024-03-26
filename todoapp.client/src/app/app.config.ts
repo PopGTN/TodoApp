@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()), provideAnimationsAsync(), provideHttpClient(),
     {provide: TitleStrategy, useClass: TitleStrategyService}, {provide: TodoItemService}, provideTransloco({
         config: {
-          availableLangs: ['en', 'fr'],
+          availableLangs: ['en', 'fr','hi','de','es','ja'],
           defaultLang: 'en',
           // Remove this option if your application doesn't support changing language in runtime.
           reRenderOnLangChange: true,

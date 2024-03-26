@@ -1,0 +1,72 @@
+﻿{
+  "404Page": {
+    "Title": "404 Página no encontrada",
+    "SubTitle": "Algo salió mal",
+    "Button": "Volver",
+    "ExploreDocs": "Explorar la documentación",
+    "LearnTutorials": "Aprender con tutoriales",
+    "CLIDocs": "Documentación de CLI",
+    "AngularLanguageService": "Servicio de lenguaje Angular",
+    "AngularDevTools": "Herramientas de desarrollo Angular"
+  },
+  "socialLinks": {
+    "Twitter": "Twitter",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Instagram": "Instagram",
+    "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "🫸🛑 ¡Espera! ¡Detente!",
+    "confirmDescription": "¿Estás seguro de que quieres eliminar esta tarea? ¡Porque desaparecerá para siempre!",
+    "negativeBtn": "No",
+    "positiveBtn": "Sí",
+    "neutralBtn": "Cancelar",
+    "OkCancelBtn": "Ok",
+    "formErrorTitle": "🫸🛑 ¡ESPERA!",
+    "formTitleErrorDesc": "La tarea debe tener un título"
+  },
+  "todoList": {
+    "filterSelection": "Selección de filtro",
+    "completed": "Completado",
+    "notCompleted": "No completado",
+    "todays": "De hoy",
+    "tomorrows": "De mañana",
+    "dateForTodo": "Fecha para la tarea",
+    "deleteTodo": "Eliminar tarea",
+    "addTodo": "Agregar tarea"
+  },
+  "aboutPage": {
+    "about": "Acerca de",
+    "description": "Esta aplicación Todo fue construida por Joshua Mckenna. Esta aplicación fue construida para aprender Angular y APIs web mínimas. Esta aplicación no está destinada para uso en producción ya que no admite múltiples usuarios."
+  },
+  "NAV": {
+    "BRAND": "Grandes Tareas",
+    "BIG_TODOS": "Grandes Tareas",
+    "SIDEBAR_TITLE": "Barra lateral",
+    "HOME": "Inicio",
+    "ABOUT": "Acerca de",
+    "TOGGLE_THEME": "Cambiar tema",
+    "LIGHT_THEME": "Claro",
+    "DARK_THEME": "Oscuro",
+    "AUTO_THEME": "Automático"
+  },
+  "todoDIALOG": {
+    "TITLE": "Título",
+    "DESCRIPTION": "Descripción",
+    "DATE_TIME": "Fecha y Hora",
+    "CANCEL": "Cancelar",
+    "SUBMIT": "Enviar"
+  },
+  "routeTitles": {
+    "home": "Inicio",
+    "about": "Acerca de"
+  },
+  "snackbar": {
+    "successCompleteMessage": "¡Completado exitosamente! ¡Buen trabajo!",
+    "successUncompleteMessage": "¡Descompletado exitosamente! ¿Buen trabajo? ¡Supongo!",
+    "errorMessage": "¡Algo salió mal!",
+    "dismiss": "Descartar"
+  },
+  "selectLanguage": "Selecciona un idioma"
+}

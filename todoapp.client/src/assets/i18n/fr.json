@@ -67,5 +67,6 @@
     "successUncompleteMessage": "Non terminé avec succès ! Bien joué ? Je suppose ?",
     "errorMessage": "Quelque chose s'est mal passé !",
     "dismiss": "Fermer"
-  }
+  },
+  "selectLanguage": "Sélectionnez une langue"
 }
