@@ -13,7 +13,8 @@ import {LanguageService} from "./Core/Services/Language.Service";
 export class AppComponent implements OnInit{
   constructor(private languageService: LanguageService) {}
     ngOnInit(): void {
-      this.languageService.setDefaultLanguage();
+      // @ts-ignore
+      this.languageService.setLanguageBasedOnPreference();
     }
 }
 

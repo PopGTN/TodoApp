@@ -1,6 +1,5 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" attr.aria-label="{{ 'selectLanguage' | transloco}}">
-    <!--<i class="bi bi-translate"></i>-->
     <img src="assets/flags/{{ getActiveLanguage() }}.svg" class="flag-icon" alt=""><span class="d-lg-none ms-2">{{ 'selectLanguage' | transloco }}</span>
   </a>
   <ul class="dropdown-menu dropdown-menu-end w-100">
@@ -38,6 +37,12 @@
       <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('ja')" [attr.aria-pressed]="getActiveLanguage() === 'ja'">
         <img src="assets/flags/ja.svg" class="flag-icon" alt="日本語">
         日本語
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" (click)="setLanguage('auto')" [attr.aria-pressed]="getActiveLanguage() === 'auto'">
+        <i class="bi bi-translate me-2"></i>
+        Auto
       </button>
     </li>
   </ul>

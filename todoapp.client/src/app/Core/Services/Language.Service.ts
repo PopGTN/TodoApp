@@ -1,12 +1,30 @@
 ﻿import {TranslocoService} from "@ngneat/transloco";
 import {Injectable} from "@angular/core";
+
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  constructor(private translocoService: TranslocoService) { }
+  constructor(private translocoService: TranslocoService) {
+  }
 
-  setDefaultLanguage() {
+  setLanguageBasedOnPreference() {
+    const storedPreference = localStorage.getItem('languagePreference');
+
+    if (storedPreference) {
+      if (storedPreference === 'auto') {
+        this.setBrowserDefaultLanguage();
+      } else {
+        this.translocoService.setActiveLang(storedPreference);
+      }
+    } else {
+      // If there's no stored preference, default to auto
+      localStorage.setItem('languagePreference', 'auto');
+      this.setBrowserDefaultLanguage();
+    }
+  }
+
+  setBrowserDefaultLanguage() {
     const browserLanguage = navigator.language.split('-')[0]; // Extract the language code
     const supportedLanguages = ['en', 'fr', 'de', 'es', 'hi', 'ja']; // List of supported languages
 
@@ -19,5 +37,15 @@ export class LanguageService {
       this.translocoService.setActiveLang(defaultLanguage);
       localStorage.setItem('preferredLanguage', defaultLanguage);
     }
+  }
+
+  setLanguagePreference(preference: string) {
+    localStorage.setItem('languagePreference', preference);
+    if (preference === 'auto') {
+      this.setBrowserDefaultLanguage();
+    } else {
+      this.translocoService.setActiveLang(preference);
+    }
+
   }
 }
