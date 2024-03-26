@@ -80,7 +80,7 @@ export class TodoListComponent implements OnInit {
     // Check for updates every 5 seconds (adjust the interval as needed)
     this.timerSubscription = interval(5000).subscribe(() => {
       //console.log("loaded")
-      this.loadTodoList();
+      this.loadTodoList(false);
     });
   }
 
@@ -95,7 +95,7 @@ export class TodoListComponent implements OnInit {
     Only needs to show the load on first load because after that its already loaded and the
     it get check if changed and it will only update when it gets the data from the api
     */
-  loadTodoList(isFirstLoad = false) {
+  loadTodoList(isFirstLoad = true) {
     let apiCall;
     if (isFirstLoad) {
       this.isLoading = true;
@@ -226,7 +226,7 @@ export class TodoListComponent implements OnInit {
       if (result) {
         let apiCall = this.todoItemService.update(todoItem.id, result).subscribe(
           (res) => {
-            this.loadTodoList()
+            this.loadTodoList(false)
             dialogRefSub.unsubscribe();
             apiCall.unsubscribe();
           },
@@ -262,7 +262,7 @@ export class TodoListComponent implements OnInit {
           let apiCall = this.todoItemService.create(result).subscribe(
             (res) => {
               //console.log(res);
-              this.loadTodoList()
+              this.loadTodoList(false)
               dialogRefSub.unsubscribe();
               apiCall.unsubscribe();
             },
@@ -301,7 +301,7 @@ export class TodoListComponent implements OnInit {
         if (btnType === DialogBtnType.Positive) {
           let apiCall = this.todoItemService.delete(todoItem.id).subscribe(
             (result) => {
-              this.loadTodoList()
+              this.loadTodoList(false)
               apiCall.unsubscribe();
               dialogRefSub.unsubscribe();
             },
@@ -329,7 +329,7 @@ export class TodoListComponent implements OnInit {
         } else {
           let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.successUncompleteMessage'), "", {duration: 800});
         }
-        this.loadTodoList();
+        this.loadTodoList(false);
         apiCall.unsubscribe();
       },
       (error) => {
@@ -344,7 +344,7 @@ export class TodoListComponent implements OnInit {
 
   /*Applys The filter to the Page*/
   filterSelected($event: MatChipListboxChange) {
-    this.loadTodoList();
+    this.loadTodoList(true);
   }
 
 
