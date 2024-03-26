@@ -22,6 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
+import
 
 @Component({
   selector: 'app-todo-list',
@@ -346,6 +347,5 @@ export class TodoListComponent implements OnInit {
   filterSelected($event: MatChipListboxChange) {
     this.loadTodoList(true);
   }
-
 
 }

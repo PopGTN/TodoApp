@@ -77,7 +77,8 @@ export class TodoDialogComponent {
       data: {
         dialogType: DialogType.Ok,
         title: this.translocoService.translate('dialogMessages.formErrorTitle'),
-        description: this.errorMessage
+        description: this.errorMessage,
+        neutralBtn: this.translocoService.translate('dialogMessages.OkCancelBtn'),
 
       },
         height: 'fit-content',

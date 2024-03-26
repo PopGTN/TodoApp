@@ -5,7 +5,7 @@
   @if (error) {
     {{ error }}
   }
-  @if (!error && todoItems) {
+  @if (!isLoading && todoItems) {
     <div class="mt-2 border-1 border-bottoms">
       <mat-chip-listbox attr.aria-label="{{ 'todoList.filterSelection' | transloco }}" [(ngModel)]="filterOption"
                         (change)="filterSelected($event)">
@@ -15,6 +15,7 @@
         <mat-chip-option [value]="FilterOption.tomorrows">{{ 'todoList.tomorrows' | transloco }}</mat-chip-option>
       </mat-chip-listbox>
     </div>
+    @if (!error && todoItems) {
     <div class=" w-100">
       <ol class="list-group list-group-flush">
         @for (todoItem of todoItems; track todoItem.id; let index = $index) {
@@ -48,6 +49,7 @@
         }
       </ol>
     </div>
+    }
   }
 </main>
 <div id="fabContainers" class="container">
