@@ -3,6 +3,8 @@ import {RouterOutlet, TitleStrategy} from "@angular/router";
 
 import {NavbarComponent} from "../fragaments/navbar/navbar.component";
 import {FooterComponent} from "../fragaments/footer/footer.component";
+import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 /**
@@ -22,9 +24,11 @@ import {FooterComponent} from "../fragaments/footer/footer.component";
     RouterOutlet,
     NavbarComponent,
     FooterComponent,
+    MatMiniFabButton,
+    MatFabButton,
+    MatIconModule,
   ],
 
 })
 export class MainComponent {
-
 }

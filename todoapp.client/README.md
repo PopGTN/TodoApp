@@ -3,6 +3,7 @@
 This project is Joshua Mckenna's Todo App onboarding project
 
 ### File Structure Explained
+
 I devised a design structure that feels organized and logical, as I wasn't sure of the typical structure. Therefore, I developed one and decided to document it for others who may examine my project, ensuring understanding. I conducted research to gather ideas on how Angular projects are typically organized. I found various designs, but they were mostly similar and so I took all the similar and shared attributes and implemented them in away that made sense for this project.
 
 Starting with components, I decided to organize all the Components/Pages in a folder called ViewModel. Any child components that won't be used elsewhere will reside in a folder named ``Subcomponents``, which is within the parent Controller. Since there might be components used in multiple places, I created a folder called ``Fragments`` to contain such components.
@@ -12,6 +13,7 @@ Regarding routing, I realized that not all pages may share the same design, such
 There is Core fold will have a folders to hold Models, Services, and possible Controllers for handling business logic. Each of these will be in their respected folders./ I seen a core file was used offen in design patterns when researching them
 
 #### Tree Structure Example
+
 ```
 Src/app/
 ├── Core/

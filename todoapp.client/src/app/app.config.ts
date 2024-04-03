@@ -6,7 +6,6 @@ import {TodoItemService} from "./Core/Services/TodoItem.Service";
 import {TitleStrategyService} from "./Core/Services/TitleStrategy.Service";
 import {provideHttpClient} from "@angular/common/http";
 
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()), provideAnimationsAsync(), provideHttpClient(),

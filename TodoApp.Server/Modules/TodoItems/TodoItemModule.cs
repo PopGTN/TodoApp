@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoApp.Server.DTOs;
 using TodoApp.Server.Interfaces;
+using TodoApp.Server.Models;
 
 namespace TodoApp.Server.Modules;
 
 public class TodoItemModule : IModule
 {
-  public bool TestingMode { set; get; } = false; //Moved from Program.cs
-
   public IServiceCollection RegisterModule(IServiceCollection services)
   {
     return services;
@@ -18,6 +16,9 @@ public class TodoItemModule : IModule
     var mapGroup = endpoints.MapGroup("todoitems");
     mapGroup.MapGet("/", GetAllTodos);
     mapGroup.MapGet("/complete", GetCompleteTodos);
+    mapGroup.MapGet("/notcomplete", GetNotCompleteTodos);
+    mapGroup.MapGet("/todays", GetTodayTodos);
+    mapGroup.MapGet("/tommorrows", GetTomorrowTodos);
     mapGroup.MapGet("/{idP}", GetTodo);
     mapGroup.MapPost("/", CreateTodo);
     mapGroup.MapPut("/{idP}", UpdateTodo);
@@ -26,15 +27,35 @@ public class TodoItemModule : IModule
     return mapGroup;
   }
 
-
   private async Task<IResult> GetAllTodos(TodoContext dbP)
   {
     return TypedResults.Ok(await dbP.TodoItems.Select(x => new TodoItemDTO(x)).ToArrayAsync());
   }
 
+  private async Task<IResult> GetTodayTodos(TodoContext dbP)
+  {
+    return TypedResults.Ok(await dbP.TodoItems
+      .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete)
+      .Select(x => new TodoItemDTO(x))
+      .ToListAsync());
+  }
+
+  private async Task<IResult> GetTomorrowTodos(TodoContext dbP)
+  {
+    return TypedResults.Ok(await dbP.TodoItems
+      .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today.AddDays(1) && !t.IsComplete)
+      .Select(x => new TodoItemDTO(x))
+      .ToListAsync());
+  }
+
   private async Task<IResult> GetCompleteTodos(TodoContext dbP)
   {
     return TypedResults.Ok(await dbP.TodoItems.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
+  }
+
+  private async Task<IResult> GetNotCompleteTodos(TodoContext dbP)
+  {
+    return TypedResults.Ok(await dbP.TodoItems.Where(t => !t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
   }
 
   private async Task<IResult> GetTodo(int idP, TodoContext dbP)
@@ -52,7 +73,7 @@ public class TodoItemModule : IModule
       IsComplete = todoItemDTOP.IsComplete,
       Title = todoItemDTOP.Title,
       Description = todoItemDTOP.Description,
-      DateTime = todoItemDTOP.DateTime
+      DateTime = todoItemDTOP.getDateTimeObject()
     };
 
     dbP.TodoItems.Add(todoItem);
@@ -67,12 +88,15 @@ public class TodoItemModule : IModule
   {
     var todoItem = await dbP.TodoItems.FindAsync(idP);
 
-    if (todoItem is null) return TypedResults.NotFound();
+    if (todoItem is null)
+    {
+      return TypedResults.NotFound();
+    }
 
 
     todoItem.Title = todoItemDTOP.Title;
     todoItem.Description = todoItemDTOP.Description;
-    todoItem.DateTime = todoItemDTOP.DateTime;
+    todoItem.DateTime = todoItemDTOP.getDateTimeObject();
     todoItem.IsComplete = todoItemDTOP.IsComplete;
 
     await dbP.SaveChangesAsync();

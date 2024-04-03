@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Globalization;
 using NUnit.Framework;
 using FluentAssertions;
 using RestSharp;
@@ -6,110 +8,177 @@ using System.Net.Http.Json;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
-using TodoApp.Server.DTOs;
 using Microsoft.Extensions.Configuration;
+using Refit;
+using TodoApp.Server.Models;
 
-namespace TodoApp.Test_Project
+namespace TodoApp.Test_Project;
+
+[TestFixture]
+public class TodoApiUnitTesting
 {
-  [TestFixture]
-  public class TodoApiUnitTesting
+  private WebApplicationFactory<Program>? _webAppFactory;
+  private HttpClient? _httpClient;
+  private ITodoApi? _todoApi;
+
+
+  [OneTimeSetUp]
+  public void Setup()
   {
-    private WebApplicationFactory<Program>? _webAppFactory;
-    private HttpClient? _httpClient;
-
-    [OneTimeSetUp]
-    public void Setup()
-    {
-      _webAppFactory = new WebApplicationFactory<Program>()
-        .WithWebHostBuilder(builder =>
+    _webAppFactory = new WebApplicationFactory<Program>()
+      .WithWebHostBuilder(builder =>
+      {
+        builder.ConfigureAppConfiguration((context, conf) =>
         {
-          builder.ConfigureAppConfiguration((context, conf) =>
-          {
-            conf.AddJsonFile("appsettings.Testing.json");
-          });
+          conf.AddJsonFile("appsettings.Testing.json");
         });
-      _httpClient = _webAppFactory.CreateDefaultClient();
-    }
+      });
 
-    [OneTimeTearDown]
-    public void TearDown()
+
+    _httpClient = _webAppFactory.CreateDefaultClient();
+    _todoApi = RestService.For<ITodoApi>(_httpClient);
+  }
+
+
+  [OneTimeTearDown]
+  public void TearDown()
+  {
+    _httpClient?.Dispose();
+    _webAppFactory?.Dispose();
+  }
+
+  [Test]
+  public async Task GetTodoItemList_WhenCalled_ReturnsTodoItemList()
+  {
+    //Act
+    var todoListResults = await _todoApi.GetAllTodoItemsAsync();
+    //Assert
+    todoListResults.Should().NotBeEmpty();
+  }
+
+  [Test]
+  public async Task GetCompletedTodoItems_WhenCalled_ReturnsOnlyCompletedItems()
+  {
+    //Act
+    var todoListResults = await _todoApi.GetCompletedTodoItemsAsync();
+    //Assert
+    todoListResults.Should().NotBeEmpty();
+    todoListResults.Should().OnlyContain(todoItem => todoItem.IsComplete);
+  }
+
+  [Test]
+  public async Task GetNotCompletedTodoItems_WhenCalled_ReturnsOnlyNotCompletedItems()
+  {
+    //Act
+
+    var todoListResults = await _todoApi.GetNotCompletedTodoItemsAsync();
+    ;
+    //Assert
+    todoListResults.Should().NotBeEmpty();
+    todoListResults.Should().OnlyContain(todoItem => !todoItem.IsComplete);
+  }
+
+  [Test]
+  public async Task PostTodo_WhenCalledWithValidTodoItem_ReturnsValidTodoItem()
+  {
+    // Arrange
+    var newIncompleteTodoItemDto = new TodoItemDTO
     {
-      _httpClient?.Dispose();
-      _webAppFactory?.Dispose();
-    }
+      Title = "Debugging Todo",
+      Description = "This todo is create from the testing Project which is debugging project",
+      DateTime = DateTime.Today.AddDays(5).ToString(), //this tests if the Convertion of the datetime object works
+      IsComplete = false
+    };
 
-    [Test]
-    public async Task GetTodoItemList_WhenCalled_ReturnsTodoItemList()
+
+    var validTodoItem = await _todoApi.PostTodoItemAsync(newIncompleteTodoItemDto);
+    //Assert
+    validTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
+      .Excluding(dto => dto.Id));
+
+    // Cleanup
+    await _todoApi.DeleteTodoItemAsync(validTodoItem.Id);
+  }
+
+  [Test]
+  public async Task PostTodoWithNoDAte_WhenCalledWithValidTodoItem_ReturnsValidTodoItem()
+  {
+    //Arrange
+    var newIncompleteTodoItemDto = new TodoItemDTO
     {
-      //Act
-      var response = await _httpClient.GetAsync("todoitems");
-      response.EnsureSuccessStatusCode();
-      var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
-      //Assert
-      todoListResults.Should().NotBeEmpty();
-    }
+      Title = "Debugging Todo",
+      Description = "This todo is create from the testing Project which is debugging project",
+      IsComplete = false
+    };
 
-    [Test]
-    public async Task GetCompletedTodoItems_WhenCalled_ReturnsOnlyCompletedItems()
+    // Act
+    var validTodoItem = await _todoApi.PostTodoItemAsync(newIncompleteTodoItemDto);
+    //Assert
+    validTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
+      .Excluding(dto => dto.Id));
+
+    // Cleanup
+    await _todoApi.DeleteTodoItemAsync(validTodoItem.Id);
+  }
+
+  [Test]
+  public async Task GetTodoItem_WhenCalledWithValidId_ReturnsSpecificTodoItem()
+  {
+    var ListPostion = 0;
+    //Act
+    var todoListResults = await _todoApi.GetAllTodoItemsAsync();
+    var todoItemResult = await _todoApi.GetTodoItemAsync(todoListResults[ListPostion].Id);
+    //Assert
+    todoItemResult.Should().NotBeNull();
+    todoItemResult.Id.Should().Be(todoListResults[ListPostion].Id);
+  }
+
+  [Test]
+  public async Task PostTodoforTommorrow_OnceUploadedGetTodoysTodo_ReturnsTommorrowsTodoItem()
+  {
+    // Arrange
+    var newIncompleteTodoItemDto = new TodoItemDTO
     {
-      //Act
-      var response = await _httpClient.GetAsync("todoitems/complete");
-      response.StatusCode.Should().Be(HttpStatusCode.OK);
-      var todoListResults = await response.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
-      //Assert
-      todoListResults.Should().NotBeEmpty();
-      todoListResults.Should().OnlyContain(todoItem => todoItem.IsComplete);
-    }
+      Title = "Debugging Todo",
+      Description = "This todo is create from the testing Project which is debugging project",
+      IsComplete = false
+    };
+    newIncompleteTodoItemDto.setDateTimeObject(DateTime.Today.AddDays(1));
+    // Act
+    var TempTodoItem = await _todoApi.PostTodoItemAsync(newIncompleteTodoItemDto);
+    TempTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
+      .Excluding(dto => dto.Id));
+    var todoListResults = await _todoApi.GetTommorrowsTodoItemsAsync();
+    // Assert
+    TempTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options.Excluding(dto => dto.Id));
 
-    [Test]
-    public async Task PostTodo_WhenCalledWithValidTodoItem_ReturnsValidTodoItem()
+    // Cleanup
+    await _todoApi.DeleteTodoItemAsync(TempTodoItem.Id);
+  }
+
+  [Test]
+  public async Task PostTodoforToday_OnceUploadedGetTodoysTodo_ReturnsInTodaysTodoItem()
+  {
+    // Arrange
+    var newTodaysTodoItemDto = new TodoItemDTO
     {
-      // Arrange
-      var newIncompleteTodoItemDto = new TodoItemDTO
-      {
-        Title = "Debugging Todo",
-        Description = "This todo is create from the testing Project which is debugging project",
-        DateTime = DateTime.Today.AddDays(5),
-        IsComplete = false
-      };
-      var settings = new JsonSerializerSettings
-      {
-        DateParseHandling = DateParseHandling.None // Do not convert dates
-      };
-      var content = new StringContent(JsonConvert.SerializeObject(newIncompleteTodoItemDto, settings), Encoding.UTF8,
-        "application/json");
-
-      // Act
-      var response = await _httpClient.PostAsync("todoitems", content);
-      response.EnsureSuccessStatusCode();
-      var validTodoItem = response.Content.ReadFromJsonAsync<TodoItemDTO>().Result;
-      //Assert
-      validTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options
-        .Excluding(dto => dto.Id));
-      // Cleanup
-      var deleteResponse = await _httpClient.DeleteAsync($"todoitems/{validTodoItem.Id}");
-      deleteResponse.EnsureSuccessStatusCode();
-    }
-
-    [Test]
-    public async Task GetTodoItem_WhenCalledWithValidId_ReturnsSpecificTodoItem()
-    {
-      int ListPostion = 0;
-      //Arrange
-      var TodoListResponse = await _httpClient.GetAsync("todoitems");
-      TodoListResponse.EnsureSuccessStatusCode();
-
-      var todoListResults = await TodoListResponse.Content.ReadFromJsonAsync<List<TodoItemDTO>>();
+      Title = "Debugging Todo",
+      Description = "This todo is create from the testing Project which is debugging project",
+      IsComplete = false
+    };
+    newTodaysTodoItemDto.setDateTimeObject(DateTime.Today);
+    var TempTodoItem = await _todoApi.PostTodoItemAsync(newTodaysTodoItemDto);
+    Debug.WriteLine(TempTodoItem.ToString());
+    Debug.WriteLine(newTodaysTodoItemDto.ToString());
+    TempTodoItem.Should().BeEquivalentTo(newTodaysTodoItemDto, options => options
+      .Excluding(dto => dto.Id));
+    // Act
+    var todaysTodoItemResults = await _todoApi.GetTodaysTodoItemsAsync();
 
 
-      //Act
-      var TodoItemResponse = await _httpClient.GetAsync($"todoitems/{todoListResults[ListPostion].Id}");
-      TodoItemResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    var result = todaysTodoItemResults.Should().ContainEquivalentOf(TempTodoItem);
 
-      //Assert
-      var todoItemResult = await TodoItemResponse.Content.ReadFromJsonAsync<TodoItemDTO>();
-      todoItemResult.Should().NotBeNull();
-      todoItemResult.Id.Should().Be(todoListResults[ListPostion].Id);
-    }
+    // Cleanup
+    await _todoApi.DeleteTodoItemAsync(TempTodoItem.Id);
   }
 }
