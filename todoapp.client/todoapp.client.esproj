@@ -8,7 +8,6 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\todoapp.client\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\app\Core\Controllers\" />
-    <Folder Include="src\assets\css\" />
+    <Folder Include="src\assets\css\"/>
   </ItemGroup>
 </Project>

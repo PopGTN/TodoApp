@@ -6,6 +6,7 @@ import {Title} from "@angular/platform-browser";
 import {document} from "ngx-bootstrap/utils";
 import {setOffsetToUTC} from "ngx-bootstrap/chronos/units/offset";
 import {isEmpty} from "rxjs";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 
 @Component({
@@ -15,7 +16,9 @@ import {isEmpty} from "rxjs";
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    MatToolbar,
+    TooltipModule
   ],
 })
 export class NavbarComponent {

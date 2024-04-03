@@ -2,7 +2,6 @@
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 1020;
 }
 
 .navbar {
@@ -13,9 +12,28 @@
 
 @media (max-width: 991.98px) {
   .offcanvas {
-    max-width: 70% !important;
+    max-width: 80% !important;
   }
+
+  .offcanvas-body dropdown {
+    width: 100% !important;
+  }
+
   SidebarActive {
+
+  }
+
+  .nav-link.dropdown {
+    width: 100%;
+  }
+
+  .nav-link.activeLink {
+    text-indent: 8px;
+    border-radius: 50rem;
+  }
+
+  .active.activeLink {
+    background-image: linear-gradient(to bottom right, rgba(102, 16, 242, 0.2), rgba(133, 64, 245, 0.2), rgba(194, 159, 250, 0.2));
 
   }
 }

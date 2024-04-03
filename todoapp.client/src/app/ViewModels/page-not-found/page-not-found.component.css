@@ -124,9 +124,11 @@ main {
 .pill-group .pill:nth-child(6n + 1) {
   --pill-accent: var(--bright-blue);
 }
+
 .pill-group .pill:nth-child(6n + 2) {
   --pill-accent: var(--french-violet);
 }
+
 .pill-group .pill:nth-child(6n + 3),
 .pill-group .pill:nth-child(6n + 4),
 .pill-group .pill:nth-child(6n + 5) {
