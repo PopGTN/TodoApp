@@ -11,7 +11,20 @@ public class TodoItemDTO
   // Custom property to handle serialization/deserialization of DateTime as string
   public string? DateTime
   {
-    get => _dateTime.ToString();
+    get
+    {
+      if (_dateTime != null)
+      {
+        System.DateTime tempDT = (DateTime)_dateTime;
+        tempDT.ToString("yyyy-MM-ddTHH:mm");
+        return tempDT.ToString("yyyy-MM-ddTHH:mm");
+      }
+      else
+      {
+        return _dateTime.ToString();
+
+      }
+    }
     set
     {
       _dateTime = null;

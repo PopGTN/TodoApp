@@ -35,7 +35,7 @@
                   <small><span class="text-sm-center" placement="bottom" aria-label
                                ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}" container="body"
                   >
-                  <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime }}</span></small>
+                  <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime | date:'MM/dd/yyyy h:mm a' }}</span></small>
                 </div>
               </div>
               <button class="btn text-bg-primary rounded-pill " placement="bottom" container="body"

@@ -2,7 +2,7 @@
 import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
-import {NgIf} from "@angular/common";
+import {DatePipe, formatDate, NgIf} from "@angular/common";
 
 import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
@@ -22,6 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
+import {CustomDatePipe} from "../../Core/Pipes/CustomDate.Pipe";
 
 @Component({
   selector: 'app-todo-list',
@@ -46,6 +47,8 @@ import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
     MatChipListbox,
     TranslocoPipe,
     MatChipsModule,
+    CustomDatePipe,
+    DatePipe,
 
   ],
 })
@@ -327,4 +330,5 @@ export class TodoListComponent implements OnInit {
     this.loadTodoList(true);
   }
 
+  protected readonly formatDate = formatDate;
 }
