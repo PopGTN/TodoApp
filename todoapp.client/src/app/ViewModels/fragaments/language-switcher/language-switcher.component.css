@@ -1,0 +1,26 @@
+.flag-icon {
+  width: 18px;
+  height: 14px;
+  border-radius: var(--bs-border-radius);
+
+  margin-right: 2px;
+}
+
+.dropdown {
+  width: 100% !important;
+}
+
+@media (min-width: 992px) {
+  .flag-icon {
+    width: 32px;
+    height: 24px;
+    border-radius: var(--bs-border-radius);
+
+    margin-right: 2px;
+  }
+
+  .dropdown {
+    width: auto;
+  }
+
+}

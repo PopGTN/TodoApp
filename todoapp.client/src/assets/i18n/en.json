@@ -1,0 +1,74 @@
+{
+  "404Page": {
+    "Title": "404 Page Not Found",
+    "SubTitle": "Something went wrong",
+    "Button": "Go Back",
+    "ExploreDocs": "Explore the Docs",
+    "LearnTutorials": "Learn with Tutorials",
+    "CLIDocs": "CLI Docs",
+    "AngularLanguageService": "Angular Language Service",
+    "AngularDevTools": "Angular DevTools"
+  },
+  "socialLinks": {
+    "Twitter": "Twitter",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Instagram": "Instagram",
+    "Medium": "Medium"
+  },
+  "dialogMessages": {
+    "confirmTitle": "🫸🛑 Wait! Hold up!",
+    "confirmDescription": "Are you sure you want to delete this todo? Because it will be gone forever!",
+    "negativeBtn": "No",
+    "positiveBtn": "Yes",
+    "neutralBtn": "Cancel",
+    "OkCancelBtn": "Ok",
+    "formErrorTitle": "🫸🛑 HOLD UP!",
+    "formTitleErrorDesc": "Todo must have a title "
+  },
+  "todoList": {
+    "filterSelection": "Filter Selection",
+    "completed": "Completed",
+    "notCompleted": "Not Completed",
+    "todays": "Today's",
+    "tomorrows": "Tomorrow's",
+    "dateForTodo": "Date for Todo",
+    "deleteTodo": "Delete Todo",
+    "addTodo": "Add Todo"
+  },
+  "aboutPage": {
+    "about": "About",
+    "description": "This Todo application was built by Joshua Mckenna. This app was built by to learn angular and minimal web apis This app is not for product used as it does't support multiusers."
+  },
+  "NAV": {
+    "BRAND": "BigTodos",
+    "BIG_TODOS": "BigTodos",
+    "SIDEBAR_TITLE": "Sidebar",
+    "HOME": "Home",
+    "ABOUT": "About",
+    "TOGGLE_THEME": "Toggle theme",
+    "LIGHT_THEME": "Light",
+    "DARK_THEME": "Dark",
+    "AUTO_THEME": "Auto"
+  },
+  "todoDIALOG": {
+    "TITLE": "Title",
+    "DESCRIPTION": "Description",
+    "DATE_TIME": "Date & Time",
+    "CANCEL": "Cancel",
+    "SUBMIT": "Submit"
+  },
+  "routeTitles": {
+    "home": "Home",
+    "about": "About"
+  },
+  "snackbar": {
+    "successCompleteMessage": "Successfully Completed! Good Job!",
+    "successUncompleteMessage": "Successfully unCompleted! Good Job? I guess?",
+    "errorMessage": "Something went wrong!",
+    "dismiss": "Dismiss"
+  },
+  "selectLanguage": "Select a language"
+}
+
+

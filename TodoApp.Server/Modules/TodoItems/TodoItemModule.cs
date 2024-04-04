@@ -32,7 +32,7 @@ public class TodoItemModule : IModule
     return TypedResults.Ok(await dbP.TodoItems.Select(x => new TodoItemDTO(x)).ToArrayAsync());
   }
 
-  private async Task<IResult> GetTodayTodos(TodoContext dbP)
+  protected async Task<IResult> GetTodayTodos(TodoContext dbP)
   {
     return TypedResults.Ok(await dbP.TodoItems
       .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete)

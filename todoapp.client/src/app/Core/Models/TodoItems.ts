@@ -1,7 +1,4 @@
-﻿import {getCurrentDate} from "../util/UtilTools";
-
-
-export class TodoItem {
+﻿export class TodoItem {
 
   id: number;
   title: string;

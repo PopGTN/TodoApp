@@ -18,6 +18,7 @@ import {DialogComponent} from "../dialog/dialog.component";
 import {DialogType} from "../dialog/Models/DialogType";
 import {JsonPipe} from "@angular/common";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
+import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-todo-dialog',
@@ -39,14 +40,18 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
     JsonPipe,
     MatDatepickerInput,
     MatDatepickerToggle,
-    MatDatepicker
+    MatDatepicker,
+    TranslocoPipe,
   ],
 })
 export class TodoDialogComponent {
   public dialog = inject(MatDialog);
-  public errorMessage: string;
+  public translocoService = inject(TranslocoService);
+  public errorMessage: string = "";
   meridian = true;
 
+
+  // private translocoService: TranslocoService
   constructor(
     public dialogRef: MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -59,7 +64,6 @@ export class TodoDialogComponent {
       dialogTitle?: string
     },
   ) {
-    this.errorMessage = "Please sure your following imputs are valid! <br>";
   }
 
   onNoClick() {
@@ -67,13 +71,13 @@ export class TodoDialogComponent {
   }
 
   onSubmit(): void {
-
     if (!this.isValid()) {
       let ErrorDialogRef = this.dialog.open(DialogComponent, {
         data: {
           dialogType: DialogType.Ok,
-          title: "🫸🛑 HOLD UP!",
-          description: this.errorMessage
+          title: this.translocoService.translate('dialogMessages.formErrorTitle'),
+          description: this.errorMessage,
+          neutralBtn: this.translocoService.translate('dialogMessages.OkCancelBtn'),
 
         },
         height: 'fit-content',
@@ -98,9 +102,8 @@ export class TodoDialogComponent {
     let isValid = true;
     if (!this.data.title) {
       isValid = false;
-      this.errorMessage += " - Todo must have a title <br>"
+      this.errorMessage += " - " + this.translocoService.translate('dialogMessages.formTitleErrorDesc') + "<br>"
     }
     return isValid;
-    /*Left Room to make more requirments here if needed!*/
   }
 }
