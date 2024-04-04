@@ -22,7 +22,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
-import {CustomDatePipe} from "../../Core/Pipes/CustomDate.Pipe";
 
 @Component({
   selector: 'app-todo-list',
@@ -47,9 +46,7 @@ import {CustomDatePipe} from "../../Core/Pipes/CustomDate.Pipe";
     MatChipListbox,
     TranslocoPipe,
     MatChipsModule,
-    CustomDatePipe,
     DatePipe,
-
   ],
 })
 
