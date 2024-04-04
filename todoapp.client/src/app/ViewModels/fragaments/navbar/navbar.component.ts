@@ -7,6 +7,8 @@ import {document} from "ngx-bootstrap/utils";
 import {setOffsetToUTC} from "ngx-bootstrap/chronos/units/offset";
 import {isEmpty} from "rxjs";
 import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {LanguageSwitcherComponent} from "../language-switcher/language-switcher.component";
+import {TranslocoPipe} from "@ngneat/transloco";
 
 
 @Component({
@@ -18,7 +20,9 @@ import {TooltipModule} from "ngx-bootstrap/tooltip";
     RouterLink,
     RouterLinkActive,
     MatToolbar,
-    TooltipModule
+    TooltipModule,
+    LanguageSwitcherComponent,
+    TranslocoPipe
   ],
 })
 export class NavbarComponent {

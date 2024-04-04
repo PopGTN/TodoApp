@@ -19,8 +19,9 @@ import {interval, Subscription} from "rxjs";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatChipListbox, MatChipListboxChange, MatChipOption} from "@angular/material/chips";
+import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
+import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
 
 @Component({
   selector: 'app-todo-list',
@@ -43,6 +44,9 @@ import {FilterOption} from "./subcomponents/FilterOption";
     FormsModule,
     MatChipOption,
     MatChipListbox,
+    TranslocoPipe,
+    MatChipsModule,
+
   ],
 })
 
@@ -63,29 +67,37 @@ export class TodoListComponent implements OnInit {
 
   // @ts-ignore
   private timerSubscription: Subscription;
-  constructor(private http: HttpClient) {
+
+  constructor(private translocoService: TranslocoService) {
     this.isLoading = false
     this.error = "";
   }
 
   ngOnInit() {
     this.loadTodoList(true);
+    // Check for updates every 5 seconds (adjust the interval as needed)
     this.timerSubscription = interval(5000).subscribe(() => {
-      this.loadTodoList();
+      this.loadTodoList(false);
     });
   }
 
   ngOnDestroy() {
+    // Unsubscribe from the timer to avoid memory leaks
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
   }
 
-  loadTodoList(isFirstLoad = false) {
+  /*
+    Only needs to show the load on first load because after that its already loaded and the
+    it get check if changed and it will only update when it gets the data from the api
+    */
+  loadTodoList(isFirstLoad = true) {
     let apiCall;
     if (isFirstLoad) {
       this.isLoading = true;
     }
+
     switch (this.filterOption) {
       case FilterOption.All:
       default:
@@ -146,10 +158,12 @@ export class TodoListComponent implements OnInit {
                 this.isLoading = false;
               }
               apiCall5.unsubscribe();
+
             },
             error: err => {
               console.error('Error fetching todo list:', err);
               apiCall5.unsubscribe();
+
             }
           });
         break;
@@ -161,18 +175,20 @@ export class TodoListComponent implements OnInit {
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-
               apiCall3.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
               apiCall3.unsubscribe();
+
             }
           });
         break;
     }
+
   }
 
+  /*Opens the Edit dialog when you hit the pencil button or tap on the todoItem*/
   openEditDialog(todoItem: TodoItem) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -192,7 +208,7 @@ export class TodoListComponent implements OnInit {
       if (result) {
         let apiCall = this.todoItemService.update(todoItem.id, result).subscribe(
           (res) => {
-            this.loadTodoList()
+            this.loadTodoList(false)
             dialogRefSub.unsubscribe();
             apiCall.unsubscribe();
           },
@@ -207,6 +223,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*This Is activated when the Create button is pressed*/
   openCreateDialog(todoItem = new TodoItem()) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -215,19 +232,19 @@ export class TodoListComponent implements OnInit {
         description: todoItem.description,
         dateTime: todoItem.dateTime,
         isComplete: todoItem.isComplete,
-        dialogTitle: "Add a todo"
+        dialogTitle: this.translocoService.translate('todoList.addTodo'),
       },
       disableClose: true,
       height: 'fit-content',
       width: 'fit-content',
     });
+
     let dialogRefSub = dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (!result.title.isEmpty) {
           let apiCall = this.todoItemService.create(result).subscribe(
             (res) => {
-              //console.log(res);
-              this.loadTodoList()
+              this.loadTodoList(false)
               dialogRefSub.unsubscribe();
               apiCall.unsubscribe();
             },
@@ -239,29 +256,35 @@ export class TodoListComponent implements OnInit {
 
         } else {
           dialogRefSub.unsubscribe();
+
         }
       }
     });
   }
 
+  /*This is activated when a delete button is pressed. it then deletes the passed in todoItem*/
   openDeleteDialog(event: Event, index: number, todoItem: TodoItem) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         dialogType: DialogType.YesOrNo,
-        title: "Wait! Hold up!",
-        description: "Are you sure you wanted to delete this todo? Because it will be gone forever!"
+        title: this.translocoService.translate('dialogMessages.confirmTitle'),
+        description: this.translocoService.translate('dialogMessages.confirmDescription'),
+        neutralBtn: this.translocoService.translate('dialogMessages.neutralBtn'),
+        negativeBtn: this.translocoService.translate('dialogMessages.negativeBtn'),
+        positiveBtn: this.translocoService.translate('dialogMessages.positiveBtn'),
       },
       disableClose: true,
       height: 'fit-content',
       width: 'fit-content',
     });
+
     let dialogRefSub = dialogRef.afterClosed().subscribe(btnType => {
       if (btnType) {
         if (btnType === DialogBtnType.Positive) {
           let apiCall = this.todoItemService.delete(todoItem.id).subscribe(
             (result) => {
-              this.loadTodoList()
+              this.loadTodoList(false)
               apiCall.unsubscribe();
               dialogRefSub.unsubscribe();
             },
@@ -277,30 +300,31 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*This method is used put the checkmark changes to the api*/
   taskComplete(event: Event, todoItem: TodoItem) {
     event.stopPropagation();
 
     let apiCall = this.todoItemService.update(todoItem.id, todoItem).subscribe(
       (res) => {
         if (todoItem.isComplete) {
-          let snackBarRef = this.snackBar.open('Successfully Completed! Good Job!', "", {duration: 800});
+          let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.successCompleteMessage'), "", {duration: 800});
         } else {
-          let snackBarRef = this.snackBar.open('Successfully unCompleted! Good Job? I guess?', "", {duration: 800});
+          let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.successUncompleteMessage'), "", {duration: 800});
         }
-        this.loadTodoList();
+        this.loadTodoList(false);
         apiCall.unsubscribe();
       },
       (error) => {
         console.error('Error updating todo item:', error);
-        let snackBarRef = this.snackBar.open('Something went wrong!', "Dismiss", {
-          duration: 1000
-        });
+        let snackBarRef = this.snackBar.open(this.translocoService.translate('snackbar.errorMessage'), this.translocoService.translate('dismiss'), {duration: 1000});
         apiCall.unsubscribe();
       }
     );
   }
 
+  /*Applys The filter to the Page*/
   filterSelected($event: MatChipListboxChange) {
-    this.loadTodoList();
+    this.loadTodoList(true);
   }
+
 }

@@ -1,4 +1,4 @@
-﻿<nav class="navbar navbar-expand-lg" tool tip>
+﻿<nav class="navbar navbar-expand-lg">
   <div class="container-md flex-wrap flex-lg-nowrap">
     <button class="navbar-toggler d-flex d-lg-none order-first p-2 border-0 navbar-dark" type="button"
             data-bs-toggle="offcanvas"
@@ -12,10 +12,10 @@
     </button>
 
     <!--Brand -->
-    <a class="navbar-brand mb-0 h1 text-light" routerLink="" aria-label="BigTodo">
+    <a class="navbar-brand mb-0 h1 text-light" routerLink="" attr.aria-label="{{ 'NAV.BRAND' | transloco }}">
       <i class="bi bi-check2-square"></i>
       <span class="d-inline-block d-lg-none">{{ this.document.title }}</span>
-      <span class="d-none d-lg-inline-block">BigTodos</span>
+      <span class="d-none d-lg-inline-block">{{ 'NAV.BIG_TODOS' | transloco }}</span>
     </a>
 
 
@@ -27,11 +27,10 @@
 
       <!--Sidebar Header-->
       <div class="offcanvas-header px-4 pb-2 ">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
-                data-bs-target="#navbarSupportedContent"></button>
         <!--Sidebar Title-->
-        <h5 class="offcanvas-title text-white" id="NavbarOffcanvasLabel">‎</h5>
-
+        <h5 class="offcanvas-title text-white" id="offcanvasLabel">{{ 'NAV.SIDEBAR_TITLE' | transloco }}</h5>
+        <button type="button" class="btn-close d-block d-sm-none" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
       </div>
 
       <!--Sidebar's body section-->
@@ -41,12 +40,12 @@
           <li class="nav-item col-12 col-md-6 col-lg-auto SidebarActive">
             <a id="indexBtn" class="nav-link activeLink py-2 px-0 px-lg-2" routerLink="" routerLinkActive="active"
                data-bs-dismiss="offcanvas" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }"><i
-              class="bi bi-house-fill d-lg-none me-2"></i> Home</a>
+              class="bi bi-house-fill d-lg-none me-2"></i> {{ 'NAV.HOME' | transloco }}</a>
           </li>
           <li class="nav-item col-12 col-md-6 col-lg-auto">
             <a class="nav-link activeLink py-2 px-0 px-lg-2" routerLink="about" routerLinkActive="active"
                data-bs-dismiss="offcanvas" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }"> <i
-              class="bi bi-file-person d-lg-none me-2"></i> About</a>
+              class="bi bi-file-person d-lg-none me-2"></i> {{ 'NAV.ABOUT' | transloco }}</a>
           </li>
         </ul>
         <div class="d-flex ">
@@ -55,8 +54,13 @@
         <hr class="d-lg-none">
         <!--Socials-->
         <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+          <app-language-switcher/>
+          <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+            <hr class="d-lg-none my-2">
+          </li>
           <!--Theme Switcher-->
-          <li class="nav-item dropdown w-100">
+          <li class="nav-item dropdown col-12 col-lg-auto">
             <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
               <symbol id="circle-half" viewBox="0 0 16 16">
                 <path fill="currentColor"
@@ -77,11 +81,12 @@
 
             <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
                     id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-                    data-bs-display="static" aria-label="Toggle theme (auto)">
+                    attr.data-bs-display="static"
+                    attr.aria-label="{{ 'NAV.TOGGLE_THEME' | transloco }}">
               <svg class="bi my-1 theme-icon-active" width="16" height="16">
                 <use href="#circle-half"></use>
               </svg>
-              <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+              <span class="d-lg-none ms-2" id="bd-theme-text">{{ 'NAV.TOGGLE_THEME' | transloco }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
               <li>
@@ -90,7 +95,7 @@
                   <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16">
                     <use href="#sun-fill"></use>
                   </svg>
-                  Light
+                  {{ 'NAV.LIGHT_THEME' | transloco }}
                   <svg class="bi ms-auto d-none">
                     <use href="#check2"></use>
                   </svg>
@@ -102,7 +107,7 @@
                   <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16">
                     <use href="#moon-stars-fill"></use>
                   </svg>
-                  Dark
+                  {{ 'NAV.DARK_THEME' | transloco }}
                   <svg class="bi ms-auto d-none">
                     <use href="#check2"></use>
                   </svg>

@@ -1,12 +1,9 @@
 ﻿import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, from, Observable, ObservedValueOf, of, tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {TodoItem} from '../Models/TodoItems';
-import {TAB} from "@angular/cdk/keycodes";
-import {createStore, select, withProps} from "@ngneat/elf";
-import {withEntities, withUIEntities} from "@ngneat/elf-entities";
-import {TodoRepo, todoStore} from "../state/todo-store";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {TodoRepo} from "../state/todo-store";
 
 const baseUrl = '/todoitems';
 
@@ -22,9 +19,7 @@ export class TodoItemService {
 
 
   getAll(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(baseUrl, {responseType: 'json'}).pipe(
-      tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
-    );
+    return this.http.get<TodoItem[]>(baseUrl);
   }
 
   getAllCompleted(): Observable<TodoItem[]> {

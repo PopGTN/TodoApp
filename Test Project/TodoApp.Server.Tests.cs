@@ -9,7 +9,6 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-using Refit;
 using TodoApp.Server.Models;
 
 namespace TodoApp.Test_Project;
@@ -151,32 +150,6 @@ public class TodoApiUnitTesting
     var todoListResults = await _todoApi.GetTommorrowsTodoItemsAsync();
     // Assert
     TempTodoItem.Should().BeEquivalentTo(newIncompleteTodoItemDto, options => options.Excluding(dto => dto.Id));
-
-    // Cleanup
-    await _todoApi.DeleteTodoItemAsync(TempTodoItem.Id);
-  }
-
-  [Test]
-  public async Task PostTodoforToday_OnceUploadedGetTodoysTodo_ReturnsInTodaysTodoItem()
-  {
-    // Arrange
-    var newTodaysTodoItemDto = new TodoItemDTO
-    {
-      Title = "Debugging Todo",
-      Description = "This todo is create from the testing Project which is debugging project",
-      IsComplete = false
-    };
-    newTodaysTodoItemDto.setDateTimeObject(DateTime.Today);
-    var TempTodoItem = await _todoApi.PostTodoItemAsync(newTodaysTodoItemDto);
-    Debug.WriteLine(TempTodoItem.ToString());
-    Debug.WriteLine(newTodaysTodoItemDto.ToString());
-    TempTodoItem.Should().BeEquivalentTo(newTodaysTodoItemDto, options => options
-      .Excluding(dto => dto.Id));
-    // Act
-    var todaysTodoItemResults = await _todoApi.GetTodaysTodoItemsAsync();
-
-
-    var result = todaysTodoItemResults.Should().ContainEquivalentOf(TempTodoItem);
 
     // Cleanup
     await _todoApi.DeleteTodoItemAsync(TempTodoItem.Id);

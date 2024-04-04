@@ -3,19 +3,23 @@
   <mat-dialog-content>
     <div class="form-floating my-2">
       <input class="form-control" id="title" type="text" [(ngModel)]="data.title">
-      <label class="form-label" for="title">Title</label>
+      <label class="form-label" for="title">{{ 'todoDIALOG.TITLE' | transloco }}</label>
     </div>
     <div class="form-floating my-2">
       <input class="form-control" id="description" type="text" [(ngModel)]="data.description">
-      <label class="form-label" for="description">Description</label>
+      <label class="form-label" for="description">{{ 'todoDIALOG.DESCRIPTION' | transloco }}</label>
     </div>
     <div class="form-floating my-2">
       <input class="form-control" type="datetime-local" id="dateTime" name="dateTime" [(ngModel)]="data.dateTime">
-      <label class="form-label" for="dateTime">Date & Time</label>
+      <label class="form-label" for="dateTime">{{ 'todoDIALOG.DATE_TIME' | transloco }}</label>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions class="dialogFooter">
-    <button class="dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">Cancel</button>
-    <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit()" cdkFocusInitial>Submit</button>
+    <button class="dialogForceBtnRight" color="primary" mat-button
+            (click)="onNoClick()">{{ 'todoDIALOG.CANCEL' | transloco }}
+    </button>
+    <button class="dialogFootBtn" color="primary" mat-button (click)="onSubmit()"
+            cdkFocusInitial>{{ 'todoDIALOG.SUBMIT' | transloco }}
+    </button>
   </mat-dialog-actions>
 </div>

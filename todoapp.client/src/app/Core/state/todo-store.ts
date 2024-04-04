@@ -9,6 +9,11 @@ export const todoStore = createStore(
   {name: 'todoItems'},
   withEntities<TodoItem>(),
 );
+
+/*
+Persist State added. Might Work on making a queue where the use is offline and make them once they comeback online it
+all the changes will be then saved to the database.
+*/
 export const persist = persistState(todoStore, {
   key: 'todoItems',
   storage: localStorageStrategy,
@@ -19,6 +24,7 @@ syncState(todoStore);
   providedIn: 'root'
 })
 export class TodoRepo {
+
   setTodos(todoItem: TodoItem[]) {
     todoStore.update(setEntities(todoItem))
   }

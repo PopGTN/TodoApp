@@ -1,56 +1,53 @@
-﻿using System;
-using TodoApp.Server.Models;
+﻿namespace TodoApp.Server.Models;
 
-namespace TodoApp.Server.Models
+public class TodoItemDTO
 {
-  public class TodoItemDTO
-  {
-    public int Id { get; set; }
-    public string Title { get; set; } = null!;
-    public string? Description { get; set; }
-    private DateTime? _dateTime;
-    public bool IsComplete { get; set; }
+  public int Id { get; set; }
+  public string Title { get; set; } = null!;
+  public string? Description { get; set; }
+  private DateTime? _dateTime;
+  public bool IsComplete { get; set; }
 
-    // Custom property to handle serialization/deserialization of DateTime as string
-    public string? DateTime
+  // Custom property to handle serialization/deserialization of DateTime as string
+  public string? DateTime
+  {
+    get => _dateTime.ToString();
+    set
     {
-      get => _dateTime.ToString();
-      set
+      _dateTime = null;
+      if (!string.IsNullOrEmpty(value) && System.DateTime.TryParse((string)value, out var parsedDateTime))
       {
-        _dateTime = null;
-        if (!string.IsNullOrEmpty(value) && System.DateTime.TryParse((string)value, out DateTime parsedDateTime))
-        {
-          _dateTime = parsedDateTime;
-        }
+        _dateTime = parsedDateTime;
       }
     }
+  }
 
-    //Used for the Test Project
-    public DateTime? getDateTimeObject()
-    {
-      return _dateTime;
-    }
+  //Used for the Test Project
+  public DateTime? getDateTimeObject()
+  {
+    return _dateTime;
+  }
 
-    //used for the test Project
-    public void setDateTimeObject(DateTime dateTime)
-    {
-      _dateTime = dateTime;
-    }
+  //used for the test Project
+  public void setDateTimeObject(DateTime dateTime)
+  {
+    _dateTime = dateTime;
+  }
 
-    public TodoItemDTO() { }
+  public TodoItemDTO() { }
 
-    public TodoItemDTO(TodoItem todoItemP)
-    {
-      Id = todoItemP.Id;
-      Title = todoItemP.Title;
-      Description = todoItemP.Description;
-      IsComplete = todoItemP.IsComplete;
-      _dateTime = todoItemP.DateTime;
-    }
+  public TodoItemDTO(TodoItem todoItemP)
+  {
+    Id = todoItemP.Id;
+    Title = todoItemP.Title;
+    Description = todoItemP.Description;
+    IsComplete = todoItemP.IsComplete;
+    _dateTime = todoItemP.DateTime;
+  }
 
-    public override string ToString()
-    {
-      return $"Id: {Id}, Title: {Title}, Description: {Description}, IsComplete: {IsComplete}, DateTime: {_dateTime.ToString()}";
-    }
+  public override string ToString()
+  {
+    return
+      $"Id: {Id}, Title: {Title}, Description: {Description}, IsComplete: {IsComplete}, DateTime: {_dateTime.ToString()}";
   }
 }
