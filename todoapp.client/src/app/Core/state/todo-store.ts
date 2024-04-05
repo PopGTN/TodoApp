@@ -18,8 +18,6 @@ export const persist = persistState(todoStore, {
   key: 'todoItems',
   storage: localStorageStrategy,
 });
-
-
 syncState(todoStore);
 
 @Injectable({
@@ -27,14 +25,11 @@ syncState(todoStore);
 })
 export class TodoRepo {
 
-
   setTodos(todoItem: TodoItem[]) {
     todoStore.update(setEntities(todoItem))
   }
 
-
   getTodoByID(id: any) {
     return todoStore.pipe(selectEntity(id, {pluck: (todoItem) => todoItem.id}));
-
   }
 }

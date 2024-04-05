@@ -1,6 +1,5 @@
 ﻿export enum DialogBtnType {
   Positive = "Positive",
-  Negative  = "Negative",
-  Neutral  = "Neutral",
-
+  Negative = "Negative",
+  Neutral = "Neutral",
 }

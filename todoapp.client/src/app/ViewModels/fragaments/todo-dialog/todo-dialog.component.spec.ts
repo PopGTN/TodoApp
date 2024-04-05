@@ -1,4 +1,4 @@
-﻿import { ComponentFixture, TestBed } from '@angular/core/testing';
+﻿import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TodoDialogComponent} from "./todo-dialog.component";
 
 describe('TestComponentComponent', () => {
@@ -9,7 +9,7 @@ describe('TestComponentComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TodoDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TodoDialogComponent);
     component = fixture.componentInstance;

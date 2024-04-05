@@ -2,7 +2,7 @@
 import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
-import {NgIf} from "@angular/common";
+import {DatePipe, formatDate, NgIf} from "@angular/common";
 
 import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
@@ -22,6 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-todo-list',
@@ -46,7 +47,8 @@ import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
     MatChipListbox,
     TranslocoPipe,
     MatChipsModule,
-
+    DatePipe,
+    MatPaginator,
   ],
 })
 
@@ -68,18 +70,15 @@ export class TodoListComponent implements OnInit {
   // @ts-ignore
   private timerSubscription: Subscription;
 
-
   constructor(private translocoService: TranslocoService) {
     this.isLoading = false
     this.error = "";
   }
 
-
   ngOnInit() {
     this.loadTodoList(true);
     // Check for updates every 5 seconds (adjust the interval as needed)
     this.timerSubscription = interval(5000).subscribe(() => {
-      //console.log("loaded")
       this.loadTodoList(false);
     });
   }
@@ -111,13 +110,10 @@ export class TodoListComponent implements OnInit {
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              // @ts-ignore
               apiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              // Handle error if needed
-              // @ts-ignore
               apiCall.unsubscribe();
             }
           });
@@ -130,13 +126,10 @@ export class TodoListComponent implements OnInit {
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              // @ts-ignore
               apiCall2.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              // Handle error if needed
-              // @ts-ignore
               apiCall2.unsubscribe();
 
             }
@@ -150,16 +143,11 @@ export class TodoListComponent implements OnInit {
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              // @ts-ignore
               apiCall4.unsubscribe();
-
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              // Handle error if needed
-              // @ts-ignore
               apiCall4.unsubscribe();
-
             }
           });
         break;
@@ -176,8 +164,6 @@ export class TodoListComponent implements OnInit {
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              // Handle error if needed
-              // @ts-ignore
               apiCall5.unsubscribe();
 
             }
@@ -191,13 +177,10 @@ export class TodoListComponent implements OnInit {
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              // @ts-ignore
               apiCall3.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              // Handle error if needed
-              // @ts-ignore
               apiCall3.unsubscribe();
 
             }
@@ -207,6 +190,7 @@ export class TodoListComponent implements OnInit {
 
   }
 
+  /*Opens the Edit dialog when you hit the pencil button or tap on the todoItem*/
   openEditDialog(todoItem: TodoItem) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -241,6 +225,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*This Is activated when the Create button is pressed*/
   openCreateDialog(todoItem = new TodoItem()) {
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
@@ -261,7 +246,6 @@ export class TodoListComponent implements OnInit {
         if (!result.title.isEmpty) {
           let apiCall = this.todoItemService.create(result).subscribe(
             (res) => {
-              //console.log(res);
               this.loadTodoList(false)
               dialogRefSub.unsubscribe();
               apiCall.unsubscribe();
@@ -280,6 +264,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*This is activated when a delete button is pressed. it then deletes the passed in todoItem*/
   openDeleteDialog(event: Event, index: number, todoItem: TodoItem) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -317,10 +302,9 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  /*This method is used put the checkmark changes to the api*/
   taskComplete(event: Event, todoItem: TodoItem) {
     event.stopPropagation();
-    /*Has to make it the opposite of the current state because it must */
-
 
     let apiCall = this.todoItemService.update(todoItem.id, todoItem).subscribe(
       (res) => {
@@ -338,8 +322,6 @@ export class TodoListComponent implements OnInit {
         apiCall.unsubscribe();
       }
     );
-
-
   }
 
   /*Applys The filter to the Page*/
@@ -347,4 +329,9 @@ export class TodoListComponent implements OnInit {
     this.loadTodoList(true);
   }
 
+  protected readonly formatDate = formatDate;
+
+  pageChange($event: PageEvent) {
+
+  }
 }

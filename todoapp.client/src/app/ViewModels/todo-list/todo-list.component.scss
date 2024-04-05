@@ -1,0 +1,32 @@
+﻿:host {
+  color: white !important;
+  overflow: hidden;
+  height: 50%;
+  --mat-paginator-container-background-color: var(--bs-body-bg);
+  --mat-paginator-container-text-color: var(--bs-body-color)
+}
+
+
+@media (min-width: 768px) {
+  #AddFab, #AddFab > *{
+    position: relative !important;
+  }
+}
+input[type="checkbox"]{
+  padding: 10px;
+
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+mat-chip-option:active{
+  background: #c29ffa;
+}
+
+.pagi{
+  top: 3.5rem;
+}

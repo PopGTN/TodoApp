@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /*Default Settings as wells as Light Mode css*/
 :root,
@@ -12,9 +17,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --bs-primary-border-subtle: #8540f5;
 }
 
-
-
 .bg-primary {
   background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
 }
 
+/*# sourceMappingURL=styles.css.map */

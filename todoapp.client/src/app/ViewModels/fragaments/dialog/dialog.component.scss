@@ -1,0 +1,19 @@
+﻿.dialog {
+  background: var(--bs-body-bg);  color: var(--bs-body-color);
+  --mdc-dialog-subhead-color: var(--bs-body-color);
+  --mdc-dialog-supporting-text-color: var(--bs-body-color);
+}
+.dialogFooter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+}
+
+.dialogFootBtn, .dialogForceBtnRight{
+  padding: 0.5rem !important;
+}
+
+.dialogForceBtnRight{
+  margin-left: auto !important;
+}

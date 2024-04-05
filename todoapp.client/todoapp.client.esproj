@@ -8,8 +8,12 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\todoapp.client\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\app\Core\Controllers\" />
-    <Folder Include="src\assets\css\" />
+    <Folder Include="src\assets\css\"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="src\app\ViewModels\fragaments\navbar\navbar.component.spec.ts">
+      <DependentUpon>navbar.component.ts</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Update="src\app\ViewModels\fragaments\navbar\navbar.component.spec.ts">

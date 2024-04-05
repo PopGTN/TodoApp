@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {TranslocoModule} from "@ngneat/transloco";
 
@@ -13,6 +13,5 @@ import {TranslocoModule} from "@ngneat/transloco";
   styleUrl: './page-not-found.component.css'
 })
 export class PageNotFoundComponent {
-
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {TranslocoPipe, TranslocoService} from '@ngneat/transloco';
 import {LanguageService} from "../../../Core/Services/Language.Service";
 
@@ -13,7 +13,8 @@ import {LanguageService} from "../../../Core/Services/Language.Service";
 })
 export class LanguageSwitcherComponent {
 
-  constructor(private translocoService: TranslocoService, private LangServ :LanguageService) {}
+  constructor(private translocoService: TranslocoService, private LangServ: LanguageService) {
+  }
 
   setLanguage(language: string) {
     this.LangServ.setLanguagePreference(language);

@@ -1,7 +1,4 @@
-﻿import {getCurrentDate} from "../util/UtilTools";
-
-
-export class TodoItem {
+﻿export class TodoItem {
 
   id: number;
   title: string;
@@ -15,8 +12,9 @@ export class TodoItem {
     this.title = title === undefined ? "" : title;
     this.description = description === undefined ? "" : description;
     this.isComplete = isComplete === undefined ? false : isComplete;
-    this.dateTime = dateTime === undefined ? "": dateTime;
+    this.dateTime = dateTime === undefined ? "" : dateTime;
   }
+
   toString() {
     return `ID: ${this.id}, Title: ${this.title}, Description: ${this.description}, Complete: ${this.isComplete}, DateTime: ${this.dateTime}`;
   }

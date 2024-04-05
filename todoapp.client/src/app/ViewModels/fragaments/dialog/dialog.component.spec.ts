@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DialogComponent } from './dialog.component';
+import {DialogComponent} from './dialog.component';
 
 describe('ErrorDialogComponent', () => {
   let component: DialogComponent;
@@ -10,8 +10,8 @@ describe('ErrorDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(DialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

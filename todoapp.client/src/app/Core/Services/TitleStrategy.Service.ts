@@ -1,5 +1,5 @@
-﻿import { Injectable } from "@angular/core";
-import { RouterStateSnapshot, TitleStrategy} from "@angular/router";
+﻿import {Injectable} from "@angular/core";
+import {RouterStateSnapshot, TitleStrategy} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 import {EMPTY, isEmpty} from "rxjs";
 
@@ -13,22 +13,23 @@ export class TitleStrategyService extends TitleStrategy {
 
   override updateTitle(routerState: RouterStateSnapshot) {
     const title = this.buildTitle(routerState);
-    let temptitle:string;
+    let temptitle: string;
 
-    if (title !== undefined ) {
+    if (title !== undefined) {
       temptitle = `BigTodos | ${title}`;
     } else {
       temptitle = "BigTodos";
     }
     this.title.setTitle(cleanTitle(temptitle));
   }
-  public getTitle():string {
+
+  public getTitle(): string {
     return this.title.getTitle();
   }
 }
 
 
-function cleanTitle(str:string) {
+function cleanTitle(str: string) {
   const firstPipeIndex = str.indexOf('|');
   if (firstPipeIndex === -1 || firstPipeIndex === str.length - 1) {
     return str;

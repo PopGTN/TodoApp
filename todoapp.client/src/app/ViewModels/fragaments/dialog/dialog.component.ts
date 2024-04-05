@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -6,8 +6,8 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import { DialogType } from "./Models/DialogType";
-import { DialogBtnType } from "./Models/DialogBtnType";
+import {DialogType} from "./Models/DialogType";
+import {DialogBtnType} from "./Models/DialogBtnType";
 import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 
@@ -27,10 +27,11 @@ import {NgIf} from "@angular/common";
 export class DialogComponent {
   protected readonly DialogType = DialogType;
   protected readonly DialogBtnType = DialogBtnType;
+
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      dialogType: DialogType,
+      dialogType?: DialogType,
       title?: string,
       description?: string,
       neutralBtn?: string,
@@ -46,7 +47,7 @@ export class DialogComponent {
 
   onSubmit(btnType: DialogBtnType): void {
     console.log("Dialog Closed with " + btnType);
-    let ouput = btnType +"";
+    let ouput = btnType + "";
     this.dialogRef.close(ouput);
   }
 }

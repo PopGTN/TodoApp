@@ -13,7 +13,7 @@ public interface IModule
 public static class ModuleExtensions
 {
   // this could also be added into the DI container
-  static readonly List<IModule> registeredModules = new List<IModule>();
+  private static readonly List<IModule> registeredModules = new();
 
   public static IServiceCollection RegisterModules(this IServiceCollection services)
   {
