@@ -41,7 +41,7 @@ export class TodoItemService {
   }
 
   getAllTommorrows(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/?filter=tommorrows`, {responseType: 'json'}).pipe(
+    return this.http.get<TodoItem[]>(`${baseUrl}/?filter=tomorrows`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
