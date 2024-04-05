@@ -23,25 +23,25 @@ export class TodoItemService {
   }
 
   getAllCompleted(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/complete`, {responseType: 'json'}).pipe(
+    return this.http.get<TodoItem[]>(`${baseUrl}?filter=completed`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
 
   getAllNotCompleted(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/notcomplete`, {responseType: 'json'}).pipe(
+    return this.http.get<TodoItem[]>(`${baseUrl}?filter=uncompleted`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
 
   getAllTodays(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/todays`, {responseType: 'json'}).pipe(
+    return this.http.get<TodoItem[]>(`${baseUrl}/?filter=todays`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
 
   getAllTommorrows(): Observable<TodoItem[]> {
-    return this.http.get<TodoItem[]>(`${baseUrl}/tommorrows`, {responseType: 'json'}).pipe(
+    return this.http.get<TodoItem[]>(`${baseUrl}/?filter=tommorrows`, {responseType: 'json'}).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
