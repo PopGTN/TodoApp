@@ -15,14 +15,12 @@ public class TodoItemDTO
     {
       if (_dateTime != null)
       {
-        System.DateTime tempDT = (DateTime)_dateTime;
-        tempDT.ToString("yyyy-MM-ddTHH:mm");
+        var tempDT = (DateTime)_dateTime;
         return tempDT.ToString("yyyy-MM-ddTHH:mm");
       }
       else
       {
         return _dateTime.ToString();
-
       }
     }
     set
