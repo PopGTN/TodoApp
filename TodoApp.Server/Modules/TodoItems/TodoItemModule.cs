@@ -2,7 +2,7 @@
 using TodoApp.Server.Interfaces;
 using TodoApp.Server.Models;
 
-namespace TodoApp.Server.Modules;
+namespace TodoApp.Server.Modules.TodoItems;
 
 public class TodoItemModule : IModule
 {
@@ -15,7 +15,7 @@ public class TodoItemModule : IModule
   {
     var mapGroup = endpoints.MapGroup("todoitems");
     mapGroup.MapGet("/", GetAllTodos);
-    mapGroup.MapGet("/complete", GetCompleteTodos);
+    mapGroup.MapGet("/filt", GetCompleteTodos);
     mapGroup.MapGet("/notcomplete", GetNotCompleteTodos);
     mapGroup.MapGet("/todays", GetTodayTodos);
     mapGroup.MapGet("/tommorrows", GetTomorrowTodos);
