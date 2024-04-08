@@ -10,9 +10,9 @@
             <option value="5" selected>5</option>
             <option value="10">10</option>
             <option value="15">15</option>
-            <option>20</option>
-            <option>50</option>
-            <option>100</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
             <option [value]="todoItems?.length">All</option>
           </select>
           <label for="pageSize">Items per page</label>
@@ -87,8 +87,8 @@
         }
       </ol>
     </div>
-    <div class="">
-      <ngb-pagination class="d-flex justify-content-center container-fluid z-3" [collectionSize]="todoItems.length" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" [pageSize]="pageSize" />
+    <div class=" d-flex justify-content-center position-relative z-1 bg-body position-relative py-2">
+      <ngb-pagination class="" [collectionSize]="todoItems.length" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" [pageSize]="pageSize" />
 
     </div>
   }
