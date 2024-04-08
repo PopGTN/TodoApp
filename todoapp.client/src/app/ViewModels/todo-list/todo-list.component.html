@@ -1,12 +1,21 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<nav class="pagi bg-body  z-1 py-1 border-bottom border-bottom-1 border-secondary-subtle">
+<nav class="pagi bg-body  z-1 py-2 border-bottom border-bottom-1 border-secondary-subtle">
   <div class="container">
     <div class="row">
-      <div class="col-5 col-md-2">
-        <div class="form-floating">
-          <select class="form-select" id="pageSize" aria-label="Items per page" [(ngModel)]="pageSize">
+      <div class="col-auto my-auto ">
+        <div class="input-group">
+<!--          <div class="form-floating">-->
+            <input type="text" class="form-control" id="Search" placeholder="Search" [(ngModel)]="searchString">
+<!--            <label for="Search">Search</label>-->
+<!--          </div>-->
+          <button type="button" class="btn btn-outline-secondary border-secondary-subtle" (click)="SearchBtnClicked()"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+      <div class="col-5 col-md-3 col-lg-2 my-auto ms-auto">
+        <div class="form-floating h-auto">
+          <select class="form-select h-auto" id="pageSize" aria-label="Items per page" [(ngModel)]="pageSize">
             <option value="5" selected>5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -18,7 +27,7 @@
           <label for="pageSize">Items per page</label>
         </div>
       </div>
-      <div class="col-auto ms-lg-auto my-auto">
+      <div class="col-auto my-auto">
         <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
                 class="bg-primary position-fixed bottom-0  end-0  my-lg-auto me-3 mb-3 bottom-0 end-0 z-1">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

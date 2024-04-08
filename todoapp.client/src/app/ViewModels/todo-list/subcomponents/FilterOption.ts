@@ -3,6 +3,6 @@ export enum FilterOption {
   notCompleted = "notCompleted",
   todays = "todays",
   tomorrows = "tomorrows",
-  All = "All"
-
+  All = "All",
+  search = "search"
 }

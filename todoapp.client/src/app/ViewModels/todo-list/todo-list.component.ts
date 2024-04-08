@@ -1,12 +1,12 @@
 ﻿import {Component, inject, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
 import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
 
 import {
   NgbAlert,
-  NgbDropdown, NgbDropdownItem,
+  NgbDropdown,
+  NgbDropdownItem,
   NgbDropdownMenu,
   NgbDropdownToggle,
   NgbPagination,
@@ -23,7 +23,7 @@ import {DialogComponent} from "../fragaments/dialog/dialog.component";
 import {DialogType} from "../fragaments/dialog/Models/DialogType";
 import {DialogBtnType} from "../fragaments/dialog/Models/DialogBtnType";
 import {interval, Subscription} from "rxjs";
-import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
+import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
@@ -74,6 +74,8 @@ export class TodoListComponent implements OnInit {
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
+  searchString: string = "";
+
   page: number = 1;
   pageSize: number = 10;
 
@@ -203,8 +205,24 @@ export class TodoListComponent implements OnInit {
             }
           });
         break;
-    }
+      case FilterOption.search:
+        let apiCall5 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
+          .subscribe({
+            next: (todoItems: TodoItem[]) => {
+              this.todoItems = todoItems;
+              if (isFirstLoad) {
+                this.isLoading = false;
+              }
+              apiCall5.unsubscribe();
+            },
+            error: err => {
+              console.error('Error fetching todo list:', err);
+              apiCall5.unsubscribe();
 
+            }
+          });
+        break;
+    }
   }
 
   /*Opens the Edit dialog when you hit the pencil button or tap on the todoItem*/
@@ -350,4 +368,8 @@ export class TodoListComponent implements OnInit {
   pageChange(event: PageEvent) {
   }
 
+  SearchBtnClicked() {
+    this.loadTodoList(true);
+
+  }
 }
