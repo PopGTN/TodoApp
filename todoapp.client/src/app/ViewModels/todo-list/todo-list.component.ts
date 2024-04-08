@@ -77,6 +77,7 @@ export class TodoListComponent implements OnInit {
   page: number = 1;
   pageSize: number = 10;
 
+
   /*Class Variables*/
   todoItems: TodoItem[] | undefined
   isLoading: boolean;

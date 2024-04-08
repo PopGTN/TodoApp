@@ -1,6 +1,7 @@
 :host {
   overflow: hidden;
   height: 50%;
+  color: var(--bs-body-color);
   --mat-paginator-container-background-color: var(--bs-body-bg);
   --mat-paginator-container-text-color: var(--bs-body-color) ;
 }

@@ -1,7 +1,7 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<div class="pagi  z-1 py-1 border-bottom border-bottom-1 border-secondary-subtle">
+<nav class="pagi bg-body  z-1 py-1 border-bottom border-bottom-1 border-secondary-subtle">
   <div class="container">
     <div class="row">
       <div class="col-5 col-md-2">
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-</div>
+</nav>
 <main class="container z-0">
   @if (error) {
     {{ error }}
