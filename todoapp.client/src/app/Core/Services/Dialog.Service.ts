@@ -2,6 +2,7 @@
 import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "../../ViewModels/fragaments/dialog/dialog.component";
 import {DialogType} from "../../ViewModels/fragaments/dialog/Models/DialogType";
+
 @Injectable({
   providedIn: 'root'
 })

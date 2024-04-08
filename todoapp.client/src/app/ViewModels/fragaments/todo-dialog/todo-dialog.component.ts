@@ -69,13 +69,14 @@ export class TodoDialogComponent {
     this.errorMessage = "Please sure your following imputs are valid! <br>";
   }
 
-  onNoClick(){
+  onNoClick() {
     this.dialogRef.close()
   }
+
   onSubmit(): void {
 
     if (!this.isValid()) {
-      this.dialogServices.alert(this.errorMessage,this.translocoService.translate('dialogMessages.formErrorTitle'), this.translocoService.translate('dialogMessages.OkCancelBtn'));
+      this.dialogServices.alert(this.errorMessage, this.translocoService.translate('dialogMessages.formErrorTitle'), this.translocoService.translate('dialogMessages.OkCancelBtn'));
       return;
     } else {
       let todoItem = new TodoItem(this.data.id, this.data.title, this.data.description, this.data.dateTime, this.data.isComplete)
@@ -83,10 +84,10 @@ export class TodoDialogComponent {
     }
   }
 
-  isValid(){
+  isValid() {
     this.errorMessage = ""
     let isValid = true;
-    if (!this.data.title){
+    if (!this.data.title) {
       isValid = false;
       this.errorMessage += " - " + this.translocoService.translate('dialogMessages.formTitleErrorDesc') + "<br>"
     }

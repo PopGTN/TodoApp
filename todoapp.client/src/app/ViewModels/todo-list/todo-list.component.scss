@@ -8,17 +8,19 @@
 
 
 @media (min-width: 992px) {
-  #AddFab, #AddFab > *{
+  #AddFab, #AddFab > * {
     position: relative !important;
   }
-  .pagi{
+  .pagi {
     position: sticky;
   }
 }
-input[type="checkbox"]{
+
+input[type="checkbox"] {
   padding: 10px;
 
 }
+
 .centered {
   position: absolute;
   top: 50%;
@@ -26,11 +28,12 @@ input[type="checkbox"]{
 
   transform: translate(-50%, -50%);
 }
-mat-chip-option:active{
+
+mat-chip-option:active {
   background: #c29ffa;
 }
 
-.pagi{
+.pagi {
   background-color: var(--bs-body-bg);
   top: 3.5rem;
 }

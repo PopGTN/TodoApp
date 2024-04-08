@@ -16,6 +16,7 @@
     border-radius: var(--bs-border-radius);
     margin-right: 2px;
   }
+
   .dropdown {
     width: auto;
   }

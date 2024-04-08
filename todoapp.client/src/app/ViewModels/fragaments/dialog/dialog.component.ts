@@ -38,7 +38,8 @@ export class DialogComponent {
       negativeBtn?: string,
       positiveBtn?: string,
     },
-  ) {}
+  ) {
+  }
 
   onNoClick(): void {
     console.log("Dialog Closed with nothing")

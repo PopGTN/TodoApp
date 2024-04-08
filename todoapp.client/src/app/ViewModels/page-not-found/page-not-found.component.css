@@ -152,6 +152,7 @@ main {
     flex-direction: column;
     width: max-content;
   }
+
   .divider {
     height: 1px;
     width: 100%;
