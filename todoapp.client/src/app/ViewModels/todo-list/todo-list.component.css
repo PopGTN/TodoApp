@@ -1,5 +1,4 @@
 :host {
-  color: white !important;
   overflow: hidden;
   height: 50%;
   --mat-paginator-container-background-color: var(--bs-body-bg);
@@ -10,7 +9,7 @@
   #AddFab, #AddFab > * {
     position: relative !important;
   }
-  .pagi{
+  .pagi {
     position: sticky;
   }
 }

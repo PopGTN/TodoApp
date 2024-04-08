@@ -1,7 +1,7 @@
 ﻿:host {
-  color: white !important;
   overflow: hidden;
   height: 50%;
+  color: var(--bs-body-color);
   --mat-paginator-container-background-color: var(--bs-body-bg);
   --mat-paginator-container-text-color: var(--bs-body-color)
 }
@@ -10,6 +10,9 @@
 @media (min-width: 992px) {
   #AddFab, #AddFab > *{
     position: relative !important;
+  }
+  .pagi{
+    position: sticky;
   }
 }
 input[type="checkbox"]{
@@ -28,5 +31,6 @@ mat-chip-option:active{
 }
 
 .pagi{
+  background-color: var(--bs-body-bg);
   top: 3.5rem;
 }
