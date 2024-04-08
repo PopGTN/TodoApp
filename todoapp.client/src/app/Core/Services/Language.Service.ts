@@ -1,5 +1,6 @@
 ﻿import {TranslocoService} from "@ngneat/transloco";
 import {Injectable} from "@angular/core";
+
 export const supportedLanguages = ['en', 'fr', 'de', 'es', 'hi', 'ja']; // List of supported languages
 export const defaultLang = 'en';
 
@@ -47,6 +48,5 @@ export class LanguageService {
     } else {
       this.translocoService.setActiveLang(preference);
     }
-
   }
 }

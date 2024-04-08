@@ -3,7 +3,7 @@
 public class TodoItemDTO
 {
   public int Id { get; set; }
-  public string Title { get; set; } = null!;
+  public string Title { get; set; }
   public string? Description { get; set; }
   private DateTime? _dateTime;
   public bool IsComplete { get; set; }
@@ -11,7 +11,16 @@ public class TodoItemDTO
   // Custom property to handle serialization/deserialization of DateTime as string
   public string? DateTime
   {
-    get => _dateTime.ToString();
+    get
+    {
+      if (_dateTime == null)
+      {
+        return _dateTime.ToString();
+      }
+
+      var tempDT = (DateTime)_dateTime;
+      return tempDT.ToString("yyyy-MM-ddTHH:mm");
+    }
     set
     {
       _dateTime = null;
