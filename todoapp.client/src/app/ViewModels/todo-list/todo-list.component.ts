@@ -2,9 +2,9 @@
 import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
-import {DatePipe, formatDate, NgIf} from "@angular/common";
+import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
 
-import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {NgbAlert, NgbPagination, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -49,17 +49,20 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
     MatChipsModule,
     DatePipe,
     MatPaginator,
+    NgbPagination,
+    SlicePipe,
   ],
 })
 
 export class TodoListComponent implements OnInit {
-  /*Interfaces*/
   protected readonly FilterOption = FilterOption;
-
+  protected readonly formatDate = formatDate;
   /*Dependency Injections*/
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
+  page: number = 1;
+  pageSize: number = 10;
 
   /*Class Variables*/
   todoItems: TodoItem[] | undefined
@@ -328,8 +331,6 @@ export class TodoListComponent implements OnInit {
   filterSelected($event: MatChipListboxChange) {
     this.loadTodoList(true);
   }
-
-  protected readonly formatDate = formatDate;
 
   pageChange($event: PageEvent) {
 
