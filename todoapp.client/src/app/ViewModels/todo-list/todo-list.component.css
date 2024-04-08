@@ -6,7 +6,7 @@
   --mat-paginator-container-text-color: var(--bs-body-color) ;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #AddFab, #AddFab > * {
     position: relative !important;
   }

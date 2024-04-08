@@ -4,7 +4,14 @@ import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
 import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
 
-import {NgbAlert, NgbPagination, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbAlert,
+  NgbDropdown,
+  NgbDropdownButtonItem, NgbDropdownItem,
+  NgbDropdownMenu, NgbDropdownToggle,
+  NgbPagination,
+  NgbTooltip
+} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -51,6 +58,10 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
     MatPaginator,
     NgbPagination,
     SlicePipe,
+    NgbDropdownMenu,
+    NgbDropdownToggle,
+    NgbDropdown,
+    NgbDropdownItem,
   ],
 })
 
@@ -332,7 +343,6 @@ export class TodoListComponent implements OnInit {
     this.loadTodoList(true);
   }
 
-  pageChange($event: PageEvent) {
-
+  pageChange(event: PageEvent) {
   }
 }
