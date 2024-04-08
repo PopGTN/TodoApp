@@ -1,9 +1,23 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<div class="pagi z-2 bg-white py-1 position-sticky border-bottom border-bottom-1 border-secondary-subtle">
+<div class="pagi z-2 bg-white py-1 border-bottom border-bottom-1 border-secondary-subtle">
   <div class="container">
     <div class="row">
+      <div class="col-5 col-md-3">
+        <div class="form-floating">
+          <select class="form-select" id="pageSize" aria-label="Items per page" [(ngModel)]="pageSize">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option>20</option>
+            <option>50</option>
+            <option>100</option>
+            <option [value]="todoItems?.length">All</option>
+          </select>
+          <label for="pageSize">Items per page</label>
+        </div>
+      </div>
       <div class="col-auto ms-lg-auto">
         <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
                 class="bg-primary position-fixed bottom-0 end-0 me-3 mb-3  ms-lg-auto me-lg-auto mb-lg-auto bottom-0 end-0 z-1">
@@ -69,8 +83,8 @@
       </ol>
     </div>
     <div class="d-flex justify-content-center">
-      <ngb-pagination [collectionSize]="todoItems.length" [(page)]="page" [maxSize]="5" [rotate]="true"
-                      [boundaryLinks]="true"/>
+      <ngb-pagination [collectionSize]="todoItems.length" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" />
+
     </div>
   }
 

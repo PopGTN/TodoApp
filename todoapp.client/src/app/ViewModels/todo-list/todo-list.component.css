@@ -10,6 +10,9 @@
   #AddFab, #AddFab > * {
     position: relative !important;
   }
+  .pagi{
+    position: sticky;
+  }
 }
 input[type=checkbox] {
   padding: 10px;
