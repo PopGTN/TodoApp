@@ -2,16 +2,9 @@
 import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
-import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
+import {DatePipe, formatDate, NgIf} from "@angular/common";
 
-import {
-  NgbAlert,
-  NgbDropdown,
-  NgbDropdownButtonItem, NgbDropdownItem,
-  NgbDropdownMenu, NgbDropdownToggle,
-  NgbPagination,
-  NgbTooltip
-} from "@ng-bootstrap/ng-bootstrap";
+import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -29,7 +22,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-todo-list',
@@ -55,6 +47,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
     TranslocoPipe,
     MatChipsModule,
     DatePipe,
+    DatePipe,
     MatPaginator,
     NgbPagination,
     SlicePipe,
@@ -66,14 +59,13 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 })
 
 export class TodoListComponent implements OnInit {
+  /*Interfaces*/
   protected readonly FilterOption = FilterOption;
-  protected readonly formatDate = formatDate;
+
   /*Dependency Injections*/
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
-  page: number = 1;
-  pageSize: number = 10;
 
   /*Class Variables*/
   todoItems: TodoItem[] | undefined
@@ -345,4 +337,5 @@ export class TodoListComponent implements OnInit {
 
   pageChange(event: PageEvent) {
   }
+  protected readonly formatDate = formatDate;
 }

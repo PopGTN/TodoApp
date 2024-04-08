@@ -95,11 +95,11 @@ public class TodoItemModule : IModule
 
   private async Task<IResult> GetAllTodos(TodoContext dbP, HttpContext contextP)
   {
-    string orderBy = "";
-    int pageSize = 10;
-    int pageNumber = 1;
-    string orderByDirection = "asc";
-    string filter = "none";
+    var orderBy = "";
+    var pageSize = 10;
+    var pageNumber = 1;
+    var orderByDirection = "asc";
+    var filter = "none";
     var totalCount = 0;
     var totalPages = 0;
     List<TodoItemDTO> todos;
@@ -108,22 +108,22 @@ public class TodoItemModule : IModule
     //Check if orderBy was given
     if (contextP.Request.Query.ContainsKey("direction"))
     {
-        //Sets direction of how its ordered if givin
-        orderByDirection = contextP.Request.Query["direction"];
+      //Sets direction of how its ordered if givin
+      orderByDirection = contextP.Request.Query["direction"];
     }
 
     //set what to order everything by if it's given
     if (contextP.Request.Query.ContainsKey("orderBy"))
     {
       //Sets the order by attribute of how its ordered if givin
-        orderBy = contextP.Request.Query["orderBy"];
+      orderBy = contextP.Request.Query["orderBy"];
     }
 
     //sets what filter to use if given
     if (contextP.Request.Query.ContainsKey("filter"))
     {
       //Sets the filter to use if givin
-        filter = contextP.Request.Query["filter"];
+      filter = contextP.Request.Query["filter"];
     }
 
     if (orderByDirection != null || orderBy != null)
@@ -147,8 +147,6 @@ public class TodoItemModule : IModule
           break;
       }
     }
-
-
     //Checks if there is a page number or size given
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {
@@ -196,8 +194,6 @@ public class TodoItemModule : IModule
           .ToListAsync();
         break;
     }
-
-
     //returns meta date if its a page request else return no metadata
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {
@@ -211,18 +207,17 @@ public class TodoItemModule : IModule
       };
       return TypedResults.Ok(new PagedResult<TodoItemDTO>(todos, paginationMetadata));
     }
-    else
-    {
-      return TypedResults.Ok(todos);
-    }
+
+    return TypedResults.Ok(todos);
   }
 
   private IQueryable<TodoItem> ApplyOrder<T>(String direction, IQueryable<TodoItem> query,
     Expression<Func<TodoItem, T>> orderByExpression)
   {
     if (direction.IsNullOrEmpty() && (direction.ToLower() == "desc" || direction.ToLower() == "descending"))
+    {
       return query.OrderByDescending(orderByExpression);
-    else
-      return query.OrderBy(orderByExpression);
+    }
+    return query.OrderBy(orderByExpression);
   }
 }

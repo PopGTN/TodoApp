@@ -3,7 +3,7 @@
 public class TodoItemDTO
 {
   public int Id { get; set; }
-  public string Title { get; set; }
+  public string Title { get; set; } = null!;
   public string? Description { get; set; }
   private DateTime? _dateTime;
   public bool IsComplete { get; set; }
@@ -13,15 +13,13 @@ public class TodoItemDTO
   {
     get
     {
-      if (_dateTime != null)
-      {
-        var tempDT = (DateTime)_dateTime;
-        return tempDT.ToString("yyyy-MM-ddTHH:mm");
-      }
-      else
+      if (_dateTime == null)
       {
         return _dateTime.ToString();
       }
+
+      var tempDT = (DateTime)_dateTime;
+      return tempDT.ToString("yyyy-MM-ddTHH:mm");
     }
     set
     {

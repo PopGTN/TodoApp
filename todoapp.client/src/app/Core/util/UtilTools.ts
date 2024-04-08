@@ -13,7 +13,5 @@
 
 // Construct formatted date string
   const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
-
-  console.log(formattedDate);
   return formattedDate;
 }

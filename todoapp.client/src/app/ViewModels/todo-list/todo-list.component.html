@@ -1,81 +1,57 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<div class="pagi z-2 bg-white py-1 border-bottom border-bottom-1 border-secondary-subtle">
-  <div class="container">
-    <div class="row">
-      <div class="col-5 col-md-3">
-        <div class="form-floating">
-          <select class="form-select" id="pageSize" aria-label="Items per page" [(ngModel)]="pageSize">
-            <option value="5" selected>5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option>20</option>
-            <option>50</option>
-            <option>100</option>
-            <option [value]="todoItems?.length">All</option>
-          </select>
-          <label for="pageSize">Items per page</label>
-        </div>
-      </div>
-      <div class="col-auto ms-lg-auto">
-        <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
-                class="bg-primary position-fixed bottom-0 end-0 me-3 mb-3  ms-lg-auto me-lg-auto mb-lg-auto bottom-0 end-0 z-1">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-          </svg>
-          {{ "todoList.addTodo" | transloco }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 <main class="container overflow-hidden">
   @if (error) {
     {{ error }}
   }
-  <div class="">
-
-    <mat-chip-listbox attr.aria-label="{{ 'todoList.filterSelection' | transloco }}" [(ngModel)]="filterOption"
-                      (change)="filterSelected($event)">
-      <mat-chip-option [value]="FilterOption.completed">{{ 'todoList.completed' | transloco }}</mat-chip-option>
-      <mat-chip-option [value]="FilterOption.notCompleted">{{ 'todoList.notCompleted' | transloco }}
-      </mat-chip-option>
-      <mat-chip-option [value]="FilterOption.todays">{{ 'todoList.todays' | transloco }}</mat-chip-option>
-      <mat-chip-option [value]="FilterOption.tomorrows">{{ 'todoList.tomorrows' | transloco }}</mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-  @if (!error && todoItems) {
-    <div class="">
-      <ol class="list-group list-group-flush">
-        <!--@for (todoItem of todoItems; track todoItem.id; let index = $index) {-->
-        @for (todoItem of todoItems | slice: (page - 1) * pageSize : page * pageSize; track todoItem.id; let index = $index) {
-          <li class="list-group-item d-flex justify-content-between align-items-start p-2"
-              (click)="openEditDialog(todoItem)">
-            <div class="">
-              <input type="checkbox" class="form-check-input d-flex  rounded-circle"
-                     attr.aria-label="Check {{todoItem.title}} as completed!"
-                     [(ngModel)]="todoItem.isComplete" (change)="taskComplete($event, todoItem)"
-                     (click)="$event.stopPropagation();">
-            </div>
-            <div class="ms-2 me-auto">
-
-              <div class="fw-bold">{{ todoItem.title }}</div>
-              {{ todoItem.description }}
-              <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
-                <small><span class="text-sm-center" placement="bottom" aria-label
-                             ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}" container="body"
-                >
-                  <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime | date:'MM/dd/yyyy h:mm a' }}</span></small>
+  @if (!isLoading && todoItems) {
+    <div class="mt-2 border-1 border-bottoms">
+      <mat-chip-listbox attr.aria-label="{{ 'todoList.filterSelection' | transloco }}" [(ngModel)]="filterOption"
+                        (change)="filterSelected($event)">
+        <mat-chip-option [value]="FilterOption.completed">{{ 'todoList.completed' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.notCompleted">{{ 'todoList.notCompleted' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.todays">{{ 'todoList.todays' | transloco }}</mat-chip-option>
+        <mat-chip-option [value]="FilterOption.tomorrows">{{ 'todoList.tomorrows' | transloco }}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+    @if (!error && todoItems) {
+      <div class="">
+        <ol class="list-group list-group-flush">
+          @for (todoItem of todoItems; track todoItem.id; let index = $index) {
+            <li class="list-group-item d-flex justify-content-between align-items-start p-2"
+                (click)="openEditDialog(todoItem)">
+              <div class="">
+                <input type="checkbox" class="form-check-input d-flex  rounded-circle"
+                       attr.aria-label="Check {{todoItem.title}} as completed!"
+                       [(ngModel)]="todoItem.isComplete" (change)="taskComplete($event, todoItem)"
+                       (click)="$event.stopPropagation();">
               </div>
-            </div>
-            <button class="btn text-bg-primary rounded-pill " placement="bottom" container="body"
-                    ngbTooltip="{{ 'todoList.deleteTodo' | transloco }}"
-                    tooltipClass="z-2"
-                    attr.aria-label="{{ 'todoList.deleteTodo' | transloco }}"
-                    (click)="openDeleteDialog($event, index, todoItem)">
-              <i class=" bi bi-trash"></i>
-            </button>
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ todoItem.title }}</div>
+                {{ todoItem.description }}
+                <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
+                  <small><span class="text-sm-center" placement="bottom" aria-label
+                               ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}" container="body"
+                  >
+                  <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime | date:'MM/dd/yyyy h:mm a' }}</span></small>
+                </div>
+              </div>
+              <button id="editBtn" class="btn text-bg-primary rounded-pill me-1" placement="bottom" container="body"
+                      ngbTooltip="{{ 'todoList.editTodo' | transloco }}"
+                      tooltipClass="z-2"
+                      attr.aria-label="{{ 'todoList.editTodo' | transloco }}"
+                      (click)="openEditDialog($event, todoItem)">
+                <i class="bi bi-pencil"></i>
+
+              </button>
+              <button class="btn text-bg-danger rounded-pill " placement="bottom" container="body"
+                      ngbTooltip="{{ 'todoList.deleteTodo' | transloco }}"
+                      tooltipClass="z-2"
+                      attr.aria-label="{{ 'todoList.deleteTodo' | transloco }}"
+                      (click)="openDeleteDialog($event, index, todoItem)">
+                <i class=" bi bi-trash"></i>
+              </button>
 
 
           </li>
