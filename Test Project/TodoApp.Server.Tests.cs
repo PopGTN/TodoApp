@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using Refit;
 using TodoApp.Server.Models;
 
 namespace TodoApp.Test_Project;

@@ -6,22 +6,10 @@
 }
 
 .dialogFooter {
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
-  --mdc-dialog-subhead-color: var(--bs-body-color);
-  --mdc-dialog-supporting-text-color: var(--bs-body-color);
-}
-
-.dialogFooter {
->>> >>> > main display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   align-self: stretch;
-}
-
-
-.dialogFootBtn, .dialogForceBtnRight {
-  padding: 0.5rem !important;
 }
 
 .dialogFootBtn, .dialogForceBtnRight {
@@ -29,6 +17,5 @@
 }
 
 .dialogForceBtnRight {
-
   margin-left: auto !important;
 }
