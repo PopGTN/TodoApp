@@ -189,7 +189,8 @@ export class TodoListComponent implements OnInit {
   }
 
   /*Opens the Edit dialog when you hit the pencil button or tap on the todoItem*/
-  openEditDialog(todoItem: TodoItem) {
+  openEditDialog(event: MouseEvent, todoItem: TodoItem) {
+    event.stopImmediatePropagation();
     const dialogRef = this.dialog.open(TodoDialogComponent, {
       data: {
         id: todoItem.id,
