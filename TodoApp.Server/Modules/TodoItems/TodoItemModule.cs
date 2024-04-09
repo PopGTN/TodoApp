@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Server.Interfaces;
 using TodoApp.Server.Models;
@@ -102,6 +103,7 @@ public class TodoItemModule : IModule
     var filter = "none";
     var totalCount = 0;
     var totalPages = 0;
+    StringValues searchTerms;
     List<TodoItemDTO> todos;
     IQueryable<TodoItem> query = dbP.TodoItems;
 
@@ -124,6 +126,11 @@ public class TodoItemModule : IModule
     {
       //Sets the filter to use if givin
       filter = contextP.Request.Query["filter"];
+    }
+    if (contextP.Request.Query.ContainsKey("search"))
+    {
+      //Sets direction of how its ordered if givin
+      searchTerms = contextP.Request.Query["search"];
     }
 
     if (orderByDirection != null || orderBy != null)
@@ -171,13 +178,13 @@ public class TodoItemModule : IModule
     switch (filter.ToLower())
     {
       case "uncompleted":
-        todos = await dbP.TodoItems.Where(t => !t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
+        todos = await query.Where(t => !t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
         break;
       case "completed":
-        todos = await dbP.TodoItems.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
+        todos = await query.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
         break;
       case "todays":
-        todos = await dbP.TodoItems
+        todos = await query
           .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete)
           .Select(x => new TodoItemDTO(x))
           .ToListAsync();
