@@ -103,59 +103,84 @@ public class TodoItemModule : IModule
     var filter = "none";
     var totalCount = 0;
     var totalPages = 0;
-    StringValues searchTerms;
     List<TodoItemDTO> todos;
+
     IQueryable<TodoItem> query = dbP.TodoItems;
 
-    //Check if orderBy was given
+    // Check if orderBy was given
     if (contextP.Request.Query.ContainsKey("direction"))
     {
-      //Sets direction of how its ordered if givin
       orderByDirection = contextP.Request.Query["direction"];
     }
 
-    //set what to order everything by if it's given
+    // Set what to order everything by if it's given
     if (contextP.Request.Query.ContainsKey("orderBy"))
     {
-      //Sets the order by attribute of how its ordered if givin
       orderBy = contextP.Request.Query["orderBy"];
     }
 
-    //sets what filter to use if given
+    // Set what filter to use if given
     if (contextP.Request.Query.ContainsKey("filter"))
     {
-      //Sets the filter to use if givin
       filter = contextP.Request.Query["filter"];
     }
+
+    // Handle search terms if provided
     if (contextP.Request.Query.ContainsKey("search"))
     {
-      //Sets direction of how its ordered if givin
-      searchTerms = contextP.Request.Query["search"];
+      string searchTerm = contextP.Request.Query["search"].ToString().ToLower(); // Convert search term to lowercase
+      query = query.Where(t =>
+        t.Title.ToLower().Contains(searchTerm) ||
+        t.Description.ToLower().Contains(searchTerm));
     }
 
-    if (orderByDirection != null || orderBy != null)
+
+    // Apply sorting based on orderBy and orderByDirection
+
+    switch (orderBy.ToLower())
     {
-      switch (orderBy.ToLower())
-      {
-        default:
-          query = ApplyOrder(orderByDirection, query, t => t.Id);
-          break;
-        case "title":
-          query = ApplyOrder(orderByDirection, query, t => t.Title);
-          break;
-        case "description":
-          query = ApplyOrder(orderByDirection, query, t => t.Description);
-          break;
-        case "iscomplete":
-          query = ApplyOrder(orderByDirection, query, t => t.IsComplete);
-          break;
-        case "datetime":
-          query = ApplyOrder(orderByDirection, query, t => t.DateTime);
-          break;
-      }
+      case "title":
+        query = ApplyOrder(orderByDirection, query, t => t.Title);
+        break;
+      case "description":
+        query = ApplyOrder(orderByDirection, query, t => t.Description);
+        break;
+      case "iscomplete":
+        query = ApplyOrder(orderByDirection, query, t => t.IsComplete);
+        break;
+      case "datetime":
+        query = ApplyOrder(orderByDirection, query, t => t.DateTime);
+        break;
+      default:
+        query = ApplyOrder(orderByDirection, query, t => t.Id);
+        break;
     }
 
-    //Checks if there is a page number or size given
+
+    // Apply filtering based on the selected filter
+    switch (filter.ToLower())
+    {
+      case "uncompleted":
+        query = query.Where(t => !t.IsComplete);
+        break;
+      case "completed":
+        query = query.Where(t => t.IsComplete);
+        break;
+      case "todays":
+        query = query.Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete);
+        break;
+      case "tomorrows":
+        query = query.Where(t =>
+          t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today.AddDays(1) && !t.IsComplete);
+        break;
+      default:
+        break;
+    }
+
+    // Get total count for pagination
+    totalCount = await query.CountAsync();
+
+    // Apply pagination
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {
       if (contextP.Request.Query.ContainsKey("size"))
@@ -168,42 +193,14 @@ public class TodoItemModule : IModule
         pageNumber = Convert.ToInt32(contextP.Request.Query["page"]);
       }
 
-      query = query.Skip((pageNumber - 1) * pageSize);
-      query = query.Take(pageSize);
-      //Does The math for the paginationMetadata
-      totalCount = await dbP.TodoItems.CountAsync();
+      query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
       totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
     }
 
-    switch (filter.ToLower())
-    {
-      case "uncompleted":
-        todos = await query.Where(t => !t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
-        break;
-      case "completed":
-        todos = await query.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync();
-        break;
-      case "todays":
-        todos = await query
-          .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete)
-          .Select(x => new TodoItemDTO(x))
-          .ToListAsync();
-        break;
-      case "tomorrows":
-        todos = await query
-          .Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today.AddDays(1) && !t.IsComplete)
-          .Select(x => new TodoItemDTO(x))
-          .ToListAsync();
-        break;
-      default:
-        filter = "none";
-        todos = await query
-          .Select(x => new TodoItemDTO(x))
-          .ToListAsync();
-        break;
-    }
+    // Project query results to TodoItemDTO and materialize the list
+    todos = await query.Select(x => new TodoItemDTO(x)).ToListAsync();
 
-    //returns meta date if its a page request else return no metadata
+    // Return result with or without pagination metadata
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {
       var paginationMetadata = new APIMetadata
@@ -219,6 +216,7 @@ public class TodoItemModule : IModule
 
     return TypedResults.Ok(todos);
   }
+
 
   private IQueryable<TodoItem> ApplyOrder<T>(String direction, IQueryable<TodoItem> query,
     Expression<Func<TodoItem, T>> orderByExpression)
