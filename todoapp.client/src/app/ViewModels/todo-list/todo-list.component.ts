@@ -206,19 +206,18 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.search:
-        let apiCall5 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
+        let {unsubscribe} = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall5.unsubscribe();
+              unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall5.unsubscribe();
-
+              unsubscribe();
             }
           });
         break;
