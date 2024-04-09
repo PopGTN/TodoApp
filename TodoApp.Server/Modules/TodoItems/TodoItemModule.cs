@@ -47,8 +47,8 @@ public class TodoItemModule : IModule
     var todoItem = new TodoItem
     {
       IsComplete = todoItemDTOP.IsComplete,
-      Title = todoItemDTOP.Title,
-      Description = todoItemDTOP.Description,
+      Title = (todoItemDTOP.Title == null ? "" : todoItemDTOP.Title),
+      Description = (todoItemDTOP.Description == null ? "" : todoItemDTOP.Description),
       DateTime = todoItemDTOP.getDateTimeObject()
     };
 
@@ -147,6 +147,7 @@ public class TodoItemModule : IModule
           break;
       }
     }
+
     //Checks if there is a page number or size given
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {
@@ -194,6 +195,7 @@ public class TodoItemModule : IModule
           .ToListAsync();
         break;
     }
+
     //returns meta date if its a page request else return no metadata
     if (contextP.Request.Query.ContainsKey("page") || contextP.Request.Query.ContainsKey("size"))
     {

@@ -11,4 +11,3 @@ public class PagedResult<T>
     Metadata = metadata;
   }
 }
-

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {RouterLink} from "@angular/router";
-import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
+import {TranslocoPipe} from "@ngneat/transloco";
+
 
 @Component({
   selector: 'app-about',
@@ -12,6 +12,4 @@ import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
   ],
 })
 export class AboutComponent {
-  constructor(private translocoService: TranslocoService) {
-  }
 }

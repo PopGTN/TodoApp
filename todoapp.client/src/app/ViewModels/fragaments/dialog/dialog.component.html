@@ -4,7 +4,7 @@
     <p class="dialog-text" [innerHTML]="data.description"></p>
   </mat-dialog-content>
   <mat-dialog-actions class="DialogFooter">
-    <ng-container *ngIf="data.dialogType === DialogType.Ok">
+    <ng-container *ngIf="data.dialogType === DialogType.Ok || data.dialogType === undefined">
       <button class="dialogFootBtn dialogForceBtnRight" color="primary" mat-button (click)="onNoClick()">
         {{ data.neutralBtn ? data.neutralBtn : 'Ok' }}
       </button>

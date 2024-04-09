@@ -1,4 +1,4 @@
-﻿.dialog {
+.dialog {
   background: var(--bs-body-bg);
   color: var(--bs-body-color);
   --mdc-dialog-subhead-color: var(--bs-body-color);
@@ -20,3 +20,5 @@
 .dialogForceBtnRight {
   margin-left: auto !important;
 }
+
+/*# sourceMappingURL=todo-dialog.component.css.map */

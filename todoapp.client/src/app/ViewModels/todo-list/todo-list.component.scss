@@ -1,28 +1,31 @@
-:host {
+﻿:host {
   overflow: hidden;
   height: 50%;
+  color: var(--bs-body-color);
   --mat-paginator-container-background-color: var(--bs-body-bg);
-  --mat-paginator-container-text-color: var(--bs-body-color);
+  --mat-paginator-container-text-color: var(--bs-body-color)
 }
+
 
 @media (min-width: 992px) {
   #AddFab, #AddFab > * {
     position: relative !important;
   }
-
   .pagi {
     position: sticky;
   }
 }
 
-input[type=checkbox] {
+input[type="checkbox"] {
   padding: 10px;
+
 }
 
 .centered {
   position: absolute;
   top: 50%;
   left: 50%;
+
   transform: translate(-50%, -50%);
 }
 
@@ -31,7 +34,6 @@ mat-chip-option:active {
 }
 
 .pagi {
+  background-color: var(--bs-body-bg);
   top: 3.5rem;
 }
-
-/*# sourceMappingURL=todo-list.component.css.map */

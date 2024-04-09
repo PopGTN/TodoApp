@@ -31,7 +31,7 @@ export class DialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      dialogType: DialogType,
+      dialogType?: DialogType,
       title?: string,
       description?: string,
       neutralBtn?: string,
