@@ -1,7 +1,8 @@
-.dialog {
+﻿.dialog {
   background: var(--bs-body-bg);
   color: var(--bs-body-color);
   --mdc-dialog-subhead-color: var(--bs-body-color);
+  --mdc-dialog-container-color: var(--bs-body-bg);
   --mdc-dialog-supporting-text-color: var(--bs-body-color);
 }
 
@@ -20,4 +21,3 @@
   margin-left: auto !important;
 }
 
-/*# sourceMappingURL=dialog.component.css.map */

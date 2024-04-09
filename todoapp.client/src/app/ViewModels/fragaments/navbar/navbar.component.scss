@@ -9,7 +9,9 @@
   background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
 }
 
+
 @media (max-width: 991.98px) {
+
   .nav-link.activeLink {
     text-indent: 8px;
     border-radius: 50rem;
@@ -17,19 +19,20 @@
 
   .active.activeLink {
     background-image: linear-gradient(to bottom right, rgba(102, 16, 242, 0.2), rgba(133, 64, 245, 0.2), rgba(194, 159, 250, 0.2));
-  }
 
+  }
   .offcanvas {
     width: 100%;
     max-width: 80%;
     margin: 0 auto; /* Center the container horizontally */
   }
-}
 
-@media (max-width: 991.98px) and (max-width: 319.98px) {
-  .offcanvas {
-    max-width: 100%;
+  @media (max-width: 319.98px) {
+    .offcanvas {
+      max-width: 100%;
+    }
   }
+
 }
 
 @media (min-width: 992px) {
@@ -44,8 +47,7 @@
   }
 }
 
+
 .offcanvas-header {
   background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
 }
-
-/*# sourceMappingURL=navbar.component.css.map */

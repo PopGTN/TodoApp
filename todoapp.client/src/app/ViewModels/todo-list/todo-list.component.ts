@@ -2,9 +2,16 @@
 import {HttpClient} from "@angular/common/http";
 import {TodoItemService} from "../../Core/Services/TodoItem.Service";
 import {TodoItem} from "../../Core/Models/TodoItems";
-import {DatePipe, formatDate, NgIf} from "@angular/common";
+import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
 
-import {NgbAlert, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbAlert,
+  NgbDropdown, NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbPagination,
+  NgbTooltip
+} from "@ng-bootstrap/ng-bootstrap";
 import {RouterLink} from "@angular/router";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -22,6 +29,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-todo-list',
@@ -47,17 +55,27 @@ import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
     TranslocoPipe,
     MatChipsModule,
     DatePipe,
+    DatePipe,
+    MatPaginator,
+    NgbPagination,
+    SlicePipe,
+    NgbDropdownMenu,
+    NgbDropdownToggle,
+    NgbDropdown,
+    NgbDropdownItem,
   ],
 })
 
 export class TodoListComponent implements OnInit {
-  /*Interfaces*/
   protected readonly FilterOption = FilterOption;
+  protected readonly formatDate = formatDate;
 
   /*Dependency Injections*/
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
+  page: number = 1;
+  pageSize: number = 10;
 
   /*Class Variables*/
   todoItems: TodoItem[] | undefined
@@ -104,10 +122,15 @@ export class TodoListComponent implements OnInit {
         let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
+              if (this.pageSize == this.todoItems?.length) {
+                this.pageSize = todoItems.length;
+              }
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
               }
+
+
               apiCall.unsubscribe();
             },
             error: err => {
@@ -120,6 +143,9 @@ export class TodoListComponent implements OnInit {
         let apiCall2 = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
+              if (this.pageSize == this.todoItems?.length) {
+                this.pageSize = todoItems.length;
+              }
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
@@ -137,6 +163,9 @@ export class TodoListComponent implements OnInit {
         let apiCall4 = this.todoItemService.checkGetAllTodaysTodo(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
+              if (this.pageSize == this.todoItems?.length) {
+                this.pageSize = todoItems.length;
+              }
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
@@ -153,6 +182,9 @@ export class TodoListComponent implements OnInit {
         let apiCall5 = this.todoItemService.checkGetAllTommorrowsTodo(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
+              if (this.pageSize == this.todoItems?.length) {
+                this.pageSize = todoItems.length;
+              }
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
@@ -171,6 +203,9 @@ export class TodoListComponent implements OnInit {
         let apiCall3 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
+              if (this.pageSize == this.todoItems?.length) {
+                this.pageSize = todoItems.length;
+              }
               this.todoItems = todoItems;
               if (isFirstLoad) {
                 this.isLoading = false;
@@ -327,6 +362,4 @@ export class TodoListComponent implements OnInit {
   filterSelected($event: MatChipListboxChange) {
     this.loadTodoList(true);
   }
-
-  protected readonly formatDate = formatDate;
 }

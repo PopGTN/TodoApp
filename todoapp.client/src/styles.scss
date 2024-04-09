@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+﻿/* You can add global styles to this file, and also import other style files */
+
 html, body {
   height: 100%;
 }
@@ -17,8 +18,8 @@ body {
   --bs-primary-border-subtle: #8540f5;
 }
 
+
 .bg-primary {
   background-image: linear-gradient(to bottom right, var(--bs-primary), var(--bs-primary-border-subtle), var(--bs-primary-bg-subtle));
 }
 
-/*# sourceMappingURL=styles.css.map */

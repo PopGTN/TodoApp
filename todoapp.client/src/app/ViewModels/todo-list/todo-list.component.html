@@ -1,7 +1,36 @@
 ﻿@if (isLoading) {
   <mat-progress-bar mode="query"></mat-progress-bar>
 }
-<main class="container overflow-hidden">
+<nav class="pagi bg-body  z-1 py-1 border-bottom border-bottom-1 border-secondary-subtle">
+  <div class="container">
+    <div class="row">
+      <div class="col-5 col-md-2">
+        <div class="form-floating">
+          <select class="form-select" id="pageSize" aria-label="Items per page"  [(ngModel)]="pageSize">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option [value]="todoItems?.length">All</option>
+          </select>
+          <label for="pageSize">Items per page</label>
+        </div>
+      </div>
+      <div class="col-auto ms-lg-auto my-auto">
+        <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
+                class="bg-primary position-fixed bottom-0  end-0  my-lg-auto me-3 mb-3 bottom-0 end-0 z-1">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+          </svg>
+          {{ "todoList.addTodo" | transloco }}
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="container z-0">
   @if (error) {
     {{ error }}
   }
@@ -15,59 +44,52 @@
         <mat-chip-option [value]="FilterOption.tomorrows">{{ 'todoList.tomorrows' | transloco }}</mat-chip-option>
       </mat-chip-listbox>
     </div>
-    @if (!error && todoItems) {
-      <div class="">
-        <ol class="list-group list-group-flush">
-          @for (todoItem of todoItems; track todoItem.id; let index = $index) {
-            <li class="list-group-item d-flex justify-content-between align-items-start p-2"
-                (click)="openEditDialog($event, todoItem)">
-              <div class="">
-                <input type="checkbox" class="form-check-input d-flex  rounded-circle"
-                       attr.aria-label="Check {{todoItem.title}} as completed!"
-                       [(ngModel)]="todoItem.isComplete" (change)="taskComplete($event, todoItem)"
-                       (click)="$event.stopPropagation();">
-              </div>
-              <div class="ms-2 me-auto">
-
-                <div class="fw-bold">{{ todoItem.title }}</div>
-                {{ todoItem.description }}
-                <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
-                  <small><span class="text-sm-center" placement="bottom" aria-label
-                               ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}" container="body"
-                  >
+    <div class="">
+      <ol class="list-group list-group-flush">
+        <!--@for (todoItem of todoItems; track todoItem.id; let index = $index) {-->
+        @for (todoItem of todoItems | slice: (page - 1) * pageSize : page * pageSize; track todoItem.id; let index = $index) {
+          <li class="list-group-item list d-flex justify-content-between align-items-start p-2"
+              (click)="openEditDialog($event, todoItem)">
+            <div class="">
+              <input type="checkbox" class="form-check-input d-flex  rounded-circle"
+                     attr.aria-label="Check {{todoItem.title}} as completed!"
+                     [(ngModel)]="todoItem.isComplete" (change)="taskComplete($event, todoItem)"
+                     (click)="$event.stopPropagation();">
+            </div>
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ todoItem.title }}</div>
+              {{ todoItem.description }}
+              <div class=" {{ !todoItem.dateTime ? 'd-none' : 'No' }}" style="font-size: 85%">
+                <small><span class="text-sm-center" placement="bottom" aria-label
+                             ngbTooltip="{{ 'todoList.dateForTodo' | transloco }}" container="body"
+                >
                   <i class="bi bi-calendar me-1"></i> {{ todoItem.dateTime | date:'MM/dd/yyyy h:mm a' }}</span></small>
-                </div>
               </div>
-              <button id="editBtn" class="btn text-bg-primary rounded-pill me-1" placement="bottom" container="body"
-                      ngbTooltip="{{ 'todoList.editTodo' | transloco }}"
-                      tooltipClass="z-2"
-                      attr.aria-label="{{ 'todoList.editTodo' | transloco }}"
-                      (click)="openEditDialog($event, todoItem)">
-                <i class="bi bi-pencil"></i>
+            </div>
+            <button id="editBtn" class="btn text-bg-primary rounded-pill me-1" placement="bottom" container="body"
+                    ngbTooltip="{{ 'todoList.editTodo' | transloco }}"
+                    tooltipClass="z-2"
+                    attr.aria-label="{{ 'todoList.editTodo' | transloco }}"
+                    (click)="openEditDialog($event,todoItem)">
+              <i class="bi bi-pencil"></i>
 
-              </button>
-              <button class="btn text-bg-danger rounded-pill " placement="bottom" container="body"
-                      ngbTooltip="{{ 'todoList.deleteTodo' | transloco }}"
-                      tooltipClass="z-2"
-                      attr.aria-label="{{ 'todoList.deleteTodo' | transloco }}"
-                      (click)="openDeleteDialog($event, index, todoItem)">
-                <i class=" bi bi-trash"></i>
-              </button>
+            </button>
+            <button class="btn text-bg-danger rounded-pill " placement="bottom" container="body"
+                    ngbTooltip="{{ 'todoList.deleteTodo' | transloco }}"
+                    tooltipClass="z-2"
+                    attr.aria-label="{{ 'todoList.deleteTodo' | transloco }}"
+                    (click)="openDeleteDialog($event, index, todoItem)">
+              <i class=" bi bi-trash"></i>
+            </button>
+          </li>
+        }
+      </ol>
+    </div>
 
-            </li>
-          }
-        </ol>
-      </div>
-    }
+    <div class=" d-flex justify-content-center position-relative z-1 bg-body position-relative py-2">
+      <ngb-pagination class="" [collectionSize]="todoItems.length" [(page)]="page" [maxSize]="5" [rotate]="true"
+                      [boundaryLinks]="true" [pageSize]="pageSize" size="sm"/>
+    </div>
   }
+
 </main>
-<div id="fabContainers" class="container">
-  <hr>
-  <button id="AddFab" (click)="openCreateDialog()" mat-fab extended
-          class="bg-primary position-fixed bottom-0 end-0 me-3 mb-3  me-md-0 mb-md-0 bottom-0 end-0">
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-    </svg>
-    {{ "todoList.addTodo" | transloco }}
-  </button>
-</div>
