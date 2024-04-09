@@ -18,7 +18,10 @@ export class TodoItemService {
   }
 
 
-  getAll(): Observable<TodoItem[]> {
+  getAll(search:string = ""): Observable<TodoItem[]> {
+    if (search.length != 0){
+      return this.http.get<TodoItem[]>(baseUrl+"?r&orderby=title&search="+search);
+    }
     return this.http.get<TodoItem[]>(baseUrl);
   }
 
@@ -74,8 +77,8 @@ export class TodoItemService {
     return this.http.get<TodoItem[]>(`${baseUrl}?title=${title}`);
   }
 
-  checkGetAll(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false): Observable<TodoItem[]> {
-    return this.getAll().pipe(
+  checkGetAll(oldList: TodoItem[] | undefined, isFirstLoad: boolean = false, search:string = ""): Observable<TodoItem[]> {
+    return this.getAll(search).pipe(
       tap(newList => {
 
         if (oldList !== undefined) {

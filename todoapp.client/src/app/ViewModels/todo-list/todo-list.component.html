@@ -7,10 +7,10 @@
       <div class="col-auto my-auto ">
         <div class="input-group">
 <!--          <div class="form-floating">-->
-            <input type="text" class="form-control" id="Search" placeholder="Search" [(ngModel)]="searchString">
+            <input type="text" class="form-control"  placeholder="Search" [ngModel]="searchString" enterkeyhint="search" (ngModelChange)="SearchBtnClicked($event)" #searchText>
 <!--            <label for="Search">Search</label>-->
 <!--          </div>-->
-          <button type="button" class="btn btn-outline-secondary border-secondary-subtle" (click)="SearchBtnClicked()"><i class="bi bi-search"></i></button>
+          <button type="button" class="btn btn-outline-secondary border-secondary-subtle" (click)="SearchBtnClicked(searchText.value)"><i class="bi bi-search"></i></button>
         </div>
       </div>
       <div class="col-5 col-md-3 col-lg-2 my-auto ms-auto">

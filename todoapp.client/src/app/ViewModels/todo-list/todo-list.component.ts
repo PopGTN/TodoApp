@@ -76,6 +76,7 @@ export class TodoListComponent implements OnInit {
   snackBar = inject(MatSnackBar)
   searchString: string = "";
 
+
   page: number = 1;
   pageSize: number = 10;
 
@@ -122,7 +123,7 @@ export class TodoListComponent implements OnInit {
     switch (this.filterOption) {
       case FilterOption.All:
       default:
-        let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad)
+        let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad, this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               this.todoItems = todoItems;
@@ -367,7 +368,8 @@ export class TodoListComponent implements OnInit {
   pageChange(event: PageEvent) {
   }
 
-  SearchBtnClicked() {
+  SearchBtnClicked(searchTerm:string) {
+    this.searchString =  searchTerm
     this.loadTodoList(true);
 
   }
