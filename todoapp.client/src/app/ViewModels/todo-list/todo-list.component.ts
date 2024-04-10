@@ -416,4 +416,10 @@ export class TodoListComponent implements OnInit {
     this.filterOption = value
     this.loadTodoList(true);
   }
+
+  SearchBtnClicked(searchTerm:string) {
+    this.searchString =  searchTerm
+    this.loadTodoList(true);
+
+  }
 }
