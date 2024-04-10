@@ -123,7 +123,7 @@ export class TodoListComponent implements OnInit {
     switch (this.filterOption) {
       case FilterOption.All:
       default:
-        let getAllApiCall = this.todoItemService.getAll()
+        let getAllApiCall = this.todoItemService.getAll(this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               const isSameFilter = this.filterOption == FilterOption.All || this.utilServ.isVarEmpty(this.filterOption);
@@ -148,7 +148,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.completed:
-        let getAllCompletedApiCall = this.todoItemService.checkGetAllCompleted(this.todoItems)
+        let getAllCompletedApiCall = this.todoItemService.getAllCompleted(this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               const isSameFilter = this.filterOption == FilterOption.completed

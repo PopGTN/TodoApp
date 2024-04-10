@@ -20,28 +20,40 @@ export class TodoItemService {
   }
 
 
-  getAll(search:string = ""): Observable<TodoItem[]> {
+  getAll(search:string = "", orderby:string ="title"): Observable<TodoItem[]> {
     if (search.length != 0){
-      return this.http.get<TodoItem[]>(baseUrl+"?r&orderby=title&search="+search);
+      return this.http.get<TodoItem[]>(`${baseUrl}?orderby=${orderby}&search=${search}`);
     }
     return this.http.get<TodoItem[]>(baseUrl).pipe(
       tap(todoItems => this.todoStore.setTodos(todoItems)) // Update the store with fetched data
     );
   }
 
-  getAllCompleted(): Observable<TodoItem[]> {
+  getAllCompleted(search:string = "", orderby:string ="title"): Observable<TodoItem[]> {
+    if (search.length != 0) {
+      this.http.get<TodoItem[]>(`${baseUrl}?filter=completed?orderby=${orderby}&search=${search}`, {responseType: 'json'});
+    }
     return this.http.get<TodoItem[]>(`${baseUrl}?filter=completed`, {responseType: 'json'});
   }
 
-  getAllNotCompleted(): Observable<TodoItem[]> {
+  getAllNotCompleted(search:string = "", orderby:string ="title"): Observable<TodoItem[]> {''
+    if (search.length != 0) {
+      this.http.get<TodoItem[]>(`${baseUrl}?filter=uncompleted?orderby=${orderby}&search=${search}`, {responseType: 'json'});
+    }
     return this.http.get<TodoItem[]>(`${baseUrl}?filter=uncompleted`, {responseType: 'json'});
   }
 
-  getAllTodays(): Observable<TodoItem[]> {
+  getAllTodays(search:string = "", orderby:string ="title"): Observable<TodoItem[]> {
+    if (search.length != 0) {
+      this.http.get<TodoItem[]>(`${baseUrl}?filter=todays?orderby=${orderby}&search=${search}`, {responseType: 'json'});
+    }
     return this.http.get<TodoItem[]>(`${baseUrl}/?filter=todays`, {responseType: 'json'});
   }
 
-  getAllTommorrows(): Observable<TodoItem[]> {
+  getAllTommorrows(search:string = "", orderby:string ="title"): Observable<TodoItem[]> {
+    if (search.length != 0) {
+      this.http.get<TodoItem[]>(`${baseUrl}?filter=tomorrows?orderby=${orderby}&search=${search}`, {responseType: 'json'});
+    }
     return this.http.get<TodoItem[]>(`${baseUrl}/?filter=tomorrows`, {responseType: 'json'});
   }
 
