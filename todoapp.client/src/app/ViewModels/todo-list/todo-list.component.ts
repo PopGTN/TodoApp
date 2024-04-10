@@ -173,7 +173,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.todays:
-        let getAllTodaysApiCall = this.todoItemService.getAllTodays()
+        let getAllTodaysApiCall = this.todoItemService.getAllTodays(this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               const isSameFilter = this.filterOption == FilterOption.todays
@@ -198,7 +198,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.tomorrows:
-        let getAllTommorrowsApiCall = this.todoItemService.getAllTommorrows()
+        let getAllTommorrowsApiCall = this.todoItemService.getAllTommorrows(this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               const isSameFilter = this.filterOption == FilterOption.tomorrows
@@ -223,7 +223,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
       case FilterOption.notCompleted:
-        let getAllNotCompletedApiCall = this.todoItemService.getAllNotCompleted()
+        let getAllNotCompletedApiCall = this.todoItemService.getAllNotCompleted(this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
               const isSameFilter = this.filterOption == FilterOption.notCompleted
@@ -244,28 +244,6 @@ export class TodoListComponent implements OnInit {
             error: err => {
               console.error('Error fetching todo list:', err);
               getAllNotCompletedApiCall.unsubscribe();
-            }
-          });
-        break;
-      case FilterOption.search:
-        let {unsubscribe} = this.todoItemService.getAll( this.searchString)
-          .subscribe({
-            next: (todoItems: TodoItem[]) => {
-              const isSameFilter = this.filterOption == FilterOption.search
-              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
-              var pageSize = this.pageSize;
-              if (this.pageSize == this.todoItems?.length) {
-                pageSize = todoItems.length;
-              }
-              if (isDataChanged && isSameFilter) {
-                this.todoItems = todoItems; // Update the store with new data
-                this.pageSize = pageSize
-              }
-              unsubscribe();
-            },
-            error: err => {
-              console.error('Error fetching todo list:', err);
-              unsubscribe();
             }
           });
         break;
@@ -417,8 +395,8 @@ export class TodoListComponent implements OnInit {
     this.loadTodoList(true);
   }
 
-  SearchBtnClicked(searchTerm:string) {
-    this.searchString =  searchTerm
+  SearchBtnClicked(searchTerm: string) {
+    this.searchString = searchTerm
     this.loadTodoList(true);
 
   }
