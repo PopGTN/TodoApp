@@ -4,5 +4,4 @@ export enum FilterOption {
   todays = "todays",
   tomorrows = "tomorrows",
   All = "All"
-
 }

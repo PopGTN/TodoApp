@@ -42,15 +42,14 @@ import {DialogService} from "../../../Core/Services/Dialog.Service";
     MatDatepickerInput,
     MatDatepickerToggle,
     MatDatepicker,
-    TranslocoPipe
+    TranslocoPipe,
   ],
 })
 export class TodoDialogComponent {
   public dialog = inject(MatDialog);
   public dialogServices = inject(DialogService);
   public translocoService = inject(TranslocoService);
-  public errorMessage: string;
-  meridian = true;
+  public errorMessage: string = "";
 
 
   // private translocoService: TranslocoService
@@ -65,21 +64,20 @@ export class TodoDialogComponent {
       isComplete?: boolean,
       dialogTitle?: string
     },
-  ) {
-    this.errorMessage = "Please sure your following imputs are valid! <br>";
-  }
+  ) {}
 
   onNoClick() {
     this.dialogRef.close()
   }
 
   onSubmit(): void {
-
     if (!this.isValid()) {
       this.dialogServices.alert(this.errorMessage, this.translocoService.translate('dialogMessages.formErrorTitle'), this.translocoService.translate('dialogMessages.OkCancelBtn'));
       return;
     } else {
+
       let todoItem = new TodoItem(this.data.id, this.data.title, this.data.description, this.data.dateTime, this.data.isComplete)
+
       this.dialogRef.close(todoItem);
     }
   }
@@ -92,6 +90,5 @@ export class TodoDialogComponent {
       this.errorMessage += " - " + this.translocoService.translate('dialogMessages.formTitleErrorDesc') + "<br>"
     }
     return isValid;
-    /*Left Room to make more requirments here if needed!*/
   }
 }
