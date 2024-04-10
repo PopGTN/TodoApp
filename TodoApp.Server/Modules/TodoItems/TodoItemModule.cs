@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Globalization;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Server.Interfaces;
@@ -130,9 +131,20 @@ public class TodoItemModule : IModule
     if (contextP.Request.Query.ContainsKey("search"))
     {
       string searchTerm = contextP.Request.Query["search"].ToString().ToLower(); // Convert search term to lowercase
+
+      // Parse the search term as a DateTime, if possible
+      DateTime? searchDate = null;
+      bool isDateSearch = DateTime.TryParse(searchTerm, out DateTime parsedDate);
+      if (isDateSearch)
+      {
+        searchDate = parsedDate.Date; // Use only the date component for comparison
+      }
+
       query = query.Where(t =>
         t.Title.ToLower().Contains(searchTerm) ||
-        t.Description.ToLower().Contains(searchTerm));
+        t.Description.ToLower().Contains(searchTerm) ||
+        (searchDate.HasValue && t.DateTime.HasValue && t.DateTime.Value.Date == searchDate.Value)
+      );
     }
 
 
@@ -168,11 +180,11 @@ public class TodoItemModule : IModule
         query = query.Where(t => t.IsComplete);
         break;
       case "todays":
-        query = query.Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today && !t.IsComplete);
+        query = query.Where(t => t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today);
         break;
       case "tomorrows":
         query = query.Where(t =>
-          t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today.AddDays(1) && !t.IsComplete);
+          t.DateTime.HasValue && t.DateTime.Value.Date == DateTime.Today.AddDays(1));
         break;
       default:
         break;
