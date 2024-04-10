@@ -19,7 +19,6 @@ import {DialogType} from "../dialog/Models/DialogType";
 import {JsonPipe} from "@angular/common";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
-import {DialogService} from "../../../Core/Services/Dialog.Service";
 
 @Component({
   selector: 'app-todo-dialog',
@@ -47,10 +46,8 @@ import {DialogService} from "../../../Core/Services/Dialog.Service";
 })
 export class TodoDialogComponent {
   public dialog = inject(MatDialog);
-  public dialogServices = inject(DialogService);
   public translocoService = inject(TranslocoService);
-  public errorMessage: string;
-  meridian = true;
+  public errorMessage: string = "";
 
 
   // private translocoService: TranslocoService
@@ -65,9 +62,7 @@ export class TodoDialogComponent {
       isComplete?: boolean,
       dialogTitle?: string
     },
-  ) {
-    this.errorMessage = "Please sure your following imputs are valid! <br>";
-  }
+  ) {}
 
   onNoClick() {
     this.dialogRef.close()
@@ -76,7 +71,22 @@ export class TodoDialogComponent {
   onSubmit(): void {
 
     if (!this.isValid()) {
-      this.dialogServices.alert(this.errorMessage, this.translocoService.translate('dialogMessages.formErrorTitle'), this.translocoService.translate('dialogMessages.OkCancelBtn'));
+      let ErrorDialogRef = this.dialog.open(DialogComponent, {
+        data: {
+          dialogType: DialogType.Ok,
+          title: this.translocoService.translate('dialogMessages.formErrorTitle'),
+          description: this.errorMessage,
+          neutralBtn: this.translocoService.translate('dialogMessages.OkCancelBtn'),
+
+        },
+        height: 'fit-content',
+        width: 'fit-content',
+        disableClose: true,
+      });
+      let dialogResult = ErrorDialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+      dialogResult.unsubscribe();
       return;
     } else {
       let todoItem = new TodoItem(this.data.id, this.data.title, this.data.description, this.data.dateTime, this.data.isComplete)
@@ -92,6 +102,5 @@ export class TodoDialogComponent {
       this.errorMessage += " - " + this.translocoService.translate('dialogMessages.formTitleErrorDesc') + "<br>"
     }
     return isValid;
-    /*Left Room to make more requirments here if needed!*/
   }
 }

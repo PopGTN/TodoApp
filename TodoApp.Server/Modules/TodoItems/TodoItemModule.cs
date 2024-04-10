@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Server.Interfaces;
 using TodoApp.Server.Models;
@@ -48,8 +47,8 @@ public class TodoItemModule : IModule
     var todoItem = new TodoItem
     {
       IsComplete = todoItemDTOP.IsComplete,
-      Title = todoItemDTOP.Title,
-      Description = todoItemDTOP.Description,
+      Title = (todoItemDTOP.Title == null ? "" : todoItemDTOP.Title),
+      Description = (todoItemDTOP.Description == null ? "" : todoItemDTOP.Description),
       DateTime = todoItemDTOP.getDateTimeObject()
     };
 
@@ -104,24 +103,26 @@ public class TodoItemModule : IModule
     var totalCount = 0;
     var totalPages = 0;
     List<TodoItemDTO> todos;
-
     IQueryable<TodoItem> query = dbP.TodoItems;
 
-    // Check if orderBy was given
+    //Check if orderBy was given
     if (contextP.Request.Query.ContainsKey("direction"))
     {
+      //Sets direction of how its ordered if givin
       orderByDirection = contextP.Request.Query["direction"];
     }
 
-    // Set what to order everything by if it's given
+    //set what to order everything by if it's given
     if (contextP.Request.Query.ContainsKey("orderBy"))
     {
+      //Sets the order by attribute of how its ordered if givin
       orderBy = contextP.Request.Query["orderBy"];
     }
 
-    // Set what filter to use if given
+    //sets what filter to use if given
     if (contextP.Request.Query.ContainsKey("filter"))
     {
+      //Sets the filter to use if givin
       filter = contextP.Request.Query["filter"];
     }
 
@@ -216,7 +217,6 @@ public class TodoItemModule : IModule
 
     return TypedResults.Ok(todos);
   }
-
 
   private IQueryable<TodoItem> ApplyOrder<T>(String direction, IQueryable<TodoItem> query,
     Expression<Func<TodoItem, T>> orderByExpression)

@@ -5,8 +5,7 @@ import {DatePipe, formatDate, NgIf, SlicePipe} from "@angular/common";
 
 import {
   NgbAlert,
-  NgbDropdown,
-  NgbDropdownItem,
+  NgbDropdown, NgbDropdownItem,
   NgbDropdownMenu,
   NgbDropdownToggle,
   NgbPagination,
@@ -29,7 +28,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatChipListbox, MatChipListboxChange, MatChipOption, MatChipsModule} from "@angular/material/chips";
 import {FilterOption} from "./subcomponents/FilterOption";
 import {TranslocoPipe, TranslocoService} from "@ngneat/transloco";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatPaginator} from "@angular/material/paginator";
+import {UtilService} from "../../Core/Services/Util.Service";
+
 
 @Component({
   selector: 'app-todo-list',
@@ -67,6 +68,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 })
 
 export class TodoListComponent implements OnInit {
+  /*Interfaces*/
   protected readonly FilterOption = FilterOption;
   protected readonly formatDate = formatDate;
 
@@ -74,18 +76,16 @@ export class TodoListComponent implements OnInit {
   todoItemService = inject(TodoItemService);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar)
-  searchString: string = "";
-
-
-  page: number = 1;
-  pageSize: number = 10;
-
+  utilServ = inject(UtilService);
 
   /*Class Variables*/
   todoItems: TodoItem[] | undefined
   isLoading: boolean;
   error: string;
   filterOption = FilterOption.All
+  searchString: string = "";
+  page: number = 1;
+  pageSize: number = 10;
 
   // @ts-ignore
   private timerSubscription: Subscription;
@@ -123,96 +123,143 @@ export class TodoListComponent implements OnInit {
     switch (this.filterOption) {
       case FilterOption.All:
       default:
-        let apiCall = this.todoItemService.checkGetAll(this.todoItems, isFirstLoad, this.searchString)
+        let getAllApiCall = this.todoItemService.getAll()
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
+              const isSameFilter = this.filterOption == FilterOption.All || this.utilServ.isVarEmpty(this.filterOption);
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
+              }
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall.unsubscribe();
+              getAllApiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall.unsubscribe();
+              getAllApiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.completed:
-        let apiCall2 = this.todoItemService.checkGetAllCompleted(this.todoItems, isFirstLoad)
+        let getAllCompletedApiCall = this.todoItemService.checkGetAllCompleted(this.todoItems)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
+              const isSameFilter = this.filterOption == FilterOption.completed
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
+              }
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall2.unsubscribe();
+              getAllCompletedApiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall2.unsubscribe();
-
+              getAllCompletedApiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.todays:
-        let apiCall4 = this.todoItemService.checkGetAllTodaysTodo(this.todoItems, isFirstLoad)
+        let getAllTodaysApiCall = this.todoItemService.getAllTodays()
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
+              const isSameFilter = this.filterOption == FilterOption.todays
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
+              }
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall4.unsubscribe();
+              getAllTodaysApiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall4.unsubscribe();
+              getAllTodaysApiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.tomorrows:
-        let apiCall5 = this.todoItemService.checkGetAllTommorrowsTodo(this.todoItems, isFirstLoad)
+        let getAllTommorrowsApiCall = this.todoItemService.getAllTommorrows()
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
+              const isSameFilter = this.filterOption == FilterOption.tomorrows
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
+              }
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall5.unsubscribe();
-
+              getAllTommorrowsApiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall5.unsubscribe();
-
+              getAllTommorrowsApiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.notCompleted:
-        let apiCall3 = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
+        let getAllNotCompletedApiCall = this.todoItemService.getAllNotCompleted()
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
+              const isSameFilter = this.filterOption == FilterOption.notCompleted
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
+              }
               if (isFirstLoad) {
                 this.isLoading = false;
               }
-              apiCall3.unsubscribe();
+              getAllNotCompletedApiCall.unsubscribe();
             },
             error: err => {
               console.error('Error fetching todo list:', err);
-              apiCall3.unsubscribe();
-
+              getAllNotCompletedApiCall.unsubscribe();
             }
           });
         break;
       case FilterOption.search:
-        let {unsubscribe} = this.todoItemService.checkGetAllNotCompleted(this.todoItems, isFirstLoad)
+        let {unsubscribe} = this.todoItemService.getAll( this.searchString)
           .subscribe({
             next: (todoItems: TodoItem[]) => {
-              this.todoItems = todoItems;
-              if (isFirstLoad) {
-                this.isLoading = false;
+              const isSameFilter = this.filterOption == FilterOption.search
+              const isDataChanged = this.todoItemService.isDataChanged(todoItems, this.todoItems);
+              var pageSize = this.pageSize;
+              if (this.pageSize == this.todoItems?.length) {
+                pageSize = todoItems.length;
+              }
+              if (isDataChanged && isSameFilter) {
+                this.todoItems = todoItems; // Update the store with new data
+                this.pageSize = pageSize
               }
               unsubscribe();
             },
@@ -223,6 +270,7 @@ export class TodoListComponent implements OnInit {
           });
         break;
     }
+
   }
 
   /*Opens the Edit dialog when you hit the pencil button or tap on the todoItem*/
@@ -361,16 +409,11 @@ export class TodoListComponent implements OnInit {
   }
 
   /*Applys The filter to the Page*/
-  filterSelected($event: MatChipListboxChange) {
+  filterSelected(value: FilterOption) {
+    if (this.isLoading) {
+      return;
+    }
+    this.filterOption = value
     this.loadTodoList(true);
-  }
-
-  pageChange(event: PageEvent) {
-  }
-
-  SearchBtnClicked(searchTerm:string) {
-    this.searchString =  searchTerm
-    this.loadTodoList(true);
-
   }
 }
