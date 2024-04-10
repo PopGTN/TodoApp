@@ -1,0 +1,308 @@
+{
+  "id": "bd930386-3080-478c-b472-5aecc3dc3d82",
+  "version": "2.0",
+  "name": "TodoApp",
+  "url": "https://localhost:4200",
+  "tests": [{
+    "id": "1722d0e6-c733-4130-9b77-f6bc3e51bbed",
+    "name": "Create Todo Then Checks If Adds Valid TodoItem",
+    "commands": [{
+      "id": "bb610c99-6e85-46a3-8304-276980afed22",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost:4200",
+      "targets": [],
+      "value": "https://localhost:4200"
+    }, {
+      "id": "155eda00-b3a1-489d-a0b6-1f0cb0d34cac",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//button[@id='AddFab']/span[4]",
+      "targets": [
+        ["css=.mat-mdc-button-touch-target", "css:finder"],
+        ["xpath=//button[@id='AddFab']/span[4]", "xpath:idRelative"],
+        ["xpath=//button/span[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9966b4c5-9f72-4b2e-83a8-2517d602683c",
+      "comment": "",
+      "command": "click",
+      "target": "id=title",
+      "targets": [
+        ["id=title", "id"],
+        ["css=#title", "css:finder"],
+        ["xpath=//input[@id='title']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-3']/div/div/app-todo-dialog/div/mat-dialog-content/div/input", "xpath:idRelative"],
+        ["xpath=//mat-dialog-content/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d396c39e-fa33-4d95-8ab3-c9f4fd68824b",
+      "comment": "",
+      "command": "type",
+      "target": "id=title",
+      "targets": [
+        ["id=title", "id"],
+        ["css=#title", "css:finder"],
+        ["xpath=//input[@id='title']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-3']/div/div/app-todo-dialog/div/mat-dialog-content/div/input", "xpath:idRelative"],
+        ["xpath=//mat-dialog-content/div/input", "xpath:position"]
+      ],
+      "value": "Test Title"
+    }, {
+      "id": "21896eed-7f34-4125-a7c0-bc1f01e39a62",
+      "comment": "",
+      "command": "click",
+      "target": "id=description",
+      "targets": [
+        ["id=description", "id"],
+        ["css=#description", "css:finder"],
+        ["xpath=//input[@id='description']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-3']/div/div/app-todo-dialog/div/mat-dialog-content/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7b5d4a81-01ea-4a7a-a09a-afbb5e669d85",
+      "comment": "",
+      "command": "type",
+      "target": "id=description",
+      "targets": [
+        ["id=description", "id"],
+        ["css=#description", "css:finder"],
+        ["xpath=//input[@id='description']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-3']/div/div/app-todo-dialog/div/mat-dialog-content/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Test Description"
+    }, {
+      "id": "9f50412b-3f5d-4c2d-bb4c-2f550f8b2fed",
+      "comment": "",
+      "command": "click",
+      "target": "id=dateTime",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2ee9881c-13ad-4c25-aa05-bd6d5e7cb8c9",
+      "comment": "",
+      "command": "type",
+      "target": "id=dateTime",
+      "targets": [],
+      "value": "2024-04-03T11:11"
+    }, {
+      "id": "073c7f14-169c-433e-9288-9495226fa99a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mat-mdc-dialog-content",
+      "targets": [
+        ["css=.mat-mdc-dialog-content", "css:finder"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-3']/div/div/app-todo-dialog/div/mat-dialog-content", "xpath:idRelative"],
+        ["xpath=//mat-dialog-content", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "038d8401-3318-456f-8d4b-18bb5bf5aca9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dialogFootBtn > .mdc-button__label",
+      "targets": [
+        ["css=.dialogFootBtn > .mdc-button__label", "css:finder"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-0']/div/div/app-todo-dialog/div/mat-dialog-actions/button[2]/span[2]", "xpath:idRelative"],
+        ["xpath=//button[2]/span[2]", "xpath:position"],
+        ["xpath=//span[contains(.,'Submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2f06940-afbd-4fbf-aa83-5380da322250",
+      "comment": "",
+      "command": "click",
+      "target": "css=.main",
+      "targets": [
+        ["css=.main", "css:finder"],
+        ["xpath=//app-main/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3358e676-5a5a-4d41-b219-92f08c2664b7",
+      "comment": "Check if the todo was added!",
+      "command": "assertText",
+      "target": "css=.list-group-item:last-child > .ms-2",
+      "targets": [
+        ["css=.list-group-item:nth-child(6) > .ms-2", "css:finder"],
+        ["xpath=//li[6]/div[2]", "xpath:position"]
+      ],
+      "value": "Test Title\\nTest Description"
+    }, {
+      "id": "d1c311e8-c2bb-4409-98e4-dc10dcdbc22f",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.list-group-item:nth-child(5) > .btn",
+      "targets": [
+        ["css=.list-group-item:nth-child(5) > .btn", "css:finder"],
+        ["xpath=//li[5]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12afaea2-f1b9-4a3f-82f5-d71e93ab77ca",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.list-group-item:nth-child(5) > .btn",
+      "targets": [
+        ["css=.list-group-item:nth-child(5) > .btn", "css:finder"],
+        ["xpath=//li[5]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e495ebf3-76d8-4bfe-9540-1077af30dd1e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.list-group-item:nth-child(5) > .btn > .bi",
+      "targets": [
+        ["css=.list-group-item:nth-child(5) > .btn > .bi", "css:finder"],
+        ["xpath=//li[5]/button/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "79d965d5-9c01-4863-acc5-911b859b8320",
+      "comment": "",
+      "command": "click",
+      "target": "css=.dialogFootBtn > .mdc-button__label",
+      "targets": [
+        ["css=.dialogFootBtn > .mdc-button__label", "css:finder"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-1']/div/div/app-dialog/div/mat-dialog-actions/button[2]/span[2]", "xpath:idRelative"],
+        ["xpath=//button[2]/span[2]", "xpath:position"],
+        ["xpath=//span[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "948df614-db7b-47b0-adf7-cd4b81f24df7",
+    "name": "AddTodayTodo_ChecksIfInTodaysFilter",
+    "commands": [{
+      "id": "d83eaa54-827d-4404-998a-a5c83e3f7990",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "53c25b8c-52a2-4c0d-83c0-1bde2cd416e4",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.mat-mdc-button-touch-target",
+      "targets": [
+        ["css=.mat-mdc-button-touch-target", "css:finder"],
+        ["xpath=//button[@id='AddFab']/span[4]", "xpath:idRelative"],
+        ["xpath=//button/span[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "185fdbfb-3185-4657-9846-d12d5d222eca",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mat-mdc-button-touch-target",
+      "targets": [
+        ["css=.mat-mdc-button-touch-target", "css:finder"],
+        ["xpath=//button[@id='AddFab']/span[4]", "xpath:idRelative"],
+        ["xpath=//button/span[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "908e18cc-6a53-4a94-a600-33e4ccb741bf",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=#AddFab > .mat-mdc-button-touch-target",
+      "targets": [
+        ["css=#AddFab > .mat-mdc-button-touch-target", "css:finder"],
+        ["xpath=//button[@id='AddFab']/span[4]", "xpath:idRelative"],
+        ["xpath=//button/span[4]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a0e30d2e-4db1-4b2d-9a91-d950a2374d5c",
+      "comment": "",
+      "command": "//runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9fa14f39-d510-4b25-8c50-b173a69eb9e4",
+      "comment": "",
+      "command": "click",
+      "target": "id=title",
+      "targets": [
+        ["id=title", "id"],
+        ["css=#title", "css:finder"],
+        ["xpath=//input[@id='title']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-2']/div/div/app-todo-dialog/div/mat-dialog-content/div/input", "xpath:idRelative"],
+        ["xpath=//mat-dialog-content/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac97e8f4-94f6-4fd4-a78b-d5dfa443fcc6",
+      "comment": "",
+      "command": "type",
+      "target": "id=title",
+      "targets": [
+        ["id=title", "id"],
+        ["css=#title", "css:finder"],
+        ["xpath=//input[@id='title']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-2']/div/div/app-todo-dialog/div/mat-dialog-content/div/input", "xpath:idRelative"],
+        ["xpath=//mat-dialog-content/div/input", "xpath:position"]
+      ],
+      "value": "Test Todo"
+    }, {
+      "id": "146fca9c-d746-4fc4-aed9-5332a6764a84",
+      "comment": "",
+      "command": "type",
+      "target": "id=description",
+      "targets": [
+        ["id=description", "id"],
+        ["css=#description", "css:finder"],
+        ["xpath=//input[@id='description']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-2']/div/div/app-todo-dialog/div/mat-dialog-content/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Test Description"
+    }, {
+      "id": "5e51b666-e2b1-4abb-9da8-aaca15d4b683",
+      "comment": "",
+      "command": "click",
+      "target": "id=dateTime",
+      "targets": [
+        ["id=dateTime", "id"],
+        ["name=dateTime", "name"],
+        ["css=#dateTime", "css:finder"],
+        ["xpath=//input[@id='dateTime']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-2']/div/div/app-todo-dialog/div/mat-dialog-content/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "89fa7bfa-5ed4-4a58-8b14-ca8bfddc3026",
+      "comment": "",
+      "command": "type",
+      "target": "id=dateTime",
+      "targets": [
+        ["id=dateTime", "id"],
+        ["name=dateTime", "name"],
+        ["css=#dateTime", "css:finder"],
+        ["xpath=//input[@id='dateTime']", "xpath:attributes"],
+        ["xpath=//mat-dialog-container[@id='mat-mdc-dialog-2']/div/div/app-todo-dialog/div/mat-dialog-content/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "2024-04-03T15:11"
+    }]
+  }],
+  "suites": [{
+    "id": "e1855369-1e30-4a97-bcfb-daf8e3b7ef0f",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://localhost:4200/"],
+  "plugins": []
+}
