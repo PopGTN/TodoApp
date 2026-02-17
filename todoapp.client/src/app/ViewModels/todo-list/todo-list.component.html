@@ -30,7 +30,7 @@
 <main class="container overflow-hidden">
   <div class="mt-2 border-1 border-bottoms">
     <mat-chip-listbox attr.aria-label="{{ 'todoList.filterSelection' | transloco }}" [ngModel]="filterOption"
-                      (ngModelChange)="filterSelected($event)">
+                      (ngModelChange)="filterSelected($event)"> 
       <mat-chip-option [value]="FilterOption.completed">{{ 'todoList.completed' | transloco }}</mat-chip-option>
       <mat-chip-option [value]="FilterOption.notCompleted">{{ 'todoList.notCompleted' | transloco }}</mat-chip-option>
       <mat-chip-option [value]="FilterOption.todays">{{ 'todoList.todays' | transloco }}</mat-chip-option>

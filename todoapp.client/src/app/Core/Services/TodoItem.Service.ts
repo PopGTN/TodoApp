@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {TodoItem} from '../Models/TodoItems';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {TodoRepo} from "../state/todo-store";
+import {TodoRepo} from "../state/todo-store.repo";
 import {UtilService} from "./Util.Service";
 
 const baseUrl = '/todoitems';
